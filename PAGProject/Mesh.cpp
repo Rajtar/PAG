@@ -8,8 +8,6 @@ void Mesh::loadContent()
 		glm::vec3(-0.5f, -0.5f, 0.0f)
 	};
 
-
-
 	GLuint VBO = NULL;
 
 	glGenBuffers(1, &VBO);
@@ -32,6 +30,12 @@ void Mesh::loadContent()
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 
+}
+
+void Mesh::render()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 Mesh::Mesh()

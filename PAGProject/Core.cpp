@@ -14,11 +14,17 @@ void Core::update()
 	glfwTerminate();
 }
 
-//TODO: create GenericRenderer interface
 void Core::render()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	for (auto &renderable : renderables)
+	{
+		renderable->render();
+	}
+}
+
+void Core::addRenderable(Renderable* renderable)
+{
+	renderables.push_back(renderable);
 }
 
 
