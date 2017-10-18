@@ -13,5 +13,8 @@ public:
 
 	Mesh();
 	~Mesh();
+
+private:
+	unsigned int texture;
 };
 

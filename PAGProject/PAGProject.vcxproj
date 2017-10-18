@@ -157,15 +157,18 @@
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="ImageLoader.cpp" />
     <ClCompile Include="InitializationException.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="PAGProject.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="tiny_obj_loader.cc" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>

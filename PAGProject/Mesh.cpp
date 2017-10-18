@@ -1,11 +1,12 @@
 #include "Mesh.h"
+#include "Texture.h"
 
 
 void Mesh::loadContent()
 {
-	glm::vec3 vertices[] = { glm::vec3(0.0f,  0.5f, 0.0f),
+	glm::vec3 vertices[] = { glm::vec3(-0.5f, -0.5f, 0.0f),
 		glm::vec3(0.5f, -0.5f, 0.0f),
-		glm::vec3(-0.5f, -0.5f, 0.0f)
+		glm::vec3(0.0f,  0.5f, 0.0f)
 	};
 
 	GLuint VBO = NULL;
@@ -29,12 +30,26 @@ void Mesh::loadContent()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
+	glm::vec2 textureCoords[] = { glm::vec2(1.0f,  0.0f),
+		glm::vec2(0.0f, 1.0f),
+		glm::vec2(0.0f, 0.0f)
+	};
 
+	GLuint VBO_texture = NULL;
+	glGenBuffers(1, &VBO_texture);
+	glBindBuffer(GL_TEXTURE_BUFFER, VBO_texture);
+	glBufferData(GL_TEXTURE_BUFFER, sizeof(textureCoords), textureCoords, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+	Texture tex;
+	texture = tex.test();
 }
 
 void Mesh::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
+	glBindTexture(GL_TEXTURE_2D, texture);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
