@@ -10,5 +10,5 @@ uniform sampler2D bricksTexture;
 void main()
 {
 	//fragColor = vec4(interpColor, 1.0f);
-	fragColor = texture(bricksTexture, texCoordOut);
+	fragColor = texture(bricksTexture, texCoordOut) * vec4(interpColor, 1.0f);
 }

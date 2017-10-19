@@ -30,9 +30,9 @@ void Mesh::loadContent()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-	glm::vec2 textureCoords[] = { glm::vec2(1.0f,  0.0f),
-		glm::vec2(0.0f, 1.0f),
-		glm::vec2(0.0f, 0.0f)
+	glm::vec2 textureCoords[] = { glm::vec2(0.0f,  0.0f),
+		glm::vec2(1.0f, 0.0f),
+		glm::vec2(0.5f, 1.0f)
 	};
 
 	GLuint VBO_texture = NULL;
@@ -40,7 +40,7 @@ void Mesh::loadContent()
 	glBindBuffer(GL_TEXTURE_BUFFER, VBO_texture);
 	glBufferData(GL_TEXTURE_BUFFER, sizeof(textureCoords), textureCoords, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 	Texture tex;
 	texture = tex.test();
