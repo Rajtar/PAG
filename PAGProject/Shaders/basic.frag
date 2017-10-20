@@ -5,10 +5,9 @@ in vec3 interpColor;
 in vec2 texCoordOut;
 out vec4 fragColor;
 
-uniform sampler2D bricksTexture;
+uniform sampler2D texture;
 
 void main()
 {
-	//fragColor = vec4(interpColor, 1.0f);
-	fragColor = texture(bricksTexture, texCoordOut) * vec4(interpColor, 1.0f);
+	fragColor = texture(texture, texCoordOut) * vec4(interpColor, 1.0f);
 }

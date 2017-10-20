@@ -43,13 +43,14 @@ void Mesh::loadContent()
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 	Texture tex;
-	texture = tex.test();
+	tex.loadTexture("Textures/grass.jpg");
+	texture = tex.getTextureHolder();
+	glBindTexture(GL_TEXTURE_2D, texture);
 }
 
 void Mesh::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
-	glBindTexture(GL_TEXTURE_2D, texture);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
