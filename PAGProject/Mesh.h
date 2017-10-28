@@ -16,5 +16,8 @@ public:
 
 private:
 	unsigned int texture;
+	unsigned int texture2;
+	unsigned int VAO;
+
 };
 

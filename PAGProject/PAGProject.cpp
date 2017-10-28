@@ -58,7 +58,13 @@ int main()
 			}
 		}
 
+		GLint tex1Location = glGetUniformLocation(programHandle, "texture");
+		GLint tex2Location = glGetUniformLocation(programHandle, "texture2");
+
+
 		glUseProgram(programHandle);
+		glUniform1i(tex1Location, 0);
+		glUniform1i(tex2Location, 1);
 
 		mesh->loadContent();
 		core.addRenderable(mesh);

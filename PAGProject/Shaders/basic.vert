@@ -11,7 +11,7 @@ out vec2 texCoordOut;
 void main()
 {
 	position = vertexPosition;
-	interpColor = vertexColor;
+	interpColor = vec3(texCoordIn, 0.0f);
 	texCoordOut = texCoordIn;
 
 	gl_Position = vec4(vertexPosition, 1.0f);
