@@ -58,13 +58,13 @@ void Mesh::loadContent()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	/*
+	
 	glm::vec2 textureCoords[] = { glm::vec2(0.0f,  0.0f),
 		glm::vec2(1.0f, 0.0f),
 		glm::vec2(0.5f, 1.0f)
 	};
 
-	/*GLuint VBO_texture = NULL;
+	GLuint VBO_texture = NULL;
 	glGenBuffers(1, &VBO_texture);
 	glBindBuffer(GL_TEXTURE_BUFFER, VBO_texture);
 	glBufferData(GL_TEXTURE_BUFFER, sizeof(textureCoords), textureCoords, GL_STATIC_DRAW);
@@ -74,7 +74,7 @@ void Mesh::loadContent()
 	Texture tex;
 	tex.loadTexture("Textures/grass.jpg");
 	texture = tex.getTextureHolder();
-	glBindTexture(GL_TEXTURE_2D, texture);*/
+	glBindTexture(GL_TEXTURE_2D, texture);
 }
 
 void Mesh::render()

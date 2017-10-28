@@ -11,6 +11,7 @@
 #include "Shader.h"
 #include "InitializationException.cpp"
 #include "Renderable.h"
+#include "Program.h"
 
 int main()
 {
@@ -22,47 +23,17 @@ int main()
 
 		window->init(620, 480);
 
-		GLuint programHandle = glCreateProgram();
-
-		if (programHandle == 0)
-		{
-			std::cerr << "Error creating program object.\n";
-		}
+		Program program;
 
 		Shader vertexShader;
 		Shader fragmentShader;
 
-		vertexShader.loadAndCompileShaderFromFile(GL_VERTEX_SHADER, "Shaders/basic.vert", programHandle);
-		fragmentShader.loadAndCompileShaderFromFile(GL_FRAGMENT_SHADER, "Shaders/basic.frag", programHandle);
+		vertexShader.loadAndCompileShaderFromFile(GL_VERTEX_SHADER, "Shaders/basic.vert", program.programHandle);
+		fragmentShader.loadAndCompileShaderFromFile(GL_FRAGMENT_SHADER, "Shaders/basic.frag", program.programHandle);
 
-		glLinkProgram(programHandle);
+		program.linkProgram();
+		program.activateProgram();
 
-		GLint linkingStatus;
-		glGetProgramiv(programHandle, GL_LINK_STATUS, &linkingStatus);
-
-		if (linkingStatus == GL_FALSE)
-		{
-			std::cerr << "Failed to link shader program!\n";
-
-			GLint logLength;
-			glGetProgramiv(programHandle, GL_INFO_LOG_LENGTH, &logLength);
-
-			if (logLength > 0)
-			{
-				char* log = new char(logLength);
-
-				GLsizei logRead;
-				glGetProgramInfoLog(programHandle, logLength, &logRead, log);
-
-				std::cerr << "Log:\n" << log << std::endl;
-
-				delete log;
-			}
-		}
-
-
-
-		glUseProgram(programHandle);
 
 		/****************************/
 		/* Set world matrix to identity matrix */
@@ -84,7 +55,7 @@ int main()
 		glm::mat4 WVP = projection * view * world;
 
 		/* Get uniform location and send MVP matrix there */
-		GLuint wvpLoc = glGetUniformLocation(programHandle, "wvp");
+		GLuint wvpLoc = glGetUniformLocation(program.programHandle, "wvp");
 		glUniformMatrix4fv(wvpLoc, 1, GL_FALSE, &WVP[0][0]);
 		/****************************/
 
