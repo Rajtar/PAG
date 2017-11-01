@@ -5,18 +5,19 @@
 #include <glm/glm.hpp>
 #include "Window.h"
 
-class KeyboardHandler
+class InputHandler
 {
 public:
 
-	void processInput(GLfloat deltaTime);
+	void processKeyboardInput(GLfloat deltaTime);
+	void processMouseInput();
 
 	glm::vec3 getCameraPos();
 	glm::vec3 getCameraFront();
 	glm::vec3 getCameraUp();
 
-	KeyboardHandler(Window* window);
-	~KeyboardHandler();
+	InputHandler(Window* window);
+	~InputHandler();
 
 private:
 
@@ -25,5 +26,14 @@ private:
 	glm::vec3 cameraPos;
 	glm::vec3 cameraFront;
 	glm::vec3 cameraUp;
+
+	bool firstMouse = true;
+
+	GLfloat lastX = 400; 
+	GLfloat lastY = 300;
+	GLfloat yaw;
+	GLfloat pitch;
+
+	GLfloat mouseSensitivity = 0.1;
 };
 

@@ -154,7 +154,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Core.h" />
-    <ClInclude Include="KeyboardHandler.h" />
+    <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="Renderable.h" />
@@ -169,7 +169,7 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="ImageLoader.cpp" />
     <ClCompile Include="InitializationException.cpp" />
-    <ClCompile Include="KeyboardHandler.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="PAGProject.cpp" />
     <ClCompile Include="Program.cpp" />

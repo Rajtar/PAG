@@ -7,7 +7,7 @@
 
 #include "Window.h"
 #include "Program.h"
-#include "KeyboardHandler.h"
+#include "InputHandler.h"
 
 
 class Camera
@@ -16,13 +16,13 @@ public:
 
 	void reloadCamera();
 
-	Camera(Window* window, Program* program, KeyboardHandler* keyboardHandler);
+	Camera(Window* window, Program* program, InputHandler* inputHandler);
 	~Camera();
 
 private:
 
 	Window* window;
 	Program* program;
-	KeyboardHandler* keyboardHandler;
+	InputHandler* inputHandler;
 };
 

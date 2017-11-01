@@ -6,7 +6,7 @@
 #include "Window.h"
 #include "Renderable.h"
 #include "Camera.h"
-#include "KeyboardHandler.h"
+#include "InputHandler.h"
 
 class Core
 {
@@ -16,13 +16,13 @@ public:
 
 	void addRenderable(Renderable* renderable);
 
-	Core(Window* window, Camera* camera, KeyboardHandler* keyboardHandler);
+	Core(Window* window, Camera* camera, InputHandler* inputHandler);
 	~Core();
 
 private:
 	Window* window;
 	Camera* camera;
-	KeyboardHandler* keyboardHandler;
+	InputHandler* inputHandler;
 	std::list<Renderable*> renderables;
 };
 

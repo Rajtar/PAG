@@ -13,7 +13,7 @@
 #include "Renderable.h"
 #include "Program.h"
 #include "Camera.h"
-#include "KeyboardHandler.h"
+#include "InputHandler.h"
 
 int main()
 {
@@ -22,7 +22,7 @@ int main()
 
 	try {
 
-		window->init(620, 480);
+		window->init(800, 600);
 
 		Program* program = new Program();
 
@@ -35,15 +35,15 @@ int main()
 		program->linkProgram();
 		program->activateProgram();
 
-		KeyboardHandler* keyboardHandler = new KeyboardHandler(window);
+		InputHandler* inputHandler = new InputHandler(window);
 
-		Camera camera(window, program, keyboardHandler);
+		Camera camera(window, program, inputHandler);
 
 		Camera* cameraPtr = &camera;
 
 		
 
-		Core core(window, cameraPtr, keyboardHandler);
+		Core core(window, cameraPtr, inputHandler);
 
 		mesh->loadContent();
 		core.addRenderable(mesh);

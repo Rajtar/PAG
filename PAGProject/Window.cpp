@@ -31,6 +31,8 @@ void Window::init(int width, int height)
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	glEnable(GL_DEPTH_TEST);
+
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 GLFWwindow * Window::getWindow()

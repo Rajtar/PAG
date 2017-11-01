@@ -7,9 +7,9 @@ void Camera::reloadCamera()
 {
 	glm::mat4 world = glm::mat4(1.0f);
 
-	glm::vec3 cameraPos = keyboardHandler->getCameraPos();
-	glm::vec3 cameraFront = keyboardHandler->getCameraFront();
-	glm::vec3 cameraUp = keyboardHandler->getCameraUp();
+	glm::vec3 cameraPos = inputHandler->getCameraPos();
+	glm::vec3 cameraFront = inputHandler->getCameraFront();
+	glm::vec3 cameraUp = inputHandler->getCameraUp();
 
 	glm::mat4 view;
 	view = view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
@@ -25,11 +25,11 @@ void Camera::reloadCamera()
 	glUniformMatrix4fv(wvpLoc, 1, GL_FALSE, &WVP[0][0]);
 }
 
-Camera::Camera(Window* window, Program* program, KeyboardHandler* keyboardHandler)
+Camera::Camera(Window* window, Program* program, InputHandler* inputHandler)
 {
 	this->window = window;
 	this->program = program;
-	this->keyboardHandler = keyboardHandler;
+	this->inputHandler = inputHandler;
 }
 
 

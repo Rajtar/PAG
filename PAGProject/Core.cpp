@@ -16,7 +16,8 @@ void Core::update()
 
 		camera->reloadCamera();
 
-		keyboardHandler->processInput(deltaTime);
+		inputHandler->processKeyboardInput(deltaTime);
+		inputHandler->processMouseInput();
 
 		glfwPollEvents();
 		glfwSwapBuffers(window->getWindow());
@@ -39,11 +40,11 @@ void Core::addRenderable(Renderable* renderable)
 }
 
 
-Core::Core(Window* window, Camera* camera, KeyboardHandler* keyboardHandler)
+Core::Core(Window* window, Camera* camera, InputHandler* inputHandler)
 {
 	this->window = window;
 	this->camera = camera;
-	this->keyboardHandler = keyboardHandler;
+	this->inputHandler = inputHandler;
 }
 
 Core::~Core()
