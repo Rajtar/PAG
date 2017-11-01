@@ -12,52 +12,38 @@
 #include "InitializationException.cpp"
 #include "Renderable.h"
 #include "Program.h"
+#include "Camera.h"
+#include "KeyboardHandler.h"
 
 int main()
 {
 	Window* window = new Window();
-	Core core(window);
 	Mesh* mesh = new Mesh();
 
 	try {
 
 		window->init(620, 480);
 
-		Program program;
+		Program* program = new Program();
 
 		Shader vertexShader;
 		Shader fragmentShader;
 
-		vertexShader.loadAndCompileShaderFromFile(GL_VERTEX_SHADER, "Shaders/basic.vert", program.programHandle);
-		fragmentShader.loadAndCompileShaderFromFile(GL_FRAGMENT_SHADER, "Shaders/basic.frag", program.programHandle);
+		vertexShader.loadAndCompileShaderFromFile(GL_VERTEX_SHADER, "Shaders/basic.vert", (*program).programHandle);
+		fragmentShader.loadAndCompileShaderFromFile(GL_FRAGMENT_SHADER, "Shaders/basic.frag", (*program).programHandle);
 
-		program.linkProgram();
-		program.activateProgram();
+		program->linkProgram();
+		program->activateProgram();
 
+		KeyboardHandler* keyboardHandler = new KeyboardHandler(window);
 
-		/****************************/
-		/* Set world matrix to identity matrix */
-		glm::mat4 world = glm::mat4(1.0f);
+		Camera camera(window, program, keyboardHandler);
 
-		/* Set view matrix */
-		glm::mat4 view = glm::lookAt(glm::vec3(1.5f, 0.0f, 1.5f),  // camera position in world space
-			glm::vec3(0.0f, 0.0f, 0.0f),  // at this point camera is looking
-			glm::vec3(0.0f, 1.0f, 0.0f)); // head is up
+		Camera* cameraPtr = &camera;
 
-										  /* Set projection matrix */
-		int w;
-		int h;
-		glfwGetWindowSize(window->getWindow(), &w, &h);
+		
 
-		glm::mat4 projection = glm::perspective(45.0f, (float)w / (float)h, 0.001f, 50.0f);
-
-		/* Set MVP matrix */
-		glm::mat4 WVP = projection * view * world;
-
-		/* Get uniform location and send MVP matrix there */
-		GLuint wvpLoc = glGetUniformLocation(program.programHandle, "wvp");
-		glUniformMatrix4fv(wvpLoc, 1, GL_FALSE, &WVP[0][0]);
-		/****************************/
+		Core core(window, cameraPtr, keyboardHandler);
 
 		mesh->loadContent();
 		core.addRenderable(mesh);

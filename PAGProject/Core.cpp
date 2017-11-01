@@ -3,9 +3,20 @@
 
 void Core::update()
 {
+	GLfloat deltaTime = 0.0f;
+	GLfloat lastFrame = 0.0f;
+
 	while (!glfwWindowShouldClose(window->getWindow()))
 	{
+		GLfloat currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
 		render();
+
+		camera->reloadCamera();
+
+		keyboardHandler->processInput(deltaTime);
 
 		glfwPollEvents();
 		glfwSwapBuffers(window->getWindow());
@@ -28,9 +39,11 @@ void Core::addRenderable(Renderable* renderable)
 }
 
 
-Core::Core(Window* window)
+Core::Core(Window* window, Camera* camera, KeyboardHandler* keyboardHandler)
 {
 	this->window = window;
+	this->camera = camera;
+	this->keyboardHandler = keyboardHandler;
 }
 
 Core::~Core()
