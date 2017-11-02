@@ -25,6 +25,11 @@ void Camera::reloadCamera()
 	glUniformMatrix4fv(wvpLoc, 1, GL_FALSE, &WVP[0][0]);
 }
 
+Program * Camera::getProgram()
+{
+	return program;
+}
+
 Camera::Camera(Window* window, Program* program, InputHandler* inputHandler)
 {
 	this->window = window;

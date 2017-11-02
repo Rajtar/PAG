@@ -2,17 +2,17 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
-#include "Renderable.h"
+#include "MeshBase.h"
 
-class Mesh : public Renderable
+class CubeMesh : public MeshBase
 {
 public:
 
 	void loadContent();
-	virtual void render();
+	virtual void renderMesh();
 
-	Mesh();
-	~Mesh();
+	CubeMesh();
+	~CubeMesh();
 
 private:
 	unsigned int texture;

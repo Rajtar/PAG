@@ -1,11 +1,11 @@
-#include "Mesh.h"
+#include "CubeMesh.h"
 #include "Texture.h"
 #include "Cube.h"
 
+#include <iostream>
 
-void Mesh::loadContent()
+void CubeMesh::loadContent()
 {
-
 	Cube cube(0.5f);
 
 	GLuint VBO = NULL;
@@ -52,18 +52,18 @@ void Mesh::loadContent()
 	glBindTexture(GL_TEXTURE_2D, texture);
 }
 
-void Mesh::render()
+void CubeMesh::renderMesh()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glDrawArrays(GL_TRIANGLES, 0, 6*6);
 	//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 }
 
-Mesh::Mesh()
+CubeMesh::CubeMesh()
 {
 }
 
 
-Mesh::~Mesh()
+CubeMesh::~CubeMesh()
 {
 }

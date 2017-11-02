@@ -15,6 +15,7 @@ class Camera
 public:
 
 	void reloadCamera();
+	Program* getProgram();
 
 	Camera(Window* window, Program* program, InputHandler* inputHandler);
 	~Camera();

@@ -7,18 +7,19 @@
 
 #include "Core.h"
 #include "Window.h"
-#include "Mesh.h"
+#include "CubeMesh.h"
 #include "Shader.h"
 #include "InitializationException.cpp"
-#include "Renderable.h"
 #include "Program.h"
 #include "Camera.h"
 #include "InputHandler.h"
+#include "GraphNode.h"
+#include "Cube.h"
 
 int main()
 {
 	Window* window = new Window();
-	Mesh* mesh = new Mesh();
+	CubeMesh* cubeMesh = new CubeMesh();
 
 	try {
 
@@ -40,13 +41,31 @@ int main()
 		Camera camera(window, program, inputHandler);
 
 		Camera* cameraPtr = &camera;
-
 		
+		
+		cubeMesh->loadContent();
 
-		Core core(window, cameraPtr, inputHandler);
+		GraphNode sceneRoot(NULL);
+		//GraphNode cube(cubeMesh);
 
-		mesh->loadContent();
-		core.addRenderable(mesh);
+		//sceneRoot.appendChild(&cube);
+
+		GraphNode* rootPtr = &sceneRoot;
+
+		Core core(window, cameraPtr, inputHandler, rootPtr);
+
+
+		Cube cube(0.5f);
+
+		GLuint VBO = NULL;
+
+		glGenBuffers(1, &VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(cube.vertices), cube.vertices, GL_STATIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+
 		core.update();
 	}
 	catch (InitializationException e) {
