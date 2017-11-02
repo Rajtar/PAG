@@ -43,8 +43,7 @@ void Core::update()
 
 void Core::render()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glDrawArrays(GL_TRIANGLES, 0, 6 * 6);
+	graphRoot->render(Transform::origin());
 }
 
 Core::Core(Window* window, Camera* camera, InputHandler* inputHandler, GraphNode* graphRoot)
