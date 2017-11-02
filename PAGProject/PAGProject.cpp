@@ -43,13 +43,17 @@ int main()
 		GraphNode sceneRoot(NULL);
 		
 		CubeMesh* cubeMesh = new CubeMesh();
-		cubeMesh->loadContent();
-
+		cubeMesh->loadContent(0.5f, "Textures/trollface.jpg");
 		GraphNode cube(cubeMesh);
-
 		sceneRoot.appendChild(&cube);
 
+		CubeMesh* cubeMesh1 = new CubeMesh();
+		cubeMesh1->loadContent(0.75f, "Textures/grass.jpg");
+		GraphNode cube1(cubeMesh1);
+		sceneRoot.appendChild(&cube1);
+
 		GraphNode* rootPtr = &sceneRoot;
+
 
 		Core core(window, cameraPtr, inputHandler, rootPtr);
 

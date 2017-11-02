@@ -3,12 +3,13 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include "MeshBase.h"
+#include <string>
 
 class CubeMesh : public MeshBase
 {
 public:
 
-	void loadContent();
+	void loadContent(GLfloat size, std::string texturePath);
 	virtual void renderMesh();
 
 	CubeMesh();

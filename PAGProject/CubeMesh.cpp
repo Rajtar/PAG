@@ -4,9 +4,9 @@
 
 #include <iostream>
 
-void CubeMesh::loadContent()
+void CubeMesh::loadContent(GLfloat size, std::string texturePath)
 {
-	Cube cube(0.5f);
+	Cube cube(size);
 
 	GLuint VBO = NULL;
 
@@ -47,7 +47,7 @@ void CubeMesh::loadContent()
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 	Texture tex;
-	tex.loadTexture("Textures/trollface.jpg");
+	tex.loadTexture(texturePath);
 	texture = tex.getTextureHolder();
 	glBindTexture(GL_TEXTURE_2D, texture);
 }
