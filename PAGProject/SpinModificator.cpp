@@ -2,11 +2,17 @@
 
 glm::mat4 SpinModificator::modifyTransformation(glm::mat4 transformation)
 {
-	return transformation = glm::rotate(transformation, 0.0005f, glm::vec3(0.0, 0.0, 1.0));
+	return transformation = glm::rotate(transformation, spinAngle, getTransformationVector());
 }
 
-SpinModificator::SpinModificator()
+GLfloat SpinModificator::getSpinAngle()
 {
+	return spinAngle;
+}
+
+SpinModificator::SpinModificator(glm::vec3 transformationVector, GLfloat spinAngle) : TransformModificator(transformationVector), spinAngle(spinAngle)
+{
+
 }
 
 

@@ -9,11 +9,16 @@
 
 class SpinModificator : public TransformModificator
 {
+private:
+
+	GLfloat spinAngle;
+
 public:
 
 	virtual glm::mat4 modifyTransformation(glm::mat4 transformation);
+	GLfloat getSpinAngle();
 
-	SpinModificator();
+	SpinModificator(glm::vec3 transformationVector, GLfloat spinAngle);
 	~SpinModificator();
 };
 
