@@ -52,9 +52,13 @@ void CubeMesh::loadContent(GLfloat size, std::string texturePath)
 	glBindTexture(GL_TEXTURE_2D, texture);
 }
 
-void CubeMesh::renderMesh()
+void CubeMesh::renderMesh(Transform* transform)
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	/*glm::mat4 trans = transform->transformation;
+	trans = glm::rotate(trans, (GLfloat)glfwGetTime() * 50.0f, glm::vec3(1.0, 0.0, 0.0));
+	transform->transformation = trans;*/
+
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glDrawArrays(GL_TRIANGLES, 0, 6*6);
 	//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 }

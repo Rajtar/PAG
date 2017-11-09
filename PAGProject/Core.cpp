@@ -25,13 +25,13 @@ void Core::update()
 		inputHandler->processMouseInput();
 
 		/********************/
-		glm::mat4 trans;
+		//glm::mat4 trans;
 		/*trans = glm::translate(trans, glm::vec3(0.0, 2.0, 0.0));
 		trans = glm::rotate(trans, (GLfloat)glfwGetTime() * 2.0f, glm::vec3(1.0, 0.0, 0.0));
 		trans = glm::translate(trans, glm::vec3(0.0, 2.0, 0.0));*/
 
-		GLuint transformLoc = glGetUniformLocation(camera->getProgram()->programHandle, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+		//GLuint transformLoc = glGetUniformLocation(camera->getProgram()->programHandle, "transform");
+		//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 		/********************/
 
 		glfwPollEvents();
@@ -43,6 +43,7 @@ void Core::update()
 
 void Core::render()
 {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	graphRoot->render(Transform::origin());
 }
 

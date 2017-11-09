@@ -2,13 +2,21 @@
 
 void GraphNode::render(Transform parentWorld)
 {
+	if (local.modificator) local.transformation = local.modificator->modifyTransformation(local.transformation);
+
 	Transform world = local.combine(parentWorld);
 
-	if (mesh) mesh->renderMesh();
+	if (mesh)
+	{
+		mesh->renderMesh(&world);
+
+		GLuint transformLoc = glGetUniformLocation(program->programHandle, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(world.transformation));
+	}
 
 	for (auto child: children)
 	{
-		child->render(parentWorld);
+		child->render(world);
 	}
 }
 

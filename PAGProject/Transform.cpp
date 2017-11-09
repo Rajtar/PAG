@@ -13,7 +13,7 @@ Transform Transform::combine(Transform & other)
 {
 	Transform combinedTransform;
 
-	combinedTransform.transformation = this->transformation * other.transformation;
+	combinedTransform.transformation = other.transformation * this->transformation;
 
 	return combinedTransform;
 }
