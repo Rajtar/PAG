@@ -14,7 +14,7 @@
 class GraphNode
 {
 public:
-	GraphNode(MeshBase* mesh, Program* program) : mesh(mesh), local(Transform::origin()), program(program) {}
+	GraphNode(MeshBase* mesh, int textureIndex, Program* program) : mesh(mesh), textureIndex(textureIndex),local(Transform::origin()), program(program) {}
 	void render(Transform parentWorld);
 	void appendChild(GraphNode* child);
 
@@ -23,6 +23,9 @@ public:
 	MeshBase* mesh;
 	Program* program;
 
+private:
 	std::vector<GraphNode*> children;
+	int textureIndex;
+
 };
 

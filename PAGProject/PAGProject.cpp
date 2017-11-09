@@ -19,6 +19,7 @@
 #include "Transform.h"
 #include "SpinModificator.h"
 #include "OrbitModificator.h"
+#include "Texture.h"
 
 void buildSceneGraph(Program*, GraphNode&);
 
@@ -47,29 +48,45 @@ int main()
 
 		Camera* cameraPtr = &camera;
 		
-		GraphNode sceneRoot(NULL, program);
+		GraphNode sceneRoot(NULL, 0, program);
 
 		CubeMesh* cubeMesh = new CubeMesh();
-		cubeMesh->loadContent(0.5f, "Textures/trollface.jpg");
+		cubeMesh->loadContent(0.5f);
 
-		SpinModificator* zSpinModificator = new SpinModificator(glm::vec3(0.0, 0.0, 1.0), 0.001f);
-		SpinModificator* ySpinModificator = new SpinModificator(glm::vec3(0.0, 1.0, 0.0), 0.0035f);
+		Texture trollTexture;
+		trollTexture.loadTexture("Textures/trollface.jpg");
+
+		Texture woodTexture;
+		woodTexture.loadTexture("Textures/wood.jpg");
+
+		Texture grassTexture;
+		grassTexture.loadTexture("Textures/grass.jpg");
+
+		Texture sunTexture;
+		sunTexture.loadTexture("Textures/sun.jpg");
+
+		cubeMesh->addTexture(trollTexture.getTextureHolder());
+		cubeMesh->addTexture(woodTexture.getTextureHolder());
+		cubeMesh->addTexture(grassTexture.getTextureHolder());
+		cubeMesh->addTexture(sunTexture.getTextureHolder());
+
 		SpinModificator* xSpinModificator = new SpinModificator(glm::vec3(1.0, 0.0, 0.0), 0.002f);
+		SpinModificator* ySpinModificator = new SpinModificator(glm::vec3(0.0, 1.0, 0.0), 0.003f);
+		SpinModificator* zSpinModificator = new SpinModificator(glm::vec3(0.0, 0.0, 1.0), 0.001f);
 
-		GraphNode centerCube(cubeMesh, program);
-		centerCube.local.modificator = ySpinModificator;
-
-		GraphNode zOrbit(NULL, program);
-		zOrbit.local.modificator = zSpinModificator;
-
-		GraphNode yOrbit(NULL, program);
-		yOrbit.local.modificator = ySpinModificator;
-
-		GraphNode xOrbit(NULL, program);
+		GraphNode xOrbit(NULL, 0, program);
 		xOrbit.local.modificator = xSpinModificator;
 
+		GraphNode yOrbit(NULL, 0, program);
+		yOrbit.local.modificator = ySpinModificator;
 
-		GraphNode orbitingMajorCube01(cubeMesh, program);
+		GraphNode zOrbit(NULL, 0, program);
+		zOrbit.local.modificator = zSpinModificator;
+
+		GraphNode centerCube(cubeMesh, 0, program);
+		centerCube.local.modificator = ySpinModificator;
+
+		GraphNode orbitingMajorCube01(cubeMesh, 1, program);
 		Transform orbitingMajorCube01Transform;
 		glm::mat4 trans(1.0f);
 		trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));
@@ -78,7 +95,7 @@ int main()
 		orbitingMajorCube01.local = orbitingMajorCube01Transform;
 		orbitingMajorCube01.local.modificator = ySpinModificator;
 
-		GraphNode orbitingMinorCube01a(cubeMesh, program);
+		GraphNode orbitingMinorCube01a(cubeMesh, 2, program);
 		Transform orbitingMinorCube01aTransform;
 		glm::mat4 trans2(1.0f);
 		trans2 = glm::scale(trans2, glm::vec3(0.5f, 0.5f, 0.5f));
@@ -86,8 +103,8 @@ int main()
 		orbitingMinorCube01aTransform.transformation = trans2;
 		orbitingMinorCube01a.local = orbitingMinorCube01aTransform;
 		orbitingMinorCube01a.local.modificator = ySpinModificator;
-
-		GraphNode orbitingMajorCube02(cubeMesh, program);
+		
+		GraphNode orbitingMajorCube02(cubeMesh, 0, program);
 		Transform orbitingMajorCube02Transform;
 		glm::mat4 trans3(1.0f);
 		trans3 = glm::scale(trans3, glm::vec3(0.95f, 0.95f, 0.95f));
@@ -96,7 +113,7 @@ int main()
 		orbitingMajorCube02.local = orbitingMajorCube02Transform;
 		orbitingMajorCube02.local.modificator = ySpinModificator;
 
-		GraphNode orbitingMajorCube03(cubeMesh, program);
+		GraphNode orbitingMajorCube03(cubeMesh, 1, program);
 		Transform orbitingMajorCube03Transform;
 		glm::mat4 trans4(1.0f);
 		trans4 = glm::scale(trans4, glm::vec3(0.9f, 0.9f, 0.9f));
@@ -105,7 +122,7 @@ int main()
 		orbitingMajorCube03.local = orbitingMajorCube03Transform;
 		orbitingMajorCube03.local.modificator = zSpinModificator;
 
-		GraphNode orbitingMajorCube04(cubeMesh, program);
+		GraphNode orbitingMajorCube04(cubeMesh, 2, program);
 		Transform orbitingMajorCube04Transform;
 		glm::mat4 trans5(1.0f);
 		trans5 = glm::scale(trans5, glm::vec3(0.6f, 0.6f, 0.6f));
@@ -114,7 +131,7 @@ int main()
 		orbitingMajorCube04.local = orbitingMajorCube04Transform;
 		orbitingMajorCube04.local.modificator = zSpinModificator;
 
-		GraphNode orbitingMajorCube05(cubeMesh, program);
+		GraphNode orbitingMajorCube05(cubeMesh, 0, program);
 		Transform orbitingMajorCube05Transform;
 		glm::mat4 trans6(1.0f);
 		trans6 = glm::scale(trans6, glm::vec3(0.3f, 0.3f, 0.3f));
@@ -123,7 +140,7 @@ int main()
 		orbitingMajorCube05.local = orbitingMajorCube05Transform;
 		orbitingMajorCube05.local.modificator = zSpinModificator;
 
-		GraphNode orbitingMajorCube06(cubeMesh, program);
+		GraphNode orbitingMajorCube06(cubeMesh, 1, program);
 		Transform orbitingMajorCube06Transform;
 		glm::mat4 trans7(1.0f);
 		trans7 = glm::scale(trans7, glm::vec3(0.3f, 0.3f, 0.3f));
@@ -132,7 +149,7 @@ int main()
 		orbitingMajorCube06.local = orbitingMajorCube06Transform;
 		orbitingMajorCube06.local.modificator = zSpinModificator;
 
-		GraphNode orbitingMajorCube07(cubeMesh, program);
+		GraphNode orbitingMajorCube07(cubeMesh, 2, program);
 		Transform orbitingMajorCube07Transform;
 		glm::mat4 trans8(1.0f);
 		trans8 = glm::scale(trans8, glm::vec3(1.2f, 1.2f, 1.2f));
@@ -141,7 +158,7 @@ int main()
 		orbitingMajorCube07.local = orbitingMajorCube07Transform;
 		orbitingMajorCube07.local.modificator = ySpinModificator;
 
-		GraphNode orbitingMinorCube07a(cubeMesh, program);
+		GraphNode orbitingMinorCube07a(cubeMesh, 0, program);
 		Transform orbitingMinorCube07aTransform;
 		glm::mat4 trans9(1.0f);
 		trans9 = glm::scale(trans9, glm::vec3(0.6f, 0.6f, 0.6f));

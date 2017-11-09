@@ -5,5 +5,5 @@
 class MeshBase {
 
 public:
-	virtual void renderMesh(Transform* transform) = 0;
+	virtual void renderMesh(Transform* transform, int textureIndex) = 0;
 };

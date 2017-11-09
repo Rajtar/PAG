@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-void CubeMesh::loadContent(GLfloat size, std::string texturePath)
+void CubeMesh::loadContent(GLfloat size)
 {
 	Cube cube(size);
 
@@ -46,18 +46,23 @@ void CubeMesh::loadContent(GLfloat size, std::string texturePath)
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-	Texture tex;
-	tex.loadTexture(texturePath);
-	texture = tex.getTextureHolder();
-	glBindTexture(GL_TEXTURE_2D, texture);
+	//Texture tex;
+	//tex.loadTexture(texturePath);
+	//texture = tex.getTextureHolder();
+	//glBindTexture(GL_TEXTURE_2D, texture);
 }
 
-void CubeMesh::renderMesh(Transform* transform)
+void CubeMesh::addTexture(unsigned texture)
+{
+	textures.push_back(texture);
+}
+
+void CubeMesh::renderMesh(Transform* transform, int textureIndex)
 {
 	/*glm::mat4 trans = transform->transformation;
 	trans = glm::rotate(trans, (GLfloat)glfwGetTime() * 50.0f, glm::vec3(1.0, 0.0, 0.0));
 	transform->transformation = trans;*/
-
+	glBindTexture(GL_TEXTURE_2D, textures[textureIndex]);
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glDrawArrays(GL_TRIANGLES, 0, 6*6);
 	//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);

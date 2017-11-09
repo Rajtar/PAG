@@ -8,7 +8,7 @@ void GraphNode::render(Transform parentWorld)
 
 	if (mesh)
 	{
-		mesh->renderMesh(&world);
+		mesh->renderMesh(&world, textureIndex);
 
 		GLuint transformLoc = glGetUniformLocation(program->programHandle, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(world.transformation));
