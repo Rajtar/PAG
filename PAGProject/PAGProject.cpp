@@ -65,10 +65,14 @@ int main()
 		Texture sunTexture;
 		sunTexture.loadTexture("Textures/sun.jpg");
 
+		Texture dogeTexture;
+		dogeTexture.loadTexture("Textures/doge.png");
+
 		cubeMesh->addTexture(trollTexture.getTextureHolder());
 		cubeMesh->addTexture(woodTexture.getTextureHolder());
 		cubeMesh->addTexture(grassTexture.getTextureHolder());
 		cubeMesh->addTexture(sunTexture.getTextureHolder());
+		cubeMesh->addTexture(dogeTexture.getTextureHolder());
 
 		SpinModificator* xSpinModificator = new SpinModificator(glm::vec3(1.0, 0.0, 0.0), 0.002f);
 		SpinModificator* ySpinModificator = new SpinModificator(glm::vec3(0.0, 1.0, 0.0), 0.003f);
@@ -140,7 +144,7 @@ int main()
 		orbitingMajorCube05.local = orbitingMajorCube05Transform;
 		orbitingMajorCube05.local.modificator = zSpinModificator;
 
-		GraphNode orbitingMajorCube06(cubeMesh, 1, program);
+		GraphNode orbitingMajorCube06(cubeMesh, 4, program);
 		Transform orbitingMajorCube06Transform;
 		glm::mat4 trans7(1.0f);
 		trans7 = glm::scale(trans7, glm::vec3(0.3f, 0.3f, 0.3f));
