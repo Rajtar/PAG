@@ -157,16 +157,17 @@
     <ClInclude Include="Cube.h" />
     <ClInclude Include="GraphNode.h" />
     <ClInclude Include="InputHandler.h" />
-    <ClInclude Include="CubeMesh.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="OrbitModificator.h" />
     <ClInclude Include="Program.h" />
-    <ClInclude Include="MeshBase.h" />
     <ClInclude Include="SpinModificator.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TransformModificator.h" />
+    <ClInclude Include="Vertex.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -177,7 +178,8 @@
     <ClCompile Include="ImageLoader.cpp" />
     <ClCompile Include="InitializationException.cpp" />
     <ClCompile Include="InputHandler.cpp" />
-    <ClCompile Include="CubeMesh.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="OrbitModificator.cpp" />
     <ClCompile Include="PAGProject.cpp" />
     <ClCompile Include="Program.cpp" />

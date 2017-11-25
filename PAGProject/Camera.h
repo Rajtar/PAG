@@ -15,15 +15,16 @@ class Camera
 public:
 
 	void reloadCamera();
-	Program* getProgram();
+	/*Program* getProgram();*/
 
-	Camera(Window* window, Program* program, InputHandler* inputHandler);
+	Camera(Window* window, /*Program* program*/ GLuint programId, InputHandler* inputHandler);
 	~Camera();
 
 private:
 
 	Window* window;
-	Program* program;
+	//Program* program;
 	InputHandler* inputHandler;
+	GLuint programId;
 };
 

@@ -21,19 +21,21 @@ void Camera::reloadCamera()
 
 	glm::mat4 WVP = projection * view * world;
 
-	GLuint wvpLoc = glGetUniformLocation(program->programHandle, "wvp");
+	//GLuint wvpLoc = glGetUniformLocation(program->programHandle, "wvp");
+	GLuint wvpLoc = glGetUniformLocation(programId, "wvp");
 	glUniformMatrix4fv(wvpLoc, 1, GL_FALSE, &WVP[0][0]);
 }
 
-Program * Camera::getProgram()
-{
-	return program;
-}
+//Program * Camera::getProgram()
+//{
+//	return program;
+//}
 
-Camera::Camera(Window* window, Program* program, InputHandler* inputHandler)
+Camera::Camera(Window* window, /*Program* program*/ GLuint programId, InputHandler* inputHandler)
 {
 	this->window = window;
-	this->program = program;
+	//this->program = program;
+	this->programId = programId;
 	this->inputHandler = inputHandler;
 }
 

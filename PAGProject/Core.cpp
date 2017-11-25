@@ -44,15 +44,18 @@ void Core::update()
 void Core::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	graphRoot->render(Transform::origin());
+	model->draw(*shader);
+	//graphRoot->render(Transform::origin());
 }
 
-Core::Core(Window* window, Camera* camera, InputHandler* inputHandler, GraphNode* graphRoot)
+Core::Core(Window* window, Camera* camera, InputHandler* inputHandler,/*GraphNode* graphRoot*/ Model* model, Shader* shader)
 {
 	this->window = window;
 	this->camera = camera;
 	this->inputHandler = inputHandler;
-	this->graphRoot = graphRoot;
+	//this->graphRoot = graphRoot;
+	this->model = model;
+	this->shader = shader;
 }
 
 Core::~Core()

@@ -8,16 +8,17 @@ class Shader
 {
 public:
 
-	void loadShader(std::string filename);
-	void loadAndCompileShaderFromFile(GLint shaderType, std::string filename, GLuint& programHandle);
+	GLuint id;
 
-	std::string getShaderData();
+	Shader(const char* vertexPath, const char* fragmentPath);
 
-	Shader();
-	~Shader();
+	void use();
+	void setBool(const std::string &name, bool value) const;
+	void setInt(const std::string &name, int value) const;
+	void setFloat(const std::string &name, float value) const;
 
 private:
 
-	std::string shaderData;
+	void checkCompileErrors(unsigned int shader, std::string type);
 };
 

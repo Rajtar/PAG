@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "InputHandler.h"
 #include "GraphNode.h"
+#include "Model.h"
 
 
 class Core
@@ -15,13 +16,15 @@ public:
 	void update();
 	void render();
 
-	Core(Window* window, Camera* camera, InputHandler* inputHandler, GraphNode* graphRoot);
+	Core(Window* window, Camera* camera, InputHandler* inputHandler,/*GraphNode* graphRoot*/Model* model, Shader* shader);
 	~Core();
 
 private:
 	Window* window;
 	Camera* camera;
 	InputHandler* inputHandler;
-	GraphNode* graphRoot;
+	//GraphNode* graphRoot;
+	Model* model;
+	Shader* shader;
 };
 

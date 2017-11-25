@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Transform.h"
-#include "MeshBase.h"
 #include "Program.h"
 #include <vector>
 #include <glad/glad.h>
@@ -10,22 +9,23 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Mesh.h"
 
 class GraphNode
 {
 public:
-	GraphNode(MeshBase* mesh, int textureIndex, Program* program) : mesh(mesh), textureIndex(textureIndex),local(Transform::origin()), program(program) {}
+	GraphNode(Mesh* mesh, GLuint texture, Program* program) : mesh(mesh), texture(texture),local(Transform::origin()), program(program) {}
 	void render(Transform parentWorld);
 	void appendChild(GraphNode* child);
 
 //private:
 	Transform local;
-	MeshBase* mesh;
+	Mesh* mesh;
 	Program* program;
 
 private:
 	std::vector<GraphNode*> children;
-	int textureIndex;
+	GLuint texture;
 
 };
 
