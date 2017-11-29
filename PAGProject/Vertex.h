@@ -8,4 +8,7 @@ struct Vertex
 	glm::vec2 TexCoords;
 	glm::vec3 Tangent;
 	glm::vec3 Bitangent;
+
+	Vertex() {};
+	Vertex(glm::vec3 position) : Position(position) {};
 };

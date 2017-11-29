@@ -1,8 +1,8 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "Cube.h"
-
 #include <iostream>
+
 
 void Mesh::setupMesh()
 {
@@ -51,7 +51,7 @@ void Mesh::draw(Shader shader)
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}
 	glActiveTexture(GL_TEXTURE0);
-
+	//std::cout << "drawing!\n";
 	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

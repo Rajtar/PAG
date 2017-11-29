@@ -16,15 +16,14 @@ public:
 	void update();
 	void render();
 
-	Core(Window* window, Camera* camera, InputHandler* inputHandler,/*GraphNode* graphRoot*/Model* model, Shader* shader);
+	Core(Window* window, Camera* camera, InputHandler* inputHandler,GraphNode* graphRoot, Shader* shader);
 	~Core();
 
 private:
 	Window* window;
 	Camera* camera;
 	InputHandler* inputHandler;
-	//GraphNode* graphRoot;
-	Model* model;
+	GraphNode* graphRoot;
 	Shader* shader;
 };
 

@@ -8,100 +8,50 @@ class Cube
 {
 public:
 
-	glm::vec3 vertices[36];
+	std::vector<Vertex> vertices;
+	std::vector<unsigned int> indices;
 	glm::vec2 textureCoordinates[36];
 
 	Cube(GLfloat size) :
+			vertices  {
+			//Bottom
+			Vertex(glm::vec3(-0.5f, -0.5f,  0.5f)),
+			Vertex(glm::vec3(0.5f, -0.5f,  0.5f)),
+			Vertex(glm::vec3(0.5f, -0.5f, -0.5f)),
+			Vertex(glm::vec3(-0.5f, -0.5f, -0.5f)),
+				  
+			//Top
+			Vertex(glm::vec3(-0.5f, 0.5f,  0.5f)),
+			Vertex(glm::vec3(0.5f, 0.5f,  0.5f)),
+			Vertex(glm::vec3(0.5f, 0.5f, -0.5f)),
+			Vertex(glm::vec3(-0.5f, 0.5f, -0.5f))
+		},
 
-		vertices{
+		 indices {
+			//Front
+			0, 1, 5,
+			0, 4, 5,
 
-		glm::vec3(-size, -size, -size),
-		glm::vec3(size, -size, -size),
-		glm::vec3(size,  size, -size),
-		glm::vec3(size,  size, -size),
-		glm::vec3(-size,  size, -size),
-		glm::vec3(-size, -size, -size),
+			//Bottom
+			0, 1, 3,
+			1, 2, 3,  
 
-		glm::vec3(-size, -size,  size),
-		glm::vec3(size, -size,  size),
-		glm::vec3(size,  size,  size),
-		glm::vec3(size,  size,  size),
-		glm::vec3(-size,  size,  size),
-		glm::vec3(-size, -size,  size),
+			//Top
+			4, 5, 7,
+			5, 6, 7,
 
-		glm::vec3(-size,  size,  size),
-		glm::vec3(-size,  size, -size),
-		glm::vec3(-size, -size, -size),
-		glm::vec3(-size, -size, -size),
-		glm::vec3(-size, -size,  size),
-		glm::vec3(-size,  size,  size),
+			//Back
+			2, 3, 6,
+			3, 6, 7,
 
-		glm::vec3(size,  size,  size),
-		glm::vec3(size,  size, -size),
-		glm::vec3(size, -size, -size),
-		glm::vec3(size, -size, -size),
-		glm::vec3(size, -size,  size),
-		glm::vec3(size,  size,  size),
+			//Left
+			0, 4, 7,
+			0, 3, 7,
 
-		glm::vec3(-size, -size, -size),
-		glm::vec3(size, -size, -size),
-		glm::vec3(size, -size,  size),
-		glm::vec3(size, -size,  size),
-		glm::vec3(-size, -size,  size),
-		glm::vec3(-size, -size, -size),
-
-		glm::vec3(-size,  size, -size),
-		glm::vec3(size,  size, -size),
-		glm::vec3(size,  size,  size),
-		glm::vec3(size,  size,  size),
-		glm::vec3(-size,  size,  size),
-		glm::vec3(-size,  size, -size)
-	},
-
-		textureCoordinates {
-
-		glm::vec2(0.0f, 0.0f),
-			glm::vec2(1.0f, 0.0f),
-			glm::vec2(1.0f, 1.0f),
-			glm::vec2(1.0f, 1.0f),
-			glm::vec2(0.0f, 1.0f),
-			glm::vec2(0.0f, 0.0f),
-
-			glm::vec2(0.0f, 0.0f),
-			glm::vec2(1.0f, 0.0f),
-			glm::vec2(1.0f, 1.0f),
-			glm::vec2(1.0f, 1.0f),
-			glm::vec2(0.0f, 1.0f),
-			glm::vec2(0.0f, 0.0f),
-
-			glm::vec2(1.0f, 0.0f),
-			glm::vec2(1.0f, 1.0f),
-			glm::vec2(0.0f, 1.0f),
-			glm::vec2(0.0f, 1.0f),
-			glm::vec2(0.0f, 0.0f),
-			glm::vec2(1.0f, 0.0f),
-
-			glm::vec2(1.0f, 0.0f),
-			glm::vec2(1.0f, 1.0f),
-			glm::vec2(0.0f, 1.0f),
-			glm::vec2(0.0f, 1.0f),
-			glm::vec2(0.0f, 0.0f),
-			glm::vec2(1.0f, 0.0f),
-
-			glm::vec2(0.0f, 1.0f),
-			glm::vec2(1.0f, 1.0f),
-			glm::vec2(1.0f, 0.0f),
-			glm::vec2(1.0f, 0.0f),
-			glm::vec2(0.0f, 0.0f),
-			glm::vec2(0.0f, 1.0f),
-
-			glm::vec2(0.0f, 1.0f),
-			glm::vec2(1.0f, 1.0f),
-			glm::vec2(1.0f, 0.0f),
-			glm::vec2(1.0f, 0.0f),
-			glm::vec2(0.0f, 0.0f),
-			glm::vec2(0.0f, 1.0f)
-	} {}
+			//Right
+			1, 2, 6,
+			1, 5, 6,
+		} {}
 };
 
 

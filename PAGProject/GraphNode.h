@@ -9,23 +9,26 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <vector>
 #include "Mesh.h"
 
 class GraphNode
 {
 public:
-	GraphNode(Mesh* mesh, GLuint texture, Program* program) : mesh(mesh), texture(texture),local(Transform::origin()), program(program) {}
+	//GraphNode();
+	//GraphNode(GLuint texture, Program* program) : texture(texture),local(Transform::origin()), program(program) {}
 	void render(Transform parentWorld);
 	void appendChild(GraphNode* child);
+	GraphNode(Shader* shader) : shader(shader) {};
 
-//private:
 	Transform local;
-	Mesh* mesh;
+	std::vector<Mesh> meshes;
+	std::vector<Texture> textures;
 	Program* program;
+	Shader* shader;
 
 private:
 	std::vector<GraphNode*> children;
-	GLuint texture;
 
 };
 

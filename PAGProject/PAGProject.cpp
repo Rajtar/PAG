@@ -15,6 +15,8 @@
 #include "InputHandler.h"
 #include "GraphNode.h"
 #include "Model.h"
+#include "ModelLoader.h"
+#include "Cube.h"
 
 
 int main()
@@ -35,14 +37,33 @@ int main()
 
 		Shader ourShader("Shaders/final.vs", "Shaders/final.fs");
 
-		Model ourModel("Models/nanosuit/nanosuit.obj");
+
+		//Model ourModel("Models/nanosuit/nanosuit.obj");
 		//Model ourModel("Models/human/human.blend");
 		//Model ourModel("Models/chopper/chopper.obj");
 		//Model ourModel("Models/van/van.max");
 		//Model ourModel("Models/test/test.obj");
 
-		//program->linkProgram();
+		//program->linkProgram();s
 		//program->activateProgram();
+		GraphNode sceneRoot(&ourShader);
+
+		ModelLoader loader;
+
+		loader.loadModel("Models/nanosuit/nanosuit.obj", &sceneRoot, &ourShader);
+		//loader.loadModel("Models/human/human.blend", &sceneRoot, &ourShader);
+		//loader.loadModel("Models/test/test.DAE", &sceneRoot, &ourShader);
+
+		/*Cube cube(0.5f);
+		std::vector<Texture> stub;
+		Mesh testMesh(cube.vertices, cube.indices, stub);
+		sceneRoot.meshes.push_back(testMesh);*/
+
+		Transform t;
+
+		t.transformation = glm::translate(t.transformation, glm::vec3(0.0f, 0.0f, 50.0f));
+
+		sceneRoot.local = t;
 
 		InputHandler* inputHandler = new InputHandler(window);
 
@@ -53,8 +74,8 @@ int main()
 		//GraphNode sceneRoot(NULL, NULL, program);
 
 
-		//Core core(window, cameraPtr, inputHandler, &sceneRoot);
-		Core core(window, cameraPtr, inputHandler, &ourModel, &ourShader);
+		Core core(window, cameraPtr, inputHandler, &sceneRoot, &ourShader);
+		//Core core(window, cameraPtr, inputHandler, &ourModel, &ourShader);
 
 		core.update();
 	}
