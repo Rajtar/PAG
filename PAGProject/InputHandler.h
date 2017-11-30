@@ -9,33 +9,25 @@ class InputHandler
 {
 public:
 
-	void processKeyboardInput(GLfloat deltaTime);
-	void processMouseInput();
+	void static keyboardKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	void static mousePositionCallback(GLFWwindow* window, double xpos, double ypos);
+	void static mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+	void static processKeyboardInput(GLfloat deltaTime, Window* window);
 
-	glm::vec3 getCameraPos();
-	glm::vec3 getCameraFront();
-	glm::vec3 getCameraUp();
 
-	InputHandler(Window* window);
-	~InputHandler();
+	static glm::vec3 cameraPos;
+	static glm::vec3 cameraFront;
+	static glm::vec3 cameraUp;
 
-private:
+	static bool firstMouse;// = true;
 
-	Window* window;
+	static GLfloat lastX;// = 400;
+	static GLfloat lastY;// = 300;
+	static GLfloat yaw;
+	static GLfloat pitch;
 
-	glm::vec3 cameraPos;
-	glm::vec3 cameraFront;
-	glm::vec3 cameraUp;
+	static GLfloat mouseSensitivity;// = 0.1;
 
-	bool firstMouse = true;
-
-	GLfloat lastX = 400; 
-	GLfloat lastY = 300;
-	GLfloat yaw;
-	GLfloat pitch;
-
-	GLfloat mouseSensitivity = 0.1;
-
-	bool mouseCursorEnabled = false;
+	static bool mouseCursorEnabled;// = false;
 };
 

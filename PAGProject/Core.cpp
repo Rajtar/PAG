@@ -24,8 +24,8 @@ void Core::update()
 
 		camera->reloadCamera();
 
-		inputHandler->processKeyboardInput(deltaTime);
-		inputHandler->processMouseInput();
+		InputHandler::processKeyboardInput(deltaTime, window);
+
 		shader->use();
 		/********************/
 		//glm::mat4 trans;
@@ -50,11 +50,10 @@ void Core::render()
 	graphRoot->render(Transform::origin());
 }
 
-Core::Core(Window* window, Camera* camera, InputHandler* inputHandler,GraphNode* graphRoot, Shader* shader)
+Core::Core(Window* window, Camera* camera, GraphNode* graphRoot, Shader* shader)
 {
 	this->window = window;
 	this->camera = camera;
-	this->inputHandler = inputHandler;
 	this->graphRoot = graphRoot;
 	this->shader = shader;
 }

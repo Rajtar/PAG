@@ -7,9 +7,9 @@ void Camera::reloadCamera()
 {
 	glm::mat4 world = glm::mat4(1.0f);
 
-	glm::vec3 cameraPos = inputHandler->getCameraPos();
-	glm::vec3 cameraFront = inputHandler->getCameraFront();
-	glm::vec3 cameraUp = inputHandler->getCameraUp();
+	glm::vec3 cameraPos = InputHandler::cameraPos;
+	glm::vec3 cameraFront = InputHandler::cameraFront;
+	glm::vec3 cameraUp = InputHandler::cameraUp;
 
 	glm::mat4 view;
 	view = view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
@@ -31,12 +31,11 @@ void Camera::reloadCamera()
 //	return program;
 //}
 
-Camera::Camera(Window* window, /*Program* program*/ GLuint programId, InputHandler* inputHandler)
+Camera::Camera(Window* window, /*Program* program*/ GLuint programId)
 {
 	this->window = window;
 	//this->program = program;
 	this->programId = programId;
-	this->inputHandler = inputHandler;
 }
 
 

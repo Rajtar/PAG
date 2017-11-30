@@ -34,9 +34,23 @@ int main()
 
 		window->init(windowWidth, windowHeight);
 
+		InputHandler::cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+
+		glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+		glm::vec3 cameraDirection = glm::normalize(InputHandler::cameraPos - cameraTarget);
+		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+		glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
+
+		InputHandler::cameraUp = glm::cross(cameraDirection, cameraRight);
+		InputHandler::cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+
+		glfwSetCursorPosCallback(window->getWindow(), InputHandler::mousePositionCallback);
+		glfwSetKeyCallback(window->getWindow(), InputHandler::keyboardKeyCallback);
+		glfwSetMouseButtonCallback(window->getWindow(), InputHandler::mouseButtonCallback);
+
+
 		TwInit(TW_OPENGL, NULL);
 		TwWindowSize(windowWidth, windowHeight);
-
 
 		TwBar *myBar;
 		myBar = TwNewBar("Scene");
@@ -85,16 +99,14 @@ int main()
 
 		//sceneRoot.children[0]->children[0]->children[0]->local = t;
 
-		InputHandler* inputHandler = new InputHandler(window);
-
-		Camera camera(window, ourShader.id, inputHandler);
+		Camera camera(window, ourShader.id);
 
 		Camera* cameraPtr = &camera;
 		
 		//GraphNode sceneRoot(NULL, NULL, program);
 
 
-		Core core(window, cameraPtr, inputHandler, &sceneRoot, &ourShader);
+		Core core(window, cameraPtr, &sceneRoot, &ourShader);
 		//Core core(window, cameraPtr, inputHandler, &ourModel, &ourShader);
 
 		core.update();

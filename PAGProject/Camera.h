@@ -17,14 +17,13 @@ public:
 	void reloadCamera();
 	/*Program* getProgram();*/
 
-	Camera(Window* window, /*Program* program*/ GLuint programId, InputHandler* inputHandler);
+	Camera(Window* window, /*Program* program*/ GLuint programId);
 	~Camera();
 
 private:
 
 	Window* window;
 	//Program* program;
-	InputHandler* inputHandler;
 	GLuint programId;
 };
 
