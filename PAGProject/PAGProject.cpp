@@ -19,6 +19,7 @@
 #include "ModelLoader.h"
 #include "Cube.h"
 #include "SpinModificator.h"
+#include <ctime>
 
 
 int main()
@@ -26,6 +27,8 @@ int main()
 	Window* window = new Window();
 	
 	try {
+
+		srand(time(NULL));
 
 		int windowWidth, windowHeight;
 
@@ -55,6 +58,10 @@ int main()
 		TwBar *myBar;
 		myBar = TwNewBar("Scene");
 		TwAddVarRW(myBar, "Test", TW_TYPE_INT16, &windowHeight, "");
+
+		Shader pickingShader("Shaders/picking.vs", "Shaders/picking.fs");
+		InputHandler::pickingShader = &pickingShader;
+
 
 		//Program* program = new Program();
 
@@ -105,6 +112,7 @@ int main()
 		
 		//GraphNode sceneRoot(NULL, NULL, program);
 
+		InputHandler::sceneRoot = sceneRoot;
 
 		Core core(window, cameraPtr, &sceneRoot, &ourShader);
 		//Core core(window, cameraPtr, inputHandler, &ourModel, &ourShader);

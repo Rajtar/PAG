@@ -14,6 +14,10 @@ public:
 private:
 	std::string directory;
 
+	std::vector<unsigned int> uniqueIdentifiers;
+
+	unsigned int assignUniqueId();
+
 	void processNode(aiNode* node, const aiScene* scene, GraphNode* parentNode, Shader* shader);
 	Mesh processMesh(aiMesh *mesh, const aiScene *scene);
 	std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);

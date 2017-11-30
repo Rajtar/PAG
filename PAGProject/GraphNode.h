@@ -18,6 +18,7 @@ public:
 	//GraphNode();
 	//GraphNode(GLuint texture, Program* program) : texture(texture),local(Transform::origin()), program(program) {}
 	void render(Transform parentWorld);
+	void renderForPicking(Transform parentWorld);
 	void appendChild(GraphNode* child);
 	GraphNode(Shader* shader) : shader(shader) {};
 
@@ -26,6 +27,7 @@ public:
 	std::vector<Texture> textures;
 	Program* program;
 	Shader* shader;
+	unsigned int id;
 
 //private:
 	std::vector<GraphNode*> children;

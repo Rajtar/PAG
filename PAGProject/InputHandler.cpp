@@ -69,8 +69,28 @@ void InputHandler::mouseButtonCallback(GLFWwindow* window, int button, int actio
 				mouseCursorEnabled = true;
 			}
 		}
+
+		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+		{
+			processPicking();
+		}
 	}
 }
+
+void InputHandler::processPicking()
+{
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	pickingShader->use();
+	glEnableVertexAttribArray(0);
+
+	sceneRoot.shader = pickingShader;
+
+	sceneRoot.renderForPicking(Transform::origin());
+}
+
+Shader* InputHandler::pickingShader;
+GraphNode InputHandler::sceneRoot;
 
 glm::vec3 InputHandler::cameraPos;
 glm::vec3 InputHandler::cameraFront;

@@ -18,8 +18,27 @@ void ModelLoader::loadModel(std::string path, GraphNode *modelRootNode, Shader* 
 	processNode(scene->mRootNode, scene, modelRootNode, shader);
 }
 
+unsigned ModelLoader::assignUniqueId()
+{
+	unsigned idCandidate = std::rand();
+
+	bool uniqueIdFound = false;
+
+	while(!uniqueIdFound)
+	{
+		if (std::find(uniqueIdentifiers.begin(), uniqueIdentifiers.end(), idCandidate) == uniqueIdentifiers.end())
+		{
+			uniqueIdentifiers.push_back(idCandidate);
+			uniqueIdFound = true;
+			return idCandidate;
+		}
+	}
+}
+
 void ModelLoader::processNode(aiNode *node, const aiScene *scene, GraphNode *parentNode, Shader* shader)
 {
+	parentNode->id = assignUniqueId();
+
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];

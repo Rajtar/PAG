@@ -4,6 +4,8 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include "Window.h"
+#include "Shader.h"
+#include "GraphNode.h"
 
 class InputHandler
 {
@@ -13,11 +15,14 @@ public:
 	void static mousePositionCallback(GLFWwindow* window, double xpos, double ypos);
 	void static mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 	void static processKeyboardInput(GLfloat deltaTime, Window* window);
-
+	void static processPicking();
 
 	static glm::vec3 cameraPos;
 	static glm::vec3 cameraFront;
 	static glm::vec3 cameraUp;
+
+	static Shader* pickingShader;
+	static GraphNode sceneRoot;
 
 	static bool firstMouse;// = true;
 
