@@ -1,8 +1,11 @@
 #include "InputHandler.h"
-
+#include <AntTweakBar/AntTweakBar.h>
 
 void InputHandler::processKeyboardInput(GLfloat deltaTime)
 {
+	if (glfwGetKey(window->getWindow(), GLFW_KEY_5) == GLFW_PRESS)
+		TwEventCharGLFW(GLFW_KEY_5, GLFW_PRESS);
+
 
 	float cameraSpeed = 2.5f * deltaTime;
 	if (glfwGetKey(window->getWindow(), GLFW_KEY_W) == GLFW_PRESS)
@@ -13,14 +16,35 @@ void InputHandler::processKeyboardInput(GLfloat deltaTime)
 		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 	if (glfwGetKey(window->getWindow(), GLFW_KEY_D) == GLFW_PRESS)
 		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-
-
 }
 
 void InputHandler::processMouseInput()
 {
+	int leftButton = glfwGetMouseButton(window->getWindow(), GLFW_MOUSE_BUTTON_LEFT);
+	if (leftButton == GLFW_PRESS)
+	{
+		TwEventMouseButtonGLFW(leftButton, GLFW_PRESS);
+	}
+
+	int rightButton = glfwGetMouseButton(window->getWindow(), GLFW_MOUSE_BUTTON_RIGHT);
+	if (rightButton == GLFW_PRESS)
+	{
+		if(mouseCursorEnabled)
+		{
+			glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			mouseCursorEnabled = false;
+		}
+		else
+		{
+			glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			mouseCursorEnabled = true;
+		}
+	}
+
 	GLdouble xpos, ypos;
 	glfwGetCursorPos(window->getWindow(), &xpos, &ypos);
+
+	TwEventMousePosGLFW(xpos, ypos);
 
 	if (firstMouse)
 	{
@@ -48,7 +72,6 @@ void InputHandler::processMouseInput()
 	cameraFront = glm::normalize(front);
 }
 
-
 glm::vec3 InputHandler::getCameraPos()
 {
 	return cameraPos;
@@ -64,10 +87,6 @@ glm::vec3 InputHandler::getCameraUp()
 	return cameraUp;
 }
 
-void test()
-{
-
-}
 
 InputHandler::InputHandler(Window* window)
 {

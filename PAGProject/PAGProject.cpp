@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <AntTweakBar/AntTweakBar.h>
 
 #include <iostream>
 
@@ -17,15 +18,29 @@
 #include "Model.h"
 #include "ModelLoader.h"
 #include "Cube.h"
+#include "SpinModificator.h"
 
 
 int main()
 {
 	Window* window = new Window();
-
+	
 	try {
 
-		window->init(800, 600);
+		int windowWidth, windowHeight;
+
+		windowWidth = 1600;
+		windowHeight = 900;
+
+		window->init(windowWidth, windowHeight);
+
+		TwInit(TW_OPENGL, NULL);
+		TwWindowSize(windowWidth, windowHeight);
+
+
+		TwBar *myBar;
+		myBar = TwNewBar("Scene");
+		TwAddVarRW(myBar, "Test", TW_TYPE_INT16, &windowHeight, "");
 
 		//Program* program = new Program();
 
@@ -52,18 +67,23 @@ int main()
 
 		loader.loadModel("Models/nanosuit/nanosuit.obj", &sceneRoot, &ourShader);
 		//loader.loadModel("Models/human/human.blend", &sceneRoot, &ourShader);
-		//loader.loadModel("Models/test/test.DAE", &sceneRoot, &ourShader);
+		//loader.loadModel("Models/ironman/Iron_Man.dae", &sceneRoot, &ourShader);
+		//loader.loadModel("Models/Spider-Man_Modern/Spider-Man_Modern.dae", &sceneRoot, &ourShader);
+		//loader.loadModel("Models/shapes/shapes.FBX", &sceneRoot, &ourShader);
 
 		/*Cube cube(0.5f);
 		std::vector<Texture> stub;
 		Mesh testMesh(cube.vertices, cube.indices, stub);
 		sceneRoot.meshes.push_back(testMesh);*/
 
+		SpinModificator spin(glm::vec3(0.0f, 1.0f, 0.0f), 0.005f);
+
 		Transform t;
+		//t.modificator = &spin;
+		t.transformation = glm::translate(t.transformation, glm::vec3(0.0f, 0.0f, 10.0f));
+		//t.transformation = glm::scale(t.transformation, glm::vec3(0.01f, 0.01f, 0.01f));
 
-		t.transformation = glm::translate(t.transformation, glm::vec3(0.0f, 0.0f, 50.0f));
-
-		sceneRoot.local = t;
+		//sceneRoot.children[0]->children[0]->children[0]->local = t;
 
 		InputHandler* inputHandler = new InputHandler(window);
 
@@ -78,6 +98,7 @@ int main()
 		//Core core(window, cameraPtr, inputHandler, &ourModel, &ourShader);
 
 		core.update();
+		TwTerminate();
 	}
 	catch (InitializationException e) {
 

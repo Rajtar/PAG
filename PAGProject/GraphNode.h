@@ -27,7 +27,7 @@ public:
 	Program* program;
 	Shader* shader;
 
-private:
+//private:
 	std::vector<GraphNode*> children;
 
 };

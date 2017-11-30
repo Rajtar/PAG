@@ -158,7 +158,6 @@
     <ClInclude Include="GraphNode.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Model.h" />
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="OrbitModificator.h" />
     <ClInclude Include="Program.h" />
@@ -180,7 +179,6 @@
     <ClCompile Include="InitializationException.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="OrbitModificator.cpp" />
     <ClCompile Include="PAGProject.cpp" />

@@ -35,5 +35,7 @@ private:
 	GLfloat pitch;
 
 	GLfloat mouseSensitivity = 0.1;
+
+	bool mouseCursorEnabled = false;
 };
 
