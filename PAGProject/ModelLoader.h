@@ -14,9 +14,9 @@ public:
 private:
 	std::string directory;
 
-	std::vector<unsigned int> uniqueIdentifiers;
+	std::vector<int> uniqueIdentifiers;
 
-	unsigned int assignUniqueId();
+	int assignUniqueId();
 
 	void processNode(aiNode* node, const aiScene* scene, GraphNode* parentNode, Shader* shader);
 	Mesh processMesh(aiMesh *mesh, const aiScene *scene);

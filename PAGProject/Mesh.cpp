@@ -58,6 +58,13 @@ void Mesh::draw(Shader shader)
 	glBindVertexArray(0);
 }
 
+void Mesh::drawForPicking(Shader shader)
+{
+	glBindVertexArray(VAO);
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
 {

@@ -84,12 +84,18 @@ int main()
 		//program->activateProgram();
 		GraphNode sceneRoot(&ourShader);
 
+		GraphNode model1(&ourShader);
+		GraphNode model2(&ourShader);
+
+		sceneRoot.appendChild(&model1);
+		sceneRoot.appendChild(&model2);
+
 		ModelLoader loader;
 
-		loader.loadModel("Models/nanosuit/nanosuit.obj", &sceneRoot, &ourShader);
+		loader.loadModel("Models/nanosuit/nanosuit.obj", &model1, &ourShader);
 		//loader.loadModel("Models/human/human.blend", &sceneRoot, &ourShader);
 		//loader.loadModel("Models/ironman/Iron_Man.dae", &sceneRoot, &ourShader);
-		//loader.loadModel("Models/Spider-Man_Modern/Spider-Man_Modern.dae", &sceneRoot, &ourShader);
+		//loader.loadModel("Models/Spider-Man_Modern/Spider-Man_Modern.dae", &model2, &ourShader);
 		//loader.loadModel("Models/shapes/shapes.FBX", &sceneRoot, &ourShader);
 
 		/*Cube cube(0.5f);

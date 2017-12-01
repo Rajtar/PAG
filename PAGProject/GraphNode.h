@@ -27,7 +27,7 @@ public:
 	std::vector<Texture> textures;
 	Program* program;
 	Shader* shader;
-	unsigned int id;
+	int id;
 
 //private:
 	std::vector<GraphNode*> children;

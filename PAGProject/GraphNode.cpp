@@ -46,6 +46,8 @@ void GraphNode::renderForPicking(Transform parentWorld)
 
 		GLuint pickingColorID = glGetUniformLocation(shader->id, "PickingColor");
 		glUniform4f(pickingColorID, r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
+
+		mesh.drawForPicking(*shader);
 	}
 
 	for (auto child : children)

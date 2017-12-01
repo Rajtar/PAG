@@ -18,9 +18,9 @@ void ModelLoader::loadModel(std::string path, GraphNode *modelRootNode, Shader* 
 	processNode(scene->mRootNode, scene, modelRootNode, shader);
 }
 
-unsigned ModelLoader::assignUniqueId()
+int ModelLoader::assignUniqueId()
 {
-	unsigned idCandidate = std::rand();
+	int idCandidate = std::rand();
 
 	bool uniqueIdFound = false;
 

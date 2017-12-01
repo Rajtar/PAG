@@ -1,5 +1,7 @@
 #include "InputHandler.h"
 #include <AntTweakBar/AntTweakBar.h>
+#include <sstream>
+#include <iostream>
 
 void InputHandler::keyboardKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -79,6 +81,8 @@ void InputHandler::mouseButtonCallback(GLFWwindow* window, int button, int actio
 
 void InputHandler::processPicking()
 {
+	std::string message;
+
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	pickingShader->use();
@@ -87,10 +91,35 @@ void InputHandler::processPicking()
 	sceneRoot.shader = pickingShader;
 
 	sceneRoot.renderForPicking(Transform::origin());
+
+	glDisableVertexAttribArray(0);
+
+	glFlush();
+	glFinish();
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+	unsigned char data[4];
+	glReadPixels(1600 / 2, 900 / 2, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+	int pickedID =
+		data[0] +
+		data[1] * 256 +
+		data[2] * 256 * 256;
+
+	if (pickedID == 0x00ffffff) { // Full white, must be the background !
+		message = "background";
+	}
+	else {
+		std::ostringstream oss;
+		oss << "mesh " << pickedID;
+		message = oss.str();
+	}
+	std::cout << message << std::endl;
 }
 
 Shader* InputHandler::pickingShader;
-GraphNode InputHandler::sceneRoot;
+GraphNode InputHandler::sceneRoot = NULL;
 
 glm::vec3 InputHandler::cameraPos;
 glm::vec3 InputHandler::cameraFront;
