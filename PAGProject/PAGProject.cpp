@@ -95,7 +95,7 @@ int main()
 		loader.loadModel("Models/nanosuit/nanosuit.obj", &model1, &ourShader);
 		//loader.loadModel("Models/human/human.blend", &sceneRoot, &ourShader);
 		//loader.loadModel("Models/ironman/Iron_Man.dae", &sceneRoot, &ourShader);
-		//loader.loadModel("Models/Spider-Man_Modern/Spider-Man_Modern.dae", &model2, &ourShader);
+		loader.loadModel("Models/Spider-Man_Modern/Spider-Man_Modern.dae", &model2, &ourShader);
 		//loader.loadModel("Models/shapes/shapes.FBX", &sceneRoot, &ourShader);
 
 		/*Cube cube(0.5f);

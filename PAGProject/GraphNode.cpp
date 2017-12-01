@@ -34,7 +34,7 @@ void GraphNode::renderForPicking(Transform parentWorld)
 
 	Transform world = local.combine(parentWorld);
 
-
+	shader->use();
 	for (auto mesh : meshes)
 	{
 		GLuint transformLoc = glGetUniformLocation(shader->id, "transform");
