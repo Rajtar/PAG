@@ -11,7 +11,6 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "InitializationException.cpp"
-#include "Program.h"
 #include "Camera.h"
 #include "InputHandler.h"
 #include "GraphNode.h"
@@ -20,6 +19,7 @@
 #include "Cube.h"
 #include "SpinModificator.h"
 #include <ctime>
+#include <map>
 
 
 int main()
@@ -32,8 +32,11 @@ int main()
 
 		int windowWidth, windowHeight;
 
-		windowWidth = 1600;
-		windowHeight = 900;
+		/*windowWidth = 1280;
+		windowHeight = 720;*/
+
+		windowWidth = 800;
+		windowHeight = 600;
 
 		window->init(windowWidth, windowHeight);
 
@@ -55,75 +58,53 @@ int main()
 		TwInit(TW_OPENGL, NULL);
 		TwWindowSize(windowWidth, windowHeight);
 
+		float tX=0, tY=0, tZ=0;
+
 		TwBar *myBar;
 		myBar = TwNewBar("Scene");
-		TwAddVarRW(myBar, "Test", TW_TYPE_INT16, &windowHeight, "");
+		TwAddVarRW(myBar, "Translate X", TW_TYPE_FLOAT, &tX, "");
+		TwAddVarRW(myBar, "Translate Y", TW_TYPE_FLOAT, &tY, "");
+		TwAddVarRW(myBar, "Translate Z", TW_TYPE_FLOAT, &tZ, "");
 
+
+		Shader drawingShader("Shaders/final.vs", "Shaders/final.fs");
 		Shader pickingShader("Shaders/picking.vs", "Shaders/picking.fs");
-		InputHandler::pickingShader = &pickingShader;
 
 
-		//Program* program = new Program();
+		GraphNode sceneRoot(&drawingShader, &pickingShader);
 
-		/*Shader vertexShader;
-		Shader fragmentShader;
-
-		vertexShader.loadAndCompileShaderFromFile(GL_VERTEX_SHADER, "Shaders/basic.vert", (*program).programHandle);
-		fragmentShader.loadAndCompileShaderFromFile(GL_FRAGMENT_SHADER, "Shaders/basic.frag", (*program).programHandle);*/
-
-		Shader ourShader("Shaders/final.vs", "Shaders/final.fs");
-
-
-		//Model ourModel("Models/nanosuit/nanosuit.obj");
-		//Model ourModel("Models/human/human.blend");
-		//Model ourModel("Models/chopper/chopper.obj");
-		//Model ourModel("Models/van/van.max");
-		//Model ourModel("Models/test/test.obj");
-
-		//program->linkProgram();s
-		//program->activateProgram();
-		GraphNode sceneRoot(&ourShader);
-
-		GraphNode model1(&ourShader);
-		GraphNode model2(&ourShader);
+		GraphNode model1(&drawingShader, &pickingShader);
+		GraphNode model2(&drawingShader, &pickingShader);
 
 		sceneRoot.appendChild(&model1);
 		sceneRoot.appendChild(&model2);
 
 		ModelLoader loader;
 
-		loader.loadModel("Models/nanosuit/nanosuit.obj", &model1, &ourShader);
+		loader.loadModel("Models/nanosuit/nanosuit.obj", &model1, &drawingShader, &pickingShader);
 		//loader.loadModel("Models/human/human.blend", &sceneRoot, &ourShader);
 		//loader.loadModel("Models/ironman/Iron_Man.dae", &sceneRoot, &ourShader);
-		loader.loadModel("Models/Spider-Man_Modern/Spider-Man_Modern.dae", &model2, &ourShader);
+		loader.loadModel("Models/Spider-Man_Modern/Spider-Man_Modern.dae", &model2, &drawingShader, &pickingShader);
 		//loader.loadModel("Models/shapes/shapes.FBX", &sceneRoot, &ourShader);
 
-		/*Cube cube(0.5f);
-		std::vector<Texture> stub;
-		Mesh testMesh(cube.vertices, cube.indices, stub);
-		sceneRoot.meshes.push_back(testMesh);*/
 
 		SpinModificator spin(glm::vec3(0.0f, 1.0f, 0.0f), 0.005f);
 
 		Transform t;
 		//t.modificator = &spin;
-		t.transformation = glm::translate(t.transformation, glm::vec3(0.0f, 0.0f, 10.0f));
+		t.transformation = glm::translate(t.transformation, glm::vec3(tX, tY, tZ));
 		//t.transformation = glm::scale(t.transformation, glm::vec3(0.01f, 0.01f, 0.01f));
 
-		//sceneRoot.children[0]->children[0]->children[0]->local = t;
+		sceneRoot.local = t;
 
-		Camera camera(window, ourShader.id);
+		Camera camera(window, drawingShader.id);
 
 		Camera* cameraPtr = &camera;
 		
-		//GraphNode sceneRoot(NULL, NULL, program);
 
-		InputHandler::sceneRoot = sceneRoot;
+		Core core(window, cameraPtr, &sceneRoot, &drawingShader, &pickingShader);
 
-		Core core(window, cameraPtr, &sceneRoot, &ourShader);
-		//Core core(window, cameraPtr, inputHandler, &ourModel, &ourShader);
-
-		core.update();
+		core.update(&loader.loadedNodes);
 		TwTerminate();
 	}
 	catch (InitializationException e) {

@@ -15,24 +15,22 @@ public:
 	void static mousePositionCallback(GLFWwindow* window, double xpos, double ypos);
 	void static mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 	void static processKeyboardInput(GLfloat deltaTime, Window* window);
-	void static processPicking();
 
 	static glm::vec3 cameraPos;
 	static glm::vec3 cameraFront;
 	static glm::vec3 cameraUp;
 
-	static Shader* pickingShader;
-	static GraphNode sceneRoot;
+	static bool firstMouse;
 
-	static bool firstMouse;// = true;
-
-	static GLfloat lastX;// = 400;
-	static GLfloat lastY;// = 300;
+	static GLfloat lastX;
+	static GLfloat lastY;
 	static GLfloat yaw;
 	static GLfloat pitch;
 
-	static GLfloat mouseSensitivity;// = 0.1;
+	static GLfloat mouseSensitivity;
 
-	static bool mouseCursorEnabled;// = false;
+	static bool mouseCursorEnabled;
+
+	static bool pickingMode;
 };
 

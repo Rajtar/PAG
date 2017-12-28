@@ -6,11 +6,17 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <AntTweakBar/AntTweakBar.h>
+#include <iostream>
+#include <sstream>
 
-void Core::update()
+void Core::update(std::map<int, GraphNode*>* nodes)
 {
 	GLfloat deltaTime = 0.0f;
 	GLfloat lastFrame = 0.0f;
+
+	GraphNode* currentNode = graphRoot;
+	currentNode->id = 0;
+	pickedNodeId = 0;
 
 	while (!glfwWindowShouldClose(window->getWindow()))
 	{
@@ -20,22 +26,26 @@ void Core::update()
 
 		render();
 
-		TwDraw();
+		if(currentNode->id != pickedNodeId)
+		{
+			
+			try
+			{
+				currentNode = nodes->at(pickedNodeId);
+				std::cout << "CURRENT: " << currentNode->id << std::endl;
+			}
+			catch(...)
+			{
+				
+			}
 
+		}
+
+		TwDraw();
+		
 		camera->reloadCamera();
 
 		InputHandler::processKeyboardInput(deltaTime, window);
-
-		shader->use();
-		/********************/
-		//glm::mat4 trans;
-		/*trans = glm::translate(trans, glm::vec3(0.0, 2.0, 0.0));
-		trans = glm::rotate(trans, (GLfloat)glfwGetTime() * 2.0f, glm::vec3(1.0, 0.0, 0.0));
-		trans = glm::translate(trans, glm::vec3(0.0, 2.0, 0.0));*/
-
-		//GLuint transformLoc = glGetUniformLocation(camera->getProgram()->programHandle, "transform");
-		//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-		/********************/
 
 		glfwPollEvents();
 		glfwSwapBuffers(window->getWindow());
@@ -47,17 +57,65 @@ void Core::update()
 void Core::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	graphRoot->render(Transform::origin());
+
+	if(InputHandler::pickingMode)
+	{
+		InputHandler::pickingMode = false;
+		graphRoot->renderForPicking(Transform::origin());
+
+		pickedNodeId = processPicking();
+	}
+	else
+	{
+		graphRoot->render(Transform::origin());
+	}
 }
 
-Core::Core(Window* window, Camera* camera, GraphNode* graphRoot, Shader* shader)
+
+
+Core::Core(Window* window, Camera* camera, GraphNode* graphRoot, Shader* drawingShader, Shader* pickingShader)
 {
 	this->window = window;
 	this->camera = camera;
 	this->graphRoot = graphRoot;
-	this->shader = shader;
+	this->drawingShader = drawingShader;
+	this->pickingShader = pickingShader;
 }
 
 Core::~Core()
 {
+}
+
+int Core::processPicking()
+{
+	glDisableVertexAttribArray(0);
+	
+	glFlush();
+	glFinish();
+	
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	
+	unsigned char data[4];
+	glReadPixels(800 / 2, 600 / 2, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	
+	unsigned short pickedID =
+		data[0] +
+		data[1] * 256 +
+		data[2] * 256 * 256;
+	
+	std::string message;
+	
+	
+	if (pickedID == 0x00ffffff) { // Full white, must be the background !
+		pickedID = NULL;
+		message = "background";
+	}
+	else {
+		std::ostringstream oss;
+		oss << "PICKED: " << pickedID;
+		message = oss.str();
+	}
+	std::cout << message << std::endl;
+
+	return pickedID;
 }

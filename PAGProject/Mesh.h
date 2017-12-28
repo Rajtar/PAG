@@ -22,7 +22,7 @@ public:
 	void drawForPicking(Shader shader);
 
 private:
-	unsigned int VAO, VBO, EBO;
+	unsigned int VAO, VBO, EBO, pickingVAO, pickingVBO, pickingEBO;
 
 	void setupMesh();
 };

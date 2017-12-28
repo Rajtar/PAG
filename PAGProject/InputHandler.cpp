@@ -25,7 +25,7 @@ void InputHandler::processKeyboardInput(GLfloat deltaTime, Window* window)
 
 void InputHandler::mousePositionCallback(GLFWwindow* window, double xpos, double ypos)
 {
-	if (!TwEventMousePosGLFW(xpos, ypos))
+	if (!TwEventMousePosGLFW(xpos, ypos) && !mouseCursorEnabled)
 	{
 		if (firstMouse)
 		{
@@ -74,52 +74,13 @@ void InputHandler::mouseButtonCallback(GLFWwindow* window, int button, int actio
 
 		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 		{
-			processPicking();
+			pickingMode = true;
 		}
 	}
 }
 
-void InputHandler::processPicking()
-{
-	std::string message;
 
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	pickingShader->use();
-	glEnableVertexAttribArray(0);
-
-	sceneRoot.shader = pickingShader;
-
-	sceneRoot.renderForPicking(Transform::origin());
-
-	glDisableVertexAttribArray(0);
-
-	glFlush();
-	glFinish();
-
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-	unsigned char data[4];
-	glReadPixels(1600 / 2, 900 / 2, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
-	int pickedID =
-		data[0] +
-		data[1] * 256 +
-		data[2] * 256 * 256;
-
-	if (pickedID == 0x00ffffff) { // Full white, must be the background !
-		message = "background";
-	}
-	else {
-		std::ostringstream oss;
-		oss << "mesh " << pickedID;
-		message = oss.str();
-	}
-	std::cout << message << std::endl;
-}
-
-Shader* InputHandler::pickingShader;
-GraphNode InputHandler::sceneRoot = NULL;
+bool InputHandler::pickingMode;
 
 glm::vec3 InputHandler::cameraPos;
 glm::vec3 InputHandler::cameraFront;

@@ -6,7 +6,6 @@
 #include <glm/gtx/transform.hpp>
 
 #include "Window.h"
-#include "Program.h"
 #include "InputHandler.h"
 
 
@@ -15,15 +14,12 @@ class Camera
 public:
 
 	void reloadCamera();
-	/*Program* getProgram();*/
-
-	Camera(Window* window, /*Program* program*/ GLuint programId);
+	Camera(Window* window, GLuint programId);
 	~Camera();
 
 private:
 
 	Window* window;
-	//Program* program;
 	GLuint programId;
 };
 

@@ -8,21 +8,27 @@
 #include "InputHandler.h"
 #include "GraphNode.h"
 #include "Model.h"
+#include <map>
 
 
 class Core
 {
 public:
-	void update();
+	void update(std::map<int, GraphNode*>* nodes);
 	void render();
 
-	Core(Window* window, Camera* camera, GraphNode* graphRoot, Shader* shader);
+	Core(Window* window, Camera* camera, GraphNode* graphRoot, Shader* drawingShader, Shader* pickingShader);
 	~Core();
 
 private:
 	Window* window;
 	Camera* camera;
 	GraphNode* graphRoot;
-	Shader* shader;
+	Shader* drawingShader;
+	Shader* pickingShader;
+	int alreadyFound = NULL;
+	int pickedNodeId = 999999;
+
+	int processPicking();
 };
 

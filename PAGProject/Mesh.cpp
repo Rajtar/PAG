@@ -6,6 +6,7 @@
 
 void Mesh::setupMesh()
 {
+
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
@@ -30,10 +31,22 @@ void Mesh::setupMesh()
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
 
 	glBindVertexArray(0);
+
+	/*******************/
+	/*glGenVertexArrays(1, &pickingVAO);
+
+	glBindVertexArray(pickingVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);*/
+	/*******************/
 }
 
 void Mesh::draw(Shader shader)
 {
+	glClearColor(0.0f, 1.0f, 0.0f, 0.0f);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+	shader.use();
 	unsigned int diffuseNr = 1;
 	unsigned int specularNr = 1;
 	for (unsigned int i = 0; i < textures.size(); i++)
@@ -60,6 +73,7 @@ void Mesh::draw(Shader shader)
 
 void Mesh::drawForPicking(Shader shader)
 {
+	shader.use();
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);

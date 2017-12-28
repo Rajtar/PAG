@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stb_image.h>
 
-void ModelLoader::loadModel(std::string path, GraphNode *modelRootNode, Shader* shader)
+void ModelLoader::loadModel(std::string path, GraphNode *modelRootNode, Shader* drawingShader, Shader* pickingShader)
 {
 	Assimp::Importer import;
 	const aiScene *scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -15,30 +15,12 @@ void ModelLoader::loadModel(std::string path, GraphNode *modelRootNode, Shader* 
 	}
 	directory = path.substr(0, path.find_last_of('/'));
 
-	processNode(scene->mRootNode, scene, modelRootNode, shader);
+	processNode(scene->mRootNode, scene, modelRootNode, drawingShader, pickingShader);
 }
 
-int ModelLoader::assignUniqueId()
+
+void ModelLoader::processNode(aiNode *node, const aiScene *scene, GraphNode *parentNode, Shader* drawingShader, Shader* pickingShader)
 {
-	int idCandidate = std::rand();
-
-	bool uniqueIdFound = false;
-
-	while(!uniqueIdFound)
-	{
-		if (std::find(uniqueIdentifiers.begin(), uniqueIdentifiers.end(), idCandidate) == uniqueIdentifiers.end())
-		{
-			uniqueIdentifiers.push_back(idCandidate);
-			uniqueIdFound = true;
-			return idCandidate;
-		}
-	}
-}
-
-void ModelLoader::processNode(aiNode *node, const aiScene *scene, GraphNode *parentNode, Shader* shader)
-{
-	parentNode->id = assignUniqueId();
-
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
@@ -47,10 +29,19 @@ void ModelLoader::processNode(aiNode *node, const aiScene *scene, GraphNode *par
 
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
-		GraphNode* child = new GraphNode(shader);
+		GraphNode* child = new GraphNode(drawingShader, pickingShader);
 		parentNode->appendChild(child);
-		processNode(node->mChildren[i], scene, child, shader);
+		processNode(node->mChildren[i], scene, child, drawingShader, pickingShader);
 	}
+
+	if (parentNode->children.size() == 0)
+	{
+		idCounter++;
+		parentNode->id = idCounter;
+
+		loadedNodes.insert(std::pair<int, GraphNode*>(parentNode->id, parentNode));
+	}
+
 }
 
 Mesh ModelLoader::processMesh(aiMesh* mesh, const aiScene* scene)

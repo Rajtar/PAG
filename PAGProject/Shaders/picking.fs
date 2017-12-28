@@ -9,5 +9,4 @@ uniform vec4 PickingColor;
 void main(){
 
     color = PickingColor;
-
 }
