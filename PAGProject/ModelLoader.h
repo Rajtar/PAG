@@ -15,9 +15,8 @@ public:
 	std::map<int, GraphNode*> loadedNodes;
 
 private:
-	std::string directory;
 
-	std::vector<int> uniqueIdentifiers;
+	std::string directory;
 
 	unsigned short idCounter = 0;
 

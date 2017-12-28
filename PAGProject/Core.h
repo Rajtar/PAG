@@ -11,10 +11,12 @@
 #include <map>
 
 
+class TransformInfo;
+
 class Core
 {
 public:
-	void update(std::map<int, GraphNode*>* nodes);
+	void update(std::map<int, GraphNode*>* nodes, TransformInfo* transformInfo);
 	void render();
 
 	Core(Window* window, Camera* camera, GraphNode* graphRoot, Shader* drawingShader, Shader* pickingShader);
@@ -29,6 +31,9 @@ private:
 	int alreadyFound = NULL;
 	int pickedNodeId = 999999;
 
+	bool doSwap = true;;
+
 	int processPicking();
+	void processTransformChanges(TransformInfo* transformInfo, GraphNode* node);
 };
 

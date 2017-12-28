@@ -20,6 +20,7 @@
 #include "SpinModificator.h"
 #include <ctime>
 #include <map>
+#include "TransformInfo.h"
 
 
 int main()
@@ -58,13 +59,25 @@ int main()
 		TwInit(TW_OPENGL, NULL);
 		TwWindowSize(windowWidth, windowHeight);
 
-		float tX=0, tY=0, tZ=0;
+		TransformInfo* transformInfo = new TransformInfo;
 
-		TwBar *myBar;
-		myBar = TwNewBar("Scene");
-		TwAddVarRW(myBar, "Translate X", TW_TYPE_FLOAT, &tX, "");
-		TwAddVarRW(myBar, "Translate Y", TW_TYPE_FLOAT, &tY, "");
-		TwAddVarRW(myBar, "Translate Z", TW_TYPE_FLOAT, &tZ, "");
+		TwBar *transformBar = TwNewBar("Transform");
+
+		TwAddSeparator(transformBar, NULL, " group='Translation' ");
+		TwAddVarRW(transformBar, "Translate X", TW_TYPE_FLOAT, &transformInfo->translateX, "group='Translation'");
+		TwAddVarRW(transformBar, "Translate Y", TW_TYPE_FLOAT, &transformInfo->translateY, "group='Translation'");
+		TwAddVarRW(transformBar, "Translate Z", TW_TYPE_FLOAT, &transformInfo->translateZ, "group='Translation'");
+
+		TwAddSeparator(transformBar, NULL, " group='Rotation' ");
+		TwAddVarRW(transformBar, "Rotate X", TW_TYPE_FLOAT, &transformInfo->rotateX, "group='Rotation'");
+		TwAddVarRW(transformBar, "Rotate Y", TW_TYPE_FLOAT, &transformInfo->rotateY, "group='Rotation'");
+		TwAddVarRW(transformBar, "Rotate Z", TW_TYPE_FLOAT, &transformInfo->rotateZ, "group='Rotation'");
+		TwAddVarRW(transformBar, "Rotate Angle", TW_TYPE_FLOAT, &transformInfo->rotateAngle, "group='Rotation'");
+
+		TwAddSeparator(transformBar, NULL, " group='Scale' ");
+		TwAddVarRW(transformBar, "Scale X", TW_TYPE_FLOAT, &transformInfo->scaleX, "group='Scale'");
+		TwAddVarRW(transformBar, "Scale Y", TW_TYPE_FLOAT, &transformInfo->scaleY, "group='Scale'");
+		TwAddVarRW(transformBar, "Scale Z", TW_TYPE_FLOAT, &transformInfo->scaleZ, "group='Scale'");
 
 
 		Shader drawingShader("Shaders/final.vs", "Shaders/final.fs");
@@ -75,16 +88,20 @@ int main()
 
 		GraphNode model1(&drawingShader, &pickingShader);
 		GraphNode model2(&drawingShader, &pickingShader);
+		GraphNode model3(&drawingShader, &pickingShader);
 
 		sceneRoot.appendChild(&model1);
 		sceneRoot.appendChild(&model2);
+		sceneRoot.appendChild(&model3);
 
 		ModelLoader loader;
 
 		loader.loadModel("Models/nanosuit/nanosuit.obj", &model1, &drawingShader, &pickingShader);
 		//loader.loadModel("Models/human/human.blend", &sceneRoot, &ourShader);
-		//loader.loadModel("Models/ironman/Iron_Man.dae", &sceneRoot, &ourShader);
-		loader.loadModel("Models/Spider-Man_Modern/Spider-Man_Modern.dae", &model2, &drawingShader, &pickingShader);
+		
+		loader.loadModel("Models/Spider-Man_Modern/Spider-Man_Modern.dae", &model1, &drawingShader, &pickingShader);
+
+		loader.loadModel("Models/ironman/Iron_Man.dae", &model3, &drawingShader, &pickingShader);
 		//loader.loadModel("Models/shapes/shapes.FBX", &sceneRoot, &ourShader);
 
 
@@ -92,10 +109,10 @@ int main()
 
 		Transform t;
 		//t.modificator = &spin;
-		t.transformation = glm::translate(t.transformation, glm::vec3(tX, tY, tZ));
+		//t.transformation = glm::translate(t.transformation, glm::vec3(0, 3.0, 0));
 		//t.transformation = glm::scale(t.transformation, glm::vec3(0.01f, 0.01f, 0.01f));
 
-		sceneRoot.local = t;
+		//sceneRoot.children[2]->local = t;
 
 		Camera camera(window, drawingShader.id);
 
@@ -104,7 +121,7 @@ int main()
 
 		Core core(window, cameraPtr, &sceneRoot, &drawingShader, &pickingShader);
 
-		core.update(&loader.loadedNodes);
+		core.update(&loader.loadedNodes, transformInfo);
 		TwTerminate();
 	}
 	catch (InitializationException e) {

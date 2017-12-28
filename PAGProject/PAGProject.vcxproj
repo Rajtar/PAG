@@ -165,6 +165,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="TransformInfo.h" />
     <ClInclude Include="TransformModificator.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="Window.h" />

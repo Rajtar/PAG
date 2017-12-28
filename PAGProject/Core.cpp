@@ -8,8 +8,10 @@
 #include <AntTweakBar/AntTweakBar.h>
 #include <iostream>
 #include <sstream>
+#include "TransformInfo.h"
+#include "SpinModificator.h"
 
-void Core::update(std::map<int, GraphNode*>* nodes)
+void Core::update(std::map<int, GraphNode*>* nodes, TransformInfo* transformInfo)
 {
 	GLfloat deltaTime = 0.0f;
 	GLfloat lastFrame = 0.0f;
@@ -25,6 +27,8 @@ void Core::update(std::map<int, GraphNode*>* nodes)
 		lastFrame = currentFrame;
 
 		render();
+		
+		//currentNode->local.transformation = glm::translate(currentNode->local.transformation, glm::vec3(0.001, 0.001, 0.001));
 
 		if(currentNode->id != pickedNodeId)
 		{
@@ -33,6 +37,8 @@ void Core::update(std::map<int, GraphNode*>* nodes)
 			{
 				currentNode = nodes->at(pickedNodeId);
 				std::cout << "CURRENT: " << currentNode->id << std::endl;
+
+				//currentNode->meshes.clear();
 			}
 			catch(...)
 			{
@@ -40,15 +46,21 @@ void Core::update(std::map<int, GraphNode*>* nodes)
 			}
 
 		}
-
-		TwDraw();
 		
+		processTransformChanges(transformInfo, currentNode);
+
 		camera->reloadCamera();
 
 		InputHandler::processKeyboardInput(deltaTime, window);
 
+		TwDraw();
+
 		glfwPollEvents();
-		glfwSwapBuffers(window->getWindow());
+
+		if (doSwap)
+			glfwSwapBuffers(window->getWindow());
+		else
+			doSwap = true;
 	}
 
 	glfwTerminate();
@@ -58,12 +70,16 @@ void Core::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+
 	if(InputHandler::pickingMode)
+	//if(true)
 	{
+
 		InputHandler::pickingMode = false;
 		graphRoot->renderForPicking(Transform::origin());
-
 		pickedNodeId = processPicking();
+
+		doSwap = false;
 	}
 	else
 	{
@@ -103,19 +119,15 @@ int Core::processPicking()
 		data[1] * 256 +
 		data[2] * 256 * 256;
 	
-	std::string message;
-	
-	
-	if (pickedID == 0x00ffffff) { // Full white, must be the background !
-		pickedID = NULL;
-		message = "background";
-	}
-	else {
-		std::ostringstream oss;
-		oss << "PICKED: " << pickedID;
-		message = oss.str();
-	}
-	std::cout << message << std::endl;
+
+	std::cout << "PICKED: " << pickedID << std::endl;
 
 	return pickedID;
+}
+
+void Core::processTransformChanges(TransformInfo* transformInfo, GraphNode* node)
+{
+	glm::mat4 t = node->local.transformation;
+	t = glm::translate(t, glm::vec3(transformInfo->translateX, transformInfo->translateY, transformInfo->translateY));
+	node->local.transformation = t;
 }
