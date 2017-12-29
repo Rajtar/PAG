@@ -11,7 +11,7 @@
 #include "TransformInfo.h"
 #include "SpinModificator.h"
 
-void Core::update(std::map<int, GraphNode*>* nodes, TransformInfo* transformInfo)
+void Core::update(std::map<int, GraphNode*>* nodes, TransformInfo* bindingTransform)
 {
 	GLfloat deltaTime = 0.0f;
 	GLfloat lastFrame = 0.0f;
@@ -27,9 +27,8 @@ void Core::update(std::map<int, GraphNode*>* nodes, TransformInfo* transformInfo
 		lastFrame = currentFrame;
 
 		render();
-		
-		//currentNode->local.transformation = glm::translate(currentNode->local.transformation, glm::vec3(0.001, 0.001, 0.001));
 
+		
 		if(currentNode->id != pickedNodeId)
 		{
 			
@@ -38,7 +37,7 @@ void Core::update(std::map<int, GraphNode*>* nodes, TransformInfo* transformInfo
 				currentNode = nodes->at(pickedNodeId);
 				std::cout << "CURRENT: " << currentNode->id << std::endl;
 
-				//currentNode->meshes.clear();
+				bindingTransform->cloneValues(currentNode->transformInfo);
 			}
 			catch(...)
 			{
@@ -46,9 +45,9 @@ void Core::update(std::map<int, GraphNode*>* nodes, TransformInfo* transformInfo
 			}
 
 		}
-		
-		processTransformChanges(transformInfo, currentNode);
 
+		currentNode->transformInfo.cloneValues(*bindingTransform);
+		
 		camera->reloadCamera();
 
 		InputHandler::processKeyboardInput(deltaTime, window);
@@ -123,11 +122,4 @@ int Core::processPicking()
 	std::cout << "PICKED: " << pickedID << std::endl;
 
 	return pickedID;
-}
-
-void Core::processTransformChanges(TransformInfo* transformInfo, GraphNode* node)
-{
-	glm::mat4 t = node->local.transformation;
-	t = glm::translate(t, glm::vec3(transformInfo->translateX, transformInfo->translateY, transformInfo->translateY));
-	node->local.transformation = t;
 }

@@ -10,6 +10,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <vector>
 #include "Mesh.h"
+#include "TransformInfo.h"
 
 class GraphNode
 {
@@ -21,6 +22,7 @@ public:
 	GraphNode(Shader* drawingShader, Shader* pickingShader) : drawingShader(drawingShader), pickingShader(pickingShader) {};
 
 	Transform local;
+	TransformInfo transformInfo;
 	std::vector<Mesh> meshes;
 	std::vector<Texture> textures;
 	Shader* drawingShader;
@@ -29,6 +31,11 @@ public:
 
 //private:
 	std::vector<GraphNode*> children;
+
+private:
+	TransformInfo lastTransformInfo;
+
+	void processTransformInfoChanges();
 
 };
 

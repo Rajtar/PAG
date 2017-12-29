@@ -16,7 +16,7 @@ class TransformInfo;
 class Core
 {
 public:
-	void update(std::map<int, GraphNode*>* nodes, TransformInfo* transformInfo);
+	void update(std::map<int, GraphNode*>* nodes, TransformInfo* bindingTransform);
 	void render();
 
 	Core(Window* window, Camera* camera, GraphNode* graphRoot, Shader* drawingShader, Shader* pickingShader);
@@ -34,6 +34,5 @@ private:
 	bool doSwap = true;;
 
 	int processPicking();
-	void processTransformChanges(TransformInfo* transformInfo, GraphNode* node);
 };
 

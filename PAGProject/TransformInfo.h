@@ -12,8 +12,12 @@ public:
 	float rotateZ = 0;
 	float rotateAngle = 0;
 	
-	float scaleX = 0;
-	float scaleY = 0;
-	float scaleZ = 0;
+	float scaleX = 1.0f;
+	float scaleY = 1.0f;
+	float scaleZ = 1.0f;
+
+	void cloneValues(TransformInfo other);
+
+	TransformInfo operator-(TransformInfo other);
 };
 
