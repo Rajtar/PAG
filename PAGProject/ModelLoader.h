@@ -11,6 +11,7 @@ class ModelLoader
 public:
 
 	void loadModel(std::string path, GraphNode* modelRootNode, Shader* drawingShader, Shader* pickingShader);
+	void loadModelOmmitingRoot(std::string path, GraphNode *modelRootNode, Shader* drawingShader, Shader* pickingShader);
 
 	std::map<int, GraphNode*> loadedNodes;
 

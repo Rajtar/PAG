@@ -18,6 +18,21 @@ void ModelLoader::loadModel(std::string path, GraphNode *modelRootNode, Shader* 
 	processNode(scene->mRootNode, scene, modelRootNode, drawingShader, pickingShader);
 }
 
+void ModelLoader::loadModelOmmitingRoot(std::string path, GraphNode *modelRootNode, Shader* drawingShader, Shader* pickingShader)
+{
+	Assimp::Importer import;
+	const aiScene *scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+
+	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+	{
+		std::cout << "ERROR::ASSIMP::" << import.GetErrorString() << std::endl;
+		return;
+	}
+	directory = path.substr(0, path.find_last_of('/'));
+
+	processNode(scene->mRootNode->mChildren[0], scene, modelRootNode, drawingShader, pickingShader);
+}
+
 
 void ModelLoader::processNode(aiNode *node, const aiScene *scene, GraphNode *parentNode, Shader* drawingShader, Shader* pickingShader)
 {

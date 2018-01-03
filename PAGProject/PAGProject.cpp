@@ -29,15 +29,13 @@ int main()
 	
 	try {
 
-		srand(time(NULL));
-
 		int windowWidth, windowHeight;
 
-		/*windowWidth = 1280;
-		windowHeight = 720;*/
+		windowWidth = 1280;
+		windowHeight = 720;
 
-		windowWidth = 800;
-		windowHeight = 600;
+		/*windowWidth = 800;
+		windowHeight = 600;*/
 
 		window->init(windowWidth, windowHeight);
 
@@ -88,38 +86,56 @@ int main()
 
 		GraphNode model1(&drawingShader, &pickingShader);
 		GraphNode model2(&drawingShader, &pickingShader);
-		GraphNode model3(&drawingShader, &pickingShader);
 
-		sceneRoot.appendChild(&model1);
-		sceneRoot.appendChild(&model2);
-		sceneRoot.appendChild(&model3);
+		GraphNode redCube(&drawingShader, &pickingShader);
+		GraphNode greenCube(&drawingShader, &pickingShader);
+		GraphNode blueCube(&drawingShader, &pickingShader);
+
 
 		ModelLoader loader;
 
+		loader.loadModelOmmitingRoot("Models/CubeRed/CubeRed.obj", &redCube, &drawingShader, &pickingShader);
+		loader.loadModelOmmitingRoot("Models/CubeGreen/CubeGreen.obj", &greenCube, &drawingShader, &pickingShader);
+		loader.loadModelOmmitingRoot("Models/CubeBlue/CubeBlue.obj", &blueCube, &drawingShader, &pickingShader);
+
 		loader.loadModel("Models/nanosuit/nanosuit.obj", &model1, &drawingShader, &pickingShader);
-		//loader.loadModel("Models/human/human.blend", &sceneRoot, &ourShader);
 		
-		loader.loadModel("Models/Spider-Man_Modern/Spider-Man_Modern.dae", &model1, &drawingShader, &pickingShader);
-
-		loader.loadModel("Models/ironman/Iron_Man.dae", &model3, &drawingShader, &pickingShader);
-		//loader.loadModel("Models/shapes/shapes.FBX", &sceneRoot, &ourShader);
+		loader.loadModel("Models/Spider-Man_Modern/Spider-Man_Modern.dae", &model2, &drawingShader, &pickingShader);
 
 
-		SpinModificator spin(glm::vec3(0.0f, 1.0f, 0.0f), 0.005f);
+		//model2.local.transformation = glm::translate(model2.local.transformation, glm::vec3(0, 3.0, 0));
+		//model2.local.transformation = glm::scale(model2.local.transformation, glm::vec3(0.01f, 0.01f, 0.01f));
 
-		Transform t;
-		//t.modificator = &spin;
-		//t.transformation = glm::translate(t.transformation, glm::vec3(0, 3.0, 0));
-		//t.transformation = glm::scale(t.transformation, glm::vec3(0.01f, 0.01f, 0.01f));
+		redCube.local.transformation = glm::translate(redCube.local.transformation, glm::vec3(0, 3.0, 0));
+		redCube.local.transformation = glm::scale(redCube.local.transformation, glm::vec3(0.01f, 0.01f, 0.01f));
+		
+		SpinModificator spin(glm::vec3(1.0f, 0.0f, 0.0f), 0.01);
 
-		//sceneRoot.children[2]->local = t;
+		//redCube.local.modificator = &spin;
 
-		Camera camera(window, drawingShader.id);
+		greenCube.local.transformation = glm::translate(greenCube.local.transformation, glm::vec3(0.0, 1.0, 40.0));
+		blueCube.local.transformation = glm::translate(blueCube.local.transformation, glm::vec3(50.0, 2.0, 0.0));
 
-		Camera* cameraPtr = &camera;
+
+		//redCube.appendChild(&greenCube);
+		//greenCube.appendChild(&blueCube);
+		//sceneRoot.appendChild(&redCube);
+
+		sceneRoot.appendChild(&redCube);
+		sceneRoot.appendChild(&greenCube);
+		sceneRoot.appendChild(&blueCube);
+
+		sceneRoot.children[0] = &blueCube;
+		sceneRoot.children[1] = &greenCube;
+		sceneRoot.children[2] = &redCube;
+
+		//sceneRoot.appendChild(&model1);
+		//sceneRoot.appendChild(&model2);
 		
 
-		Core core(window, cameraPtr, &sceneRoot, &drawingShader, &pickingShader);
+		Camera camera(window, drawingShader.id);		
+
+		Core core(window, &camera, &sceneRoot, &drawingShader, &pickingShader);
 
 		core.update(&loader.loadedNodes, transformInfo);
 		TwTerminate();

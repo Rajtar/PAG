@@ -9,14 +9,6 @@ void GraphNode::render(Transform parentWorld)
 
 	Transform world = local.combine(parentWorld);
 
-	/*if (mesh)
-	{
-		mesh->renderMesh(&world, texture);
-
-		GLuint transformLoc = glGetUniformLocation(program->programHandle, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(world.transformation));
-	}*/
-
 	for(auto mesh: meshes)
 	{
 		mesh.draw(*drawingShader);

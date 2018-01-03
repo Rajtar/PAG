@@ -71,7 +71,6 @@ void Core::render()
 
 
 	if(InputHandler::pickingMode)
-	//if(true)
 	{
 
 		InputHandler::pickingMode = false;
@@ -111,7 +110,7 @@ int Core::processPicking()
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	
 	unsigned char data[4];
-	glReadPixels(800 / 2, 600 / 2, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	glReadPixels(1280 / 2, 720 / 2, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	
 	unsigned short pickedID =
 		data[0] +
