@@ -15,16 +15,16 @@ public:
 	Cube(GLfloat size) :
 			vertices  {
 			//Bottom
-			Vertex(glm::vec3(-0.5f, -0.5f,  0.5f)),
-			Vertex(glm::vec3(0.5f, -0.5f,  0.5f)),
-			Vertex(glm::vec3(0.5f, -0.5f, -0.5f)),
-			Vertex(glm::vec3(-0.5f, -0.5f, -0.5f)),
+			Vertex(glm::vec3(-size, -size,  size)),
+			Vertex(glm::vec3(size, -size,  size)),
+			Vertex(glm::vec3(size, -size, -size)),
+			Vertex(glm::vec3(-size, -size, -size)),
 				  
 			//Top
-			Vertex(glm::vec3(-0.5f, 0.5f,  0.5f)),
-			Vertex(glm::vec3(0.5f, 0.5f,  0.5f)),
-			Vertex(glm::vec3(0.5f, 0.5f, -0.5f)),
-			Vertex(glm::vec3(-0.5f, 0.5f, -0.5f))
+			Vertex(glm::vec3(-size, size,  size)),
+			Vertex(glm::vec3(size, size,  size)),
+			Vertex(glm::vec3(size, size, -size)),
+			Vertex(glm::vec3(-size, size, -size))
 		},
 
 		 indices {
@@ -58,16 +58,16 @@ public:
 //index drawing
 //glm::vec3 vertices[] = {
 //	//Bottom
-//	glm::vec3(-0.5f, -0.5f,  0.5f),
-//	glm::vec3(0.5f, -0.5f,  0.5f),
-//	glm::vec3(0.5f, -0.5f, -0.5f),
-//	glm::vec3(-0.5f, -0.5f, -0.5f),
+//	glm::vec3(-size, -size,  size),
+//	glm::vec3(size, -size,  size),
+//	glm::vec3(size, -size, -size),
+//	glm::vec3(-size, -size, -size),
 
 //	//Top
-//	glm::vec3(-0.5f, 0.5f,  0.5f),
-//	glm::vec3(0.5f, 0.5f,  0.5f),
-//	glm::vec3(0.5f, 0.5f, -0.5f),
-//	glm::vec3(-0.5f, 0.5f, -0.5f)
+//	glm::vec3(-size, size,  size),
+//	glm::vec3(size, size,  size),
+//	glm::vec3(size, size, -size),
+//	glm::vec3(-size, size, -size)
 //};
 
 //GLuint indices[] = {

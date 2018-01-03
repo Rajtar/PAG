@@ -11,10 +11,10 @@ void GraphNode::render(Transform parentWorld)
 
 	for(auto mesh: meshes)
 	{
-		mesh.draw(*drawingShader);
-
 		GLuint transformLoc = glGetUniformLocation(drawingShader->id, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(world.transformation));
+
+		mesh.draw(*drawingShader);
 	}
 
 	for (auto child: children)
@@ -31,7 +31,8 @@ void GraphNode::renderForPicking(Transform parentWorld)
 
 	for (auto mesh : meshes)
 	{
-		mesh.drawForPicking(*pickingShader);
+		GLuint transformLoc = glGetUniformLocation(pickingShader->id, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(world.transformation));
 
 		unsigned short r = (id & 0x000000FF) >> 0;
 		unsigned short g = (id & 0x0000FF00) >> 8;
@@ -40,8 +41,7 @@ void GraphNode::renderForPicking(Transform parentWorld)
 		GLuint pickingColorID = glGetUniformLocation(pickingShader->id, "PickingColor");
 		glUniform4f(pickingColorID, r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
 
-		GLuint transformLoc = glGetUniformLocation(pickingShader->id, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(world.transformation));
+		mesh.drawForPicking(*pickingShader);
 	}
 
 	for (auto child : children)

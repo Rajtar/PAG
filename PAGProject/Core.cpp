@@ -27,11 +27,9 @@ void Core::update(std::map<int, GraphNode*>* nodes, TransformInfo* bindingTransf
 		lastFrame = currentFrame;
 
 		render();
-
 		
 		if(currentNode->id != pickedNodeId)
 		{
-			
 			try
 			{
 				currentNode = nodes->at(pickedNodeId);
@@ -72,7 +70,6 @@ void Core::render()
 
 	if(InputHandler::pickingMode)
 	{
-
 		InputHandler::pickingMode = false;
 		graphRoot->renderForPicking(Transform::origin());
 		pickedNodeId = processPicking();

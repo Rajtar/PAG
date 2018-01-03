@@ -49,7 +49,7 @@ void ModelLoader::processNode(aiNode *node, const aiScene *scene, GraphNode *par
 		processNode(node->mChildren[i], scene, child, drawingShader, pickingShader);
 	}
 
-	if (parentNode->children.size() == 0)
+	if (parentNode->children.size() == 0 && parentNode->meshes.size() > 0)
 	{
 		idCounter++;
 		parentNode->id = idCounter;

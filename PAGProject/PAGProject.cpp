@@ -98,9 +98,10 @@ int main()
 		loader.loadModelOmmitingRoot("Models/CubeGreen/CubeGreen.obj", &greenCube, &drawingShader, &pickingShader);
 		loader.loadModelOmmitingRoot("Models/CubeBlue/CubeBlue.obj", &blueCube, &drawingShader, &pickingShader);
 
+		loader.loadModel("Models/Spider-Man_Modern/Spider-Man_Modern.dae", &model2, &drawingShader, &pickingShader);
+
 		loader.loadModel("Models/nanosuit/nanosuit.obj", &model1, &drawingShader, &pickingShader);
 		
-		loader.loadModel("Models/Spider-Man_Modern/Spider-Man_Modern.dae", &model2, &drawingShader, &pickingShader);
 
 
 		//model2.local.transformation = glm::translate(model2.local.transformation, glm::vec3(0, 3.0, 0));
@@ -108,29 +109,42 @@ int main()
 
 		redCube.local.transformation = glm::translate(redCube.local.transformation, glm::vec3(0, 3.0, 0));
 		redCube.local.transformation = glm::scale(redCube.local.transformation, glm::vec3(0.01f, 0.01f, 0.01f));
-		
+
 		SpinModificator spin(glm::vec3(1.0f, 0.0f, 0.0f), 0.01);
 
 		//redCube.local.modificator = &spin;
 
-		greenCube.local.transformation = glm::translate(greenCube.local.transformation, glm::vec3(0.0, 1.0, 40.0));
-		blueCube.local.transformation = glm::translate(blueCube.local.transformation, glm::vec3(50.0, 2.0, 0.0));
+		greenCube.local.transformation = glm::translate(greenCube.local.transformation, glm::vec3(0.0, 0.0, 50.0));
+		blueCube.local.transformation = glm::translate(blueCube.local.transformation, glm::vec3(00.0, 0.0, 50.0));
 
+		//GraphNode test1(&drawingShader, &pickingShader);
+		//Cube test1Cube(2.5f);
+		//test1.meshes.push_back(Mesh(test1Cube.vertices, test1Cube.indices, std::vector<Texture>()));
+		//test1.id = 1;
+		//test1.local.modificator = &spin;
 
-		//redCube.appendChild(&greenCube);
-		//greenCube.appendChild(&blueCube);
-		//sceneRoot.appendChild(&redCube);
+		//GraphNode test2(&drawingShader, &pickingShader);
+		//Cube test2Cube(0.6f);
+		//test2.meshes.push_back(Mesh(test2Cube.vertices, test2Cube.indices, std::vector<Texture>()));
+		//test2.id = 2;
+		//test2.local.transformation = glm::translate(test2.local.transformation, glm::vec3(0.0f, 5.0f, 0.0f));
 
+		//GraphNode test3(&drawingShader, &pickingShader);
+		//Cube test3Cube(0.3f);
+		//test3.meshes.push_back(Mesh(test3Cube.vertices, test3Cube.indices, std::vector<Texture>()));
+		//test3.id = 3;
+		//test3.local.transformation = glm::translate(test3.local.transformation, glm::vec3(0.0f, 8.0f, 0.0f));
+
+		//test2.appendChild(&test3);
+		//test1.appendChild(&test2);
+		//sceneRoot.appendChild(&test1);
+
+		sceneRoot.appendChild(&model1);
+		sceneRoot.appendChild(&model2);
+
+		redCube.appendChild(&greenCube);
+		greenCube.appendChild(&blueCube);
 		sceneRoot.appendChild(&redCube);
-		sceneRoot.appendChild(&greenCube);
-		sceneRoot.appendChild(&blueCube);
-
-		sceneRoot.children[0] = &blueCube;
-		sceneRoot.children[1] = &greenCube;
-		sceneRoot.children[2] = &redCube;
-
-		//sceneRoot.appendChild(&model1);
-		//sceneRoot.appendChild(&model2);
 		
 
 		Camera camera(window, drawingShader.id);		
