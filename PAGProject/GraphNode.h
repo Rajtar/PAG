@@ -29,6 +29,8 @@ public:
 	Shader* pickingShader;
 	int id;
 
+	bool isPicked = false;
+
 //private:
 	std::vector<GraphNode*> children;
 

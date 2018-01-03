@@ -32,7 +32,10 @@ void Core::update(std::map<int, GraphNode*>* nodes, TransformInfo* bindingTransf
 		{
 			try
 			{
+				currentNode->isPicked = false;
 				currentNode = nodes->at(pickedNodeId);
+				currentNode->isPicked = true;
+
 				std::cout << "CURRENT: " << currentNode->id << std::endl;
 
 				bindingTransform->cloneValues(currentNode->transformInfo);
