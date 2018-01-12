@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stb_image.h>
 
-void ModelLoader::loadModel(std::string path, GraphNode *modelRootNode, Shader* drawingShader, Shader* pickingShader)
+void ModelLoader::loadModel(std::string path, ModelNode *modelRootNode, Shader* drawingShader, Shader* pickingShader)
 {
 	Assimp::Importer import;
 	const aiScene *scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -18,7 +18,7 @@ void ModelLoader::loadModel(std::string path, GraphNode *modelRootNode, Shader* 
 	processNode(scene->mRootNode, scene, modelRootNode, drawingShader, pickingShader);
 }
 
-void ModelLoader::loadModelOmmitingRoot(std::string path, GraphNode *modelRootNode, Shader* drawingShader, Shader* pickingShader)
+void ModelLoader::loadModelOmmitingRoot(std::string path, ModelNode *modelRootNode, Shader* drawingShader, Shader* pickingShader)
 {
 	Assimp::Importer import;
 	const aiScene *scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -34,7 +34,7 @@ void ModelLoader::loadModelOmmitingRoot(std::string path, GraphNode *modelRootNo
 }
 
 
-void ModelLoader::processNode(aiNode *node, const aiScene *scene, GraphNode *parentNode, Shader* drawingShader, Shader* pickingShader)
+void ModelLoader::processNode(aiNode *node, const aiScene *scene, ModelNode *parentNode, Shader* drawingShader, Shader* pickingShader)
 {
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
@@ -44,7 +44,7 @@ void ModelLoader::processNode(aiNode *node, const aiScene *scene, GraphNode *par
 
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
-		GraphNode* child = new GraphNode(drawingShader, pickingShader);
+		ModelNode* child = new ModelNode(drawingShader, pickingShader);
 		parentNode->appendChild(child);
 		processNode(node->mChildren[i], scene, child, drawingShader, pickingShader);
 	}
@@ -54,7 +54,7 @@ void ModelLoader::processNode(aiNode *node, const aiScene *scene, GraphNode *par
 		idCounter++;
 		parentNode->id = idCounter;
 
-		loadedNodes.insert(std::pair<int, GraphNode*>(parentNode->id, parentNode));
+		loadedNodes.insert(std::pair<int, ModelNode*>(parentNode->id, parentNode));
 	}
 
 }

@@ -11,12 +11,12 @@
 #include "TransformInfo.h"
 #include "SpinModificator.h"
 
-void Core::update(std::map<int, GraphNode*>* nodes, TransformInfo* bindingTransform)
+void Core::update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransform)
 {
 	GLfloat deltaTime = 0.0f;
 	GLfloat lastFrame = 0.0f;
 
-	GraphNode* currentNode = graphRoot;
+	ModelNode* currentNode = graphRoot;
 	currentNode->id = 0;
 	pickedNodeId = 0;
 
@@ -87,7 +87,7 @@ void Core::render()
 
 
 
-Core::Core(Window* window, Camera* camera, GraphNode* graphRoot, Shader* drawingShader, Shader* pickingShader)
+Core::Core(Window* window, Camera* camera, ModelNode* graphRoot, Shader* drawingShader, Shader* pickingShader)
 {
 	this->window = window;
 	this->camera = camera;

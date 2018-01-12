@@ -6,7 +6,7 @@
 #include "Window.h"
 #include "Camera.h"
 #include "InputHandler.h"
-#include "GraphNode.h"
+#include "ModelNode.h"
 #include "Model.h"
 #include <map>
 
@@ -16,16 +16,16 @@ class TransformInfo;
 class Core
 {
 public:
-	void update(std::map<int, GraphNode*>* nodes, TransformInfo* bindingTransform);
+	void update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransform);
 	void render();
 
-	Core(Window* window, Camera* camera, GraphNode* graphRoot, Shader* drawingShader, Shader* pickingShader);
+	Core(Window* window, Camera* camera, ModelNode* graphRoot, Shader* drawingShader, Shader* pickingShader);
 	~Core();
 
 private:
 	Window* window;
 	Camera* camera;
-	GraphNode* graphRoot;
+	ModelNode* graphRoot;
 	Shader* drawingShader;
 	Shader* pickingShader;
 	int alreadyFound = NULL;

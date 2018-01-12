@@ -13,7 +13,7 @@
 #include "InitializationException.cpp"
 #include "Camera.h"
 #include "InputHandler.h"
-#include "GraphNode.h"
+#include "ModelNode.h"
 #include "Model.h"
 #include "ModelLoader.h"
 #include "Cube.h"
@@ -82,14 +82,14 @@ int main()
 		Shader pickingShader("Shaders/picking.vs", "Shaders/picking.fs");
 
 
-		GraphNode sceneRoot(&drawingShader, &pickingShader);
+		ModelNode sceneRoot(&drawingShader, &pickingShader);
 
-		GraphNode model1(&drawingShader, &pickingShader);
-		GraphNode model2(&drawingShader, &pickingShader);
+		ModelNode model1(&drawingShader, &pickingShader);
+		ModelNode model2(&drawingShader, &pickingShader);
 
-		GraphNode redCube(&drawingShader, &pickingShader);
-		GraphNode greenCube(&drawingShader, &pickingShader);
-		GraphNode blueCube(&drawingShader, &pickingShader);
+		ModelNode redCube(&drawingShader, &pickingShader);
+		ModelNode greenCube(&drawingShader, &pickingShader);
+		ModelNode blueCube(&drawingShader, &pickingShader);
 
 
 		ModelLoader loader;

@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 #include "Window.h"
 #include "Shader.h"
-#include "GraphNode.h"
+#include "ModelNode.h"
 
 class InputHandler
 {

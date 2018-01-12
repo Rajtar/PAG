@@ -155,13 +155,18 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="GraphNode.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="ModelNode.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="OrbitModificator.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="SpinModificator.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="SpotLight.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Transform.h" />
@@ -173,8 +178,11 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Core.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="GraphNode.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="ModelNode.cpp" />
     <ClCompile Include="ImageLoader.cpp" />
     <ClCompile Include="InitializationException.cpp" />
     <ClCompile Include="InputHandler.cpp" />
@@ -182,8 +190,10 @@
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="OrbitModificator.cpp" />
     <ClCompile Include="PAGProject.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="SpinModificator.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="tiny_obj_loader.cc" />
     <ClCompile Include="Transform.cpp" />
