@@ -13,7 +13,7 @@ public:
 
 	glm::vec3& getDirection();
 	glm::vec3& getAttenuation();
-	glm::vec3 getPosition();
+	glm::vec3& getPosition();
 	void setPosition(glm::vec3 v);
 
 private:

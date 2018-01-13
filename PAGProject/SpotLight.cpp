@@ -39,7 +39,7 @@ glm::vec3& SpotLight::getAttenuation()
 	return attenuation;
 }
 
-glm::vec3 SpotLight::getPosition()
+glm::vec3& SpotLight::getPosition()
 {
 	return position;
 }

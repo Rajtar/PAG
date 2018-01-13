@@ -187,7 +187,7 @@ int main()
 
 		sceneRoot.appendChild(&directionalLight);
 		sceneRoot.appendChild(&pointLight);
-		//sceneRoot.appendChild(&spotLight);
+		sceneRoot.appendChild(&spotLight);
 
 
 		sceneRoot.appendChild(&model1);
@@ -212,7 +212,7 @@ int main()
 		TwAddVarRW(barLighting, "AttenuationLinear", TW_TYPE_FLOAT, &pointLight.getAttenuation().y, "Group=Point step=0.001 min=0");
 		TwAddVarRW(barLighting, "AttenuationQuadratic", TW_TYPE_FLOAT, &pointLight.getAttenuation().z, "Group=Point step=0.0001 min=0");
 
-		TwAddVarRW(barLighting, "SpotDirection", TW_TYPE_DIR3F, &spotLight.getDirection(), "Group=Spot");
+		//TwAddVarRW(barLighting, "SpotDirection", TW_TYPE_DIR3F, &spotLight.getDirection(), "Group=Spot");
 		TwAddVarRW(barLighting, "Position", TW_TYPE_DIR3F, &spotLight.getPosition(), "Group=Spot");
 		/*****************/
 

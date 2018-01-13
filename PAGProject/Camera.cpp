@@ -26,7 +26,7 @@ void Camera::reloadCamera()
 	glUniformMatrix4fv(wvpLoc, 1, GL_FALSE, &WVP[0][0]);
 
 	GLuint modelLoc = glGetUniformLocation(programId, "model");
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &WVP[0][0]);
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &world[0][0]);
 }
 
 //Program * Camera::getProgram()
