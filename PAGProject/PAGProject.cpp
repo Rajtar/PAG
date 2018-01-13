@@ -21,6 +21,11 @@
 #include <ctime>
 #include <map>
 #include "TransformInfo.h"
+#include "Material.h"
+#include "DirectionalLight.h"
+#include "PointLight.h"
+#include "SpotLight.h"
+#include "OrbitModificator.h"
 
 
 int main()
@@ -78,6 +83,9 @@ int main()
 		TwAddVarRW(transformBar, "Scale Z", TW_TYPE_FLOAT, &transformInfo->scaleZ, "group='Scale' step=0.1");
 
 
+
+
+
 		Shader drawingShader("Shaders/final.vs", "Shaders/final.fs");
 		Shader pickingShader("Shaders/picking.vs", "Shaders/picking.fs");
 
@@ -86,6 +94,7 @@ int main()
 
 		ModelNode model1(&drawingShader, &pickingShader);
 		ModelNode model2(&drawingShader, &pickingShader);
+		ModelNode planeModel(&drawingShader, &pickingShader);
 
 		ModelNode redCube(&drawingShader, &pickingShader);
 		ModelNode greenCube(&drawingShader, &pickingShader);
@@ -101,11 +110,17 @@ int main()
 		loader.loadModel("Models/Spider-Man_Modern/Spider-Man_Modern.dae", &model2, &drawingShader, &pickingShader);
 
 		loader.loadModel("Models/nanosuit/nanosuit.obj", &model1, &drawingShader, &pickingShader);
+
+		loader.loadModel("Models/plane/plane.obj", &planeModel, &drawingShader, &pickingShader);
 		
 
 
 		//model2.local.transformation = glm::translate(model2.local.transformation, glm::vec3(0, 3.0, 0));
 		//model2.local.transformation = glm::scale(model2.local.transformation, glm::vec3(0.01f, 0.01f, 0.01f));
+
+		model2.local.transformation = glm::rotate(model2.local.transformation, -90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+		model2.local.transformation = glm::translate(model2.local.transformation, glm::vec3(5.0f, 0.0f, 0.0f));
+
 
 		redCube.local.transformation = glm::translate(redCube.local.transformation, glm::vec3(0, 3.0, 0));
 		redCube.local.transformation = glm::scale(redCube.local.transformation, glm::vec3(0.01f, 0.01f, 0.01f));
@@ -139,17 +154,71 @@ int main()
 		//test1.appendChild(&test2);
 		//sceneRoot.appendChild(&test1);
 
+		Material modelMaterial;
+
+		modelMaterial.diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+		modelMaterial.specularFactor = 1;
+		modelMaterial.SetSimple(drawingShader);
+
+		model1.setMaterial(modelMaterial);
+		model2.setMaterial(modelMaterial);
+		redCube.setMaterial(modelMaterial);
+		greenCube.setMaterial(modelMaterial);
+		blueCube.setMaterial(modelMaterial);
+
+		DirectionalLight directionalLight(&drawingShader);
+		Material matDirectional;
+		matDirectional.ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+		matDirectional.diffuse = glm::vec3(0.6f, 0.6f, 0.6f);
+		matDirectional.specular = glm::vec3(0.3f, 0.3f, 0.3f);
+		directionalLight.setMaterial(matDirectional);
+
+		PointLight pointLight(&drawingShader);
+
+		Material matPoint;
+		matPoint.specular = glm::vec3(0.05f, 0.05f, 0.05f);
+		matPoint.ambient = matPoint.diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
+		pointLight.setMaterial(matPoint);
+
+		SpotLight spotLight(&drawingShader);
+		Material matSpot;
+		matSpot.ambient = matSpot.specular = matSpot.diffuse = glm::vec3(0.4f, 0.4f, 0.4f);
+		spotLight.setMaterial(matSpot);
+
+		sceneRoot.appendChild(&directionalLight);
+		sceneRoot.appendChild(&pointLight);
+		//sceneRoot.appendChild(&spotLight);
+
+
 		sceneRoot.appendChild(&model1);
 		sceneRoot.appendChild(&model2);
+		sceneRoot.appendChild(&planeModel);
 
 		redCube.appendChild(&greenCube);
 		greenCube.appendChild(&blueCube);
-		sceneRoot.appendChild(&redCube);
-		
+		sceneRoot.appendChild(&redCube);	
 
 		Camera camera(window, drawingShader.id);		
 
 		Core core(window, &camera, &sceneRoot, &drawingShader, &pickingShader);
+
+
+
+		/*****************/
+		TwBar *barLighting = TwNewBar("Lighting");
+		TwAddVarRW(barLighting, "Direction", TW_TYPE_DIR3F, &directionalLight.getDirection(), "Group=Directional");
+
+		TwAddVarRW(barLighting, "AttenuationConst", TW_TYPE_FLOAT, &pointLight.getAttenuation().x, "Group=Point");
+		TwAddVarRW(barLighting, "AttenuationLinear", TW_TYPE_FLOAT, &pointLight.getAttenuation().y, "Group=Point step=0.001 min=0");
+		TwAddVarRW(barLighting, "AttenuationQuadratic", TW_TYPE_FLOAT, &pointLight.getAttenuation().z, "Group=Point step=0.0001 min=0");
+
+		TwAddVarRW(barLighting, "SpotDirection", TW_TYPE_DIR3F, &spotLight.getDirection(), "Group=Spot");
+		TwAddVarRW(barLighting, "Position", TW_TYPE_DIR3F, &spotLight.getPosition(), "Group=Spot");
+		/*****************/
+
+
+
+
 
 		core.update(&loader.loadedNodes, transformInfo);
 		TwTerminate();

@@ -6,13 +6,17 @@ void PointLight::render(Transform parentWorld)
 {
 	drawingShader->use();
 
-	drawingShader->setVec3("pointLight.ambient", material->ambient);
-	drawingShader->setVec3("pointLight.diffuse", material->diffuse);
-	drawingShader->setVec3("pointLight.specular", material->specular);
+	drawingShader->setVec3("pointLight.ambient", getMaterial().ambient);
+	drawingShader->setVec3("pointLight.diffuse", getMaterial().diffuse);
+	drawingShader->setVec3("pointLight.specular", getMaterial().specular);
 	drawingShader->setVec3("pointLight.posWorld", position);
 	drawingShader->setVec3("pointLight.att", attenuation);
 
 	GraphNode::render(local);
+}
+
+void PointLight::renderForPicking(Transform parentWorld)
+{
 }
 
 PointLight::PointLight(Shader* drawingShader): GraphNode(drawingShader)
@@ -30,12 +34,7 @@ void PointLight::setPosition(glm::vec3 v)
 	position = v;
 }
 
-void PointLight::setMaterial(Material* mat)
-{
-	material = mat;
-}
-
-glm::vec3 PointLight::getAttenuation()
+glm::vec3& PointLight::getAttenuation()
 {
 	return attenuation;
 }

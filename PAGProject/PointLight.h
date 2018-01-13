@@ -6,20 +6,19 @@ class PointLight : public GraphNode
 {
 public:
 
-	PointLight(Shader* drawingShader);;
+	PointLight(Shader* drawingShader);
 
 	virtual void render(Transform parentWorld);
+	virtual void renderForPicking(Transform parentWorld);
+
 
 	glm::vec3 getPosition();
 	void setPosition(glm::vec3 v);
 
-	void setMaterial(Material* mat);
-
-	glm::vec3 getAttenuation();
+	glm::vec3& getAttenuation();
 
 
-private:
-	Material* material;
+//private:
 	glm::vec3 position;
 	glm::vec3 attenuation;
 };

@@ -14,9 +14,9 @@ void SpotLight::render(Transform parentWorld)
 
 	direction = -position;			// (0,0,0) - (m_position)
 
-	drawingShader->setVec3("spotLight.ambient", material->ambient);
-	drawingShader->setVec3("spotLight.diffuse", material->diffuse);
-	drawingShader->setVec3("spotLight.specular", material->specular);
+	drawingShader->setVec3("spotLight.ambient", getMaterial().ambient);
+	drawingShader->setVec3("spotLight.diffuse", getMaterial().diffuse);
+	drawingShader->setVec3("spotLight.specular", getMaterial().specular);
 	drawingShader->setVec3("spotLight.att", attenuation);
 	drawingShader->setVec3("spotLight.posWorld", position);
 	drawingShader->setVec3("spotLight.direction", direction);
@@ -25,12 +25,16 @@ void SpotLight::render(Transform parentWorld)
 	GraphNode::render(local);
 }
 
-glm::vec3 SpotLight::getDirection()
+void SpotLight::renderForPicking(Transform parentWorld)
+{
+}
+
+glm::vec3& SpotLight::getDirection()
 {
 	return direction;
 }
 
-glm::vec3 SpotLight::getAttenuation()
+glm::vec3& SpotLight::getAttenuation()
 {
 	return attenuation;
 }
@@ -43,9 +47,4 @@ glm::vec3 SpotLight::getPosition()
 void SpotLight::setPosition(glm::vec3 v)
 {
 	position = v;
-}
-
-void SpotLight::setMaterial(Material* mat)
-{
-	material = mat;
 }

@@ -5,20 +5,25 @@ void DirectionalLight::render(Transform parentWorld)
 {
 	drawingShader->use();
 
-	drawingShader->setVec3("dirLight.ambient", material->ambient);
-	drawingShader->setVec3("dirLight.diffuse", material->diffuse);
-	drawingShader->setVec3("dirLight.specular", material->specular);
+	drawingShader->setVec3("dirLight.ambient", getMaterial().ambient);
+	drawingShader->setVec3("dirLight.diffuse", getMaterial().diffuse);
+	drawingShader->setVec3("dirLight.specular", getMaterial().specular);
 	drawingShader->setVec3("dirLight.direction", direction);
 
 	GraphNode::render(local);
 }
 
-DirectionalLight::DirectionalLight(Shader* drawingShader): GraphNode(drawingShader)
+void DirectionalLight::renderForPicking(Transform parentWorld)
 {
-	direction = glm::vec3(0.f, -1.f, 0.f);
+
 }
 
-glm::vec3 DirectionalLight::getDirection()
+DirectionalLight::DirectionalLight(Shader* drawingShader): GraphNode(drawingShader)
+{
+	direction = glm::vec3(0.0f, -1.0f, 0.0f);
+}
+
+glm::vec3& DirectionalLight::getDirection()
 {
 	return direction;
 }
@@ -26,9 +31,4 @@ glm::vec3 DirectionalLight::getDirection()
 void DirectionalLight::setDirection(glm::vec3 v)
 {
 	this->direction = v;
-}
-
-void DirectionalLight::setMaterial(Material* mat)
-{
-	this->material = mat;
 }

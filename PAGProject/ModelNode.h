@@ -17,7 +17,7 @@ class ModelNode : public GraphNode
 {
 public:
 	
-	void renderForPicking(Transform parentWorld);
+	virtual void renderForPicking(Transform parentWorld);
 	
 	virtual void render(Transform parentWorld);
 	ModelNode(Shader* drawingShader, Shader* pickingShader) : GraphNode(drawingShader), pickingShader(pickingShader) {};

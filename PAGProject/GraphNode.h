@@ -3,6 +3,7 @@
 #include "Shader.h"
 #include <vector>
 #include "TransformInfo.h"
+#include "Material.h"
 
 class GraphNode
 {
@@ -18,12 +19,16 @@ public:
 
 	void appendChild(GraphNode* child);
 	virtual void render(Transform parentWorld) = 0{};
+	virtual void renderForPicking(Transform parentWorld) = 0 {};
+
+	void setMaterial(Material mat);
+	Material getMaterial();
 
 protected:
 
 	void processTransformInfoChanges();
 
 private:
-
+	Material material;
 	TransformInfo lastTransformInfo;
 };

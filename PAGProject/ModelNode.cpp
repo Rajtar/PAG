@@ -3,6 +3,8 @@
 
 void ModelNode::render(Transform parentWorld)
 {
+	getMaterial().SetSimple(*drawingShader);
+
 	if (local.modificator) local.transformation = local.modificator->modifyTransformation(local.transformation);
 
 	processTransformInfoChanges();

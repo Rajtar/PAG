@@ -5,6 +5,16 @@ void GraphNode::appendChild(GraphNode * child)
 	children.push_back(child);
 }
 
+void GraphNode::setMaterial(Material mat)
+{
+	material = mat;
+}
+
+Material GraphNode::getMaterial()
+{
+	return material;
+}
+
 void GraphNode::processTransformInfoChanges()
 {
 	TransformInfo transformToApply = transformInfo - lastTransformInfo;
