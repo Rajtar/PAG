@@ -6,7 +6,7 @@ class PointLight : public GraphNode
 {
 public:
 
-	PointLight(Shader* drawingShader);
+	PointLight(Shader* drawingShader, Shader* pickingShader);
 
 	virtual void render(Transform parentWorld);
 	virtual void renderForPicking(Transform parentWorld);
@@ -18,7 +18,8 @@ public:
 	glm::vec3& getAttenuation();
 
 
-//private:
+private:
+	Shader* pickingShader;
 	glm::vec3 position;
 	glm::vec3 attenuation;
 };

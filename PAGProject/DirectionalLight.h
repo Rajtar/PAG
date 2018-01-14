@@ -6,7 +6,7 @@ class DirectionalLight : public GraphNode
 {
 public:
 
-	DirectionalLight(Shader* drawingShader);;
+	DirectionalLight(Shader* drawingShader, Shader* pickingShader);
 
 	virtual void render(Transform parentWorld);
 	virtual void renderForPicking(Transform parentWorld);
@@ -15,6 +15,7 @@ public:
 	void setDirection(glm::vec3 v);
 	
 private:
+	Shader* pickingShader;
 	glm::vec3 direction;
 };
 

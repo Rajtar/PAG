@@ -10,8 +10,9 @@
 #include <sstream>
 #include "TransformInfo.h"
 #include "SpinModificator.h"
+#include <exception>
 
-void Core::update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransform)
+void Core::update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransform, PointLight* orbitingLight)
 {
 	GLfloat deltaTime = 0.0f;
 	GLfloat lastFrame = 0.0f;
@@ -42,7 +43,7 @@ void Core::update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransf
 			}
 			catch(...)
 			{
-				
+
 			}
 
 		}
@@ -52,6 +53,13 @@ void Core::update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransf
 		camera->reloadCamera();
 
 		InputHandler::processKeyboardInput(deltaTime, window);
+
+		//HACK
+		glm::vec3 pos;
+		pos.y = 0.0f;
+		pos.x = 100 * sinf(glfwGetTime() * 0.5);
+		pos.z = 100 * cosf(glfwGetTime() * 0.5);
+		orbitingLight->setPosition(pos);
 
 		TwDraw();
 

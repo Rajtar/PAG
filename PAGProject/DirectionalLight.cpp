@@ -18,7 +18,7 @@ void DirectionalLight::renderForPicking(Transform parentWorld)
 
 }
 
-DirectionalLight::DirectionalLight(Shader* drawingShader): GraphNode(drawingShader)
+DirectionalLight::DirectionalLight(Shader* drawingShader, Shader* pickingShader): GraphNode(drawingShader), pickingShader(pickingShader)
 {
 	direction = glm::vec3(0.0f, -1.0f, 0.0f);
 }

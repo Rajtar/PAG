@@ -9,6 +9,7 @@
 #include "ModelNode.h"
 #include "Model.h"
 #include <map>
+#include "PointLight.h"
 
 
 class TransformInfo;
@@ -16,7 +17,7 @@ class TransformInfo;
 class Core
 {
 public:
-	void update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransform);
+	void update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransform, PointLight* orbitingLight);
 	void render();
 
 	Core(Window* window, Camera* camera, ModelNode* graphRoot, Shader* drawingShader, Shader* pickingShader);

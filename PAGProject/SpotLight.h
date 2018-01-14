@@ -5,7 +5,7 @@ class SpotLight : public GraphNode
 {
 public:
 
-	SpotLight(Shader* drawingShader);;
+	SpotLight(Shader* drawingShader, Shader* pickingShader);
 
 	virtual void render(Transform parentWorld);
 	virtual void renderForPicking(Transform parentWorld);
@@ -17,6 +17,7 @@ public:
 	void setPosition(glm::vec3 v);
 
 private:
+	Shader* pickingShader;
 	glm::vec3 position;
 	glm::vec3 direction;
 	glm::vec3 attenuation;

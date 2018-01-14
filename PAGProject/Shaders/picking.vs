@@ -5,6 +5,7 @@ layout(location = 0) in vec3 aPos;
 
 // Values that stay constant for the whole mesh.
 uniform mat4 wvp;
+uniform mat4 model;
 uniform mat4 transform;
 
 void main(){

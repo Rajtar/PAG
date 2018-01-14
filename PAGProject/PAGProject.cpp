@@ -14,7 +14,6 @@
 #include "Camera.h"
 #include "InputHandler.h"
 #include "ModelNode.h"
-#include "Model.h"
 #include "ModelLoader.h"
 #include "Cube.h"
 #include "SpinModificator.h"
@@ -25,7 +24,6 @@
 #include "DirectionalLight.h"
 #include "PointLight.h"
 #include "SpotLight.h"
-#include "OrbitModificator.h"
 
 
 int main()
@@ -83,9 +81,6 @@ int main()
 		TwAddVarRW(transformBar, "Scale Z", TW_TYPE_FLOAT, &transformInfo->scaleZ, "group='Scale' step=0.1");
 
 
-
-
-
 		Shader drawingShader("Shaders/final.vs", "Shaders/final.fs");
 		Shader pickingShader("Shaders/picking.vs", "Shaders/picking.fs");
 
@@ -125,7 +120,7 @@ int main()
 		redCube.local.transformation = glm::translate(redCube.local.transformation, glm::vec3(0, 3.0, 0));
 		redCube.local.transformation = glm::scale(redCube.local.transformation, glm::vec3(0.01f, 0.01f, 0.01f));
 
-		SpinModificator spin(glm::vec3(1.0f, 0.0f, 0.0f), 0.01);
+		SpinModificator spin(glm::vec3(0.0f, 1.0f, 0.0f), 0.01);
 
 		//redCube.local.modificator = &spin;
 
@@ -166,21 +161,22 @@ int main()
 		greenCube.setMaterial(modelMaterial);
 		blueCube.setMaterial(modelMaterial);
 
-		DirectionalLight directionalLight(&drawingShader);
+		DirectionalLight directionalLight(&drawingShader, &pickingShader);
 		Material matDirectional;
 		matDirectional.ambient = glm::vec3(0.2f, 0.2f, 0.2f);
 		matDirectional.diffuse = glm::vec3(0.6f, 0.6f, 0.6f);
 		matDirectional.specular = glm::vec3(0.3f, 0.3f, 0.3f);
 		directionalLight.setMaterial(matDirectional);
 
-		PointLight pointLight(&drawingShader);
+		PointLight pointLight(&drawingShader, &pickingShader);
 
 		Material matPoint;
 		matPoint.specular = glm::vec3(0.05f, 0.05f, 0.05f);
-		matPoint.ambient = matPoint.diffuse = glm::vec3(0.3f, 0.3f, 0.3f);
+		matPoint.ambient = glm::vec3(0.3f, 0.3f, 0.3f);
+		matPoint.diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
 		pointLight.setMaterial(matPoint);
 
-		SpotLight spotLight(&drawingShader);
+		SpotLight spotLight(&drawingShader, &pickingShader);
 		Material matSpot;
 		matSpot.ambient = matSpot.specular = matSpot.diffuse = glm::vec3(0.4f, 0.4f, 0.4f);
 		spotLight.setMaterial(matSpot);
@@ -206,6 +202,7 @@ int main()
 
 		/*****************/
 		TwBar *barLighting = TwNewBar("Lighting");
+		TwDefine(" Lighting position='15 350' ");
 		TwAddVarRW(barLighting, "Direction", TW_TYPE_DIR3F, &directionalLight.getDirection(), "Group=Directional");
 
 		TwAddVarRW(barLighting, "AttenuationConst", TW_TYPE_FLOAT, &pointLight.getAttenuation().x, "Group=Point");
@@ -220,7 +217,7 @@ int main()
 
 
 
-		core.update(&loader.loadedNodes, transformInfo);
+		core.update(&loader.loadedNodes, transformInfo, &pointLight);
 		TwTerminate();
 	}
 	catch (InitializationException e) {

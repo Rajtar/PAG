@@ -1,4 +1,5 @@
 #include "PointLight.h"
+#include <glm/gtc/type_ptr.hpp>
 
 
 
@@ -17,9 +18,10 @@ void PointLight::render(Transform parentWorld)
 
 void PointLight::renderForPicking(Transform parentWorld)
 {
+
 }
 
-PointLight::PointLight(Shader* drawingShader): GraphNode(drawingShader)
+PointLight::PointLight(Shader* drawingShader, Shader* pickingShader): GraphNode(drawingShader), pickingShader(pickingShader)
 {
 	attenuation = glm::vec3(0.2f, 0.001f, 0.0001f);
 }

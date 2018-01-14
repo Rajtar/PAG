@@ -1,7 +1,7 @@
 #include "SpotLight.h"
 
 
-SpotLight::SpotLight(Shader* drawingShader) : GraphNode(drawingShader)
+SpotLight::SpotLight(Shader* drawingShader, Shader* pickingShader) : GraphNode(drawingShader), pickingShader(pickingShader)
 {
 	position = glm::vec3(0.0f, 0.0f, 40.0f);
 	cutoff = glm::cos(glm::radians(45.0f));
@@ -27,6 +27,7 @@ void SpotLight::render(Transform parentWorld)
 
 void SpotLight::renderForPicking(Transform parentWorld)
 {
+
 }
 
 glm::vec3& SpotLight::getDirection()
