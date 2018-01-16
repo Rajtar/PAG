@@ -45,8 +45,8 @@ void Mesh::draw(Shader shader)
 	//glClearColor(0.0f, 1.0f, 0.0f, 0.0f);
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
 	shader.use();
+
 	unsigned int diffuseNr = 1;
 	unsigned int specularNr = 1;
 	for (unsigned int i = 0; i < textures.size(); i++)

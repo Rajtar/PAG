@@ -156,6 +156,7 @@
     <ClInclude Include="Core.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="FullScreenQuad.h" />
     <ClInclude Include="GraphNode.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="ModelNode.h" />
@@ -164,6 +165,7 @@
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="OrbitModificator.h" />
     <ClInclude Include="PointLight.h" />
+    <ClInclude Include="Postprocess.h" />
     <ClInclude Include="SpinModificator.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SpotLight.h" />
@@ -179,6 +181,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
+    <ClCompile Include="FullScreenQuad.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="GraphNode.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -191,6 +194,7 @@
     <ClCompile Include="OrbitModificator.cpp" />
     <ClCompile Include="PAGProject.cpp" />
     <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="Postprocess.cpp" />
     <ClCompile Include="SpinModificator.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SpotLight.cpp" />

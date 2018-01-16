@@ -11,6 +11,7 @@
 #include "TransformInfo.h"
 #include "SpinModificator.h"
 #include <exception>
+#include "ModelLoader.h"
 
 void Core::update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransform, PointLight* orbitingLight)
 {
@@ -27,6 +28,7 @@ void Core::update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransf
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
+		camera->reloadCamera();
 		render();
 		
 		if(currentNode->id != pickedNodeId)
@@ -50,7 +52,7 @@ void Core::update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransf
 
 		currentNode->transformInfo.cloneValues(*bindingTransform);
 		
-		camera->reloadCamera();
+		
 
 		InputHandler::processKeyboardInput(deltaTime, window);
 
@@ -89,19 +91,41 @@ void Core::render()
 	}
 	else
 	{
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glClearColor(0.1f, 0.1f, 1.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_DEPTH_TEST);
+
 		graphRoot->render(Transform::origin());
+
+		/*drawingShader->use();
+
+		GLuint transformLoc = glGetUniformLocation(drawingShader->id, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(Transform::origin().transformation));
+
+		glBindVertexArray(cubeVAO);
+		glDrawArrays(GL_TRIANGLES, 0, 36);*/
+
+
+		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		//glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		//glClear(GL_COLOR_BUFFER_BIT);
+
+		//fullScreenQuad->drawQuad();
 	}
 }
 
 
 
-Core::Core(Window* window, Camera* camera, ModelNode* graphRoot, Shader* drawingShader, Shader* pickingShader)
+Core::Core(Window* window, Camera* camera, ModelNode* graphRoot, Shader* drawingShader, Shader* pickingShader, unsigned int framebuffer, FullScreenQuad* fullScreenQuad)
 {
 	this->window = window;
 	this->camera = camera;
 	this->graphRoot = graphRoot;
 	this->drawingShader = drawingShader;
 	this->pickingShader = pickingShader;
+	this->framebuffer = framebuffer;
+	this->fullScreenQuad = fullScreenQuad;
 }
 
 Core::~Core()
