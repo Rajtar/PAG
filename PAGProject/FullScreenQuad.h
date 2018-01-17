@@ -24,7 +24,7 @@ private:
 	unsigned int textureColorBuffer;
 
 	bool doToonShading = false;
-	float toneExposure = 1.0f;
+	float toneExposure = 1.5f;
 	float gammaCorection = 0.5f;
 };
 

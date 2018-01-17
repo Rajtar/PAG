@@ -17,6 +17,8 @@ public:
 	std::vector<unsigned int> indices;
 	std::vector<Texture> textures;
 
+	unsigned int specialTexture = NULL;
+
 	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
 	void draw(Shader shader);
 	void drawForPicking(Shader shader);

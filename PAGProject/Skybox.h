@@ -14,10 +14,11 @@ public:
 
 	void render();
 
+	unsigned int textureId;
+
 private:
 
 	std::vector<std::string> faces;
-	unsigned int textureId;
 	unsigned int skyboxVAO;
 
 	Shader* shader;

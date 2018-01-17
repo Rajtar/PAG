@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include "Cube.h"
 #include <iostream>
+#include "InputHandler.h"
 
 
 void Mesh::setupMesh()
@@ -47,25 +48,58 @@ void Mesh::draw(Shader shader)
 
 	shader.use();
 
-	unsigned int diffuseNr = 1;
-	unsigned int specularNr = 1;
-	for (unsigned int i = 0; i < textures.size(); i++)
+	if(this->specialTexture == NULL)
 	{
-		glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
-										  // retrieve texture number (the N in diffuse_textureN)
-		std::string number;
-		std::string name = textures[i].type;
-		if (name == "texture_diffuse")
-			number = std::to_string(diffuseNr++);
-		else if (name == "texture_specular")
-			number = std::to_string(specularNr++);
+		unsigned int diffuseNr = 1;
+		unsigned int specularNr = 1;
+		for (unsigned int i = 0; i < textures.size(); i++)
+		{
+			glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
+											  // retrieve texture number (the N in diffuse_textureN)
+			std::string number;
+			std::string name = textures[i].type;
+			if (name == "texture_diffuse")
+				number = std::to_string(diffuseNr++);
+			else if (name == "texture_specular")
+				number = std::to_string(specularNr++);
 
-		shader.setFloat(("material." + name + number).c_str(), i);
-		glBindTexture(GL_TEXTURE_2D, textures[i].id);
+			shader.setFloat(("material." + name + number).c_str(), i);
+			glBindTexture(GL_TEXTURE_2D, textures[i].id);
+		}
+		glActiveTexture(GL_TEXTURE0);
+		//std::cout << "drawing!\n";
+		// draw mesh
 	}
-	glActiveTexture(GL_TEXTURE0);
-	//std::cout << "drawing!\n";
-	// draw mesh
+	else //ULTRA WORKAROUND
+	{
+		/***************************************************/
+
+		glm::mat4 world = glm::mat4(1.0f);
+
+		glm::vec3 cameraPos = InputHandler::cameraPos;
+		glm::vec3 cameraFront = InputHandler::cameraFront;
+		glm::vec3 cameraUp = InputHandler::cameraUp;
+
+		glm::mat4 view;
+		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+
+		glm::mat4 projection = glm::perspective(45.0f, 1280.0f / 720.0f, 0.001f, 5000.0f);
+
+		glm::mat4 WVP = projection * view * world;
+
+		//GLuint wvpLoc = glGetUniformLocation(program->programHandle, "wvp");
+		GLuint wvpLoc = glGetUniformLocation(shader.id, "wvp");
+		glUniformMatrix4fv(wvpLoc, 1, GL_FALSE, &WVP[0][0]);
+
+		GLuint modelLoc = glGetUniformLocation(shader.id, "model");
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &world[0][0]);
+		/***************************************************/
+		shader.setVec3("cameraPos", InputHandler::cameraPos);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, specialTexture);
+
+	}
+
+
 	glBindVertexArray(VAO);
 	//glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

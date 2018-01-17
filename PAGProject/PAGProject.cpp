@@ -87,9 +87,18 @@ int main()
 		Shader pickingShader("Shaders/picking.vs", "Shaders/picking.fs");
 		Shader screenShader("Shaders/screen.vs", "Shaders/screen.fs");
 		Shader skyboxShader("Shaders/skybox.vs", "Shaders/skybox.fs");
+		Shader reflectionShader("Shaders/reflection.vs", "Shaders/reflection.fs");
+		Shader refractionShader("Shaders/refraction.vs", "Shaders/refraction.fs");
+
+		reflectionShader.use();
+		reflectionShader.setInt("skybox", 0);
+
+		refractionShader.use();
+		refractionShader.setInt("skybox", 0);
 
 
-		ModelNode sceneRoot(&drawingShader, &pickingShader);
+
+		ModelNode sceneRoot(&reflectionShader, &pickingShader);
 
 		ModelNode model1(&drawingShader, &pickingShader);
 		ModelNode model2(&drawingShader, &pickingShader);
@@ -98,6 +107,9 @@ int main()
 		ModelNode redCube(&drawingShader, &pickingShader);
 		ModelNode greenCube(&drawingShader, &pickingShader);
 		ModelNode blueCube(&drawingShader, &pickingShader);
+
+		ModelNode teapot(&drawingShader, &pickingShader);
+		ModelNode teapot2(&drawingShader, &pickingShader);
 
 
 		ModelLoader loader;
@@ -112,7 +124,8 @@ int main()
 
 		loader.loadModel("Models/plane/plane.obj", &planeModel, &drawingShader, &pickingShader);
 		
-
+		loader.loadModel("Models/teapot/utah-teapot.obj", &teapot, &reflectionShader, &pickingShader);
+		loader.loadModel("Models/CubeBlue/CubeBlue.obj", &teapot2, &refractionShader, &pickingShader);
 
 		//model2.local.transformation = glm::translate(model2.local.transformation, glm::vec3(0, 3.0, 0));
 		//model2.local.transformation = glm::scale(model2.local.transformation, glm::vec3(0.01f, 0.01f, 0.01f));
@@ -196,7 +209,7 @@ int main()
 
 		redCube.appendChild(&greenCube);
 		greenCube.appendChild(&blueCube);
-		sceneRoot.appendChild(&redCube);	
+		sceneRoot.appendChild(&redCube);
 
 		Camera camera(window, drawingShader.id);		
 
@@ -214,6 +227,26 @@ int main()
 		};
 
 		Skybox skybox(faces, &skyboxShader);
+
+		ModelNode* teapotModel = (ModelNode*)teapot.children[0];
+		teapotModel->meshes[0].specialTexture = skybox.textureId;
+
+		glm::mat4 t;
+		t = glm::scale(t, glm::vec3(0.07f, 0.07f, 0.07f));
+		t = glm::translate(t, glm::vec3(0.0f, 11.0f, 0.0f));
+		t = glm::translate(t, glm::vec3(80.0f, 0.0f, 50.0f));
+		teapot.local.transformation = t;
+		sceneRoot.appendChild(&teapot);
+
+		ModelNode* teapot2Model = (ModelNode*)teapot2.children[0];
+		teapot2Model->meshes[0].specialTexture = skybox.textureId;
+
+		glm::mat4 t2;
+		t2 = glm::scale(t2, glm::vec3(0.07f, 0.07f, 0.07f));
+		t2 = glm::translate(t2, glm::vec3(0.0f, 11.0f, 0.0f));
+		t2 = glm::translate(t2, glm::vec3(80.0f, 0.0f, 100.0f));
+		teapot2.local.transformation = t2;
+		sceneRoot.appendChild(&teapot2);
 
 		Core core(window, &camera, &sceneRoot, &drawingShader, &pickingShader, postprocess.framebuffer, &quad, &skybox);
 
