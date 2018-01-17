@@ -26,6 +26,7 @@
 #include "SpotLight.h"
 #include "Postprocess.h"
 #include "Skybox.h"
+#include "ParticlesEmitter.h"
 
 
 int main()
@@ -89,6 +90,7 @@ int main()
 		Shader skyboxShader("Shaders/skybox.vs", "Shaders/skybox.fs");
 		Shader reflectionShader("Shaders/reflection.vs", "Shaders/reflection.fs");
 		Shader refractionShader("Shaders/refraction.vs", "Shaders/refraction.fs");
+		Shader particlesShader("Shaders/particles.vs", "Shaders/particles.fs");
 
 		reflectionShader.use();
 		reflectionShader.setInt("skybox", 0);
@@ -248,7 +250,9 @@ int main()
 		teapot2.local.transformation = t2;
 		sceneRoot.appendChild(&teapot2);
 
-		Core core(window, &camera, &sceneRoot, &drawingShader, &pickingShader, postprocess.framebuffer, &quad, &skybox);
+		ParticlesEmitter emitter(&particlesShader);
+
+		Core core(window, &camera, &sceneRoot, &drawingShader, &pickingShader, postprocess.framebuffer, &quad, &skybox, &emitter);
 
 
 

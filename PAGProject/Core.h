@@ -12,6 +12,7 @@
 #include "PointLight.h"
 #include "FullScreenQuad.h"
 #include "Skybox.h"
+#include "ParticlesEmitter.h"
 
 
 class TransformInfo;
@@ -20,9 +21,9 @@ class Core
 {
 public:
 	void update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransform, PointLight* orbitingLight);
-	void render();
+	void render(GLfloat deltaTime);
 
-	Core(Window* window, Camera* camera, ModelNode* graphRoot, Shader* drawingShader, Shader* pickingShader, unsigned int framebuffer, FullScreenQuad* fullScreenQuad, Skybox* skybox);
+	Core(Window* window, Camera* camera, ModelNode* graphRoot, Shader* drawingShader, Shader* pickingShader, unsigned int framebuffer, FullScreenQuad* fullScreenQuad, Skybox* skybox, ParticlesEmitter* emitter);
 	~Core();
 
 private:
@@ -40,6 +41,8 @@ private:
 	FullScreenQuad* fullScreenQuad;
 
 	Skybox* skybox;
+
+	ParticlesEmitter* emitter;
 
 	int processPicking();
 };

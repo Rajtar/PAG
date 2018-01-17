@@ -29,7 +29,7 @@ void Core::update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransf
 		lastFrame = currentFrame;
 
 		camera->reloadCamera();
-		render();
+		render(deltaTime);
 		
 		if(currentNode->id != pickedNodeId)
 		{
@@ -76,7 +76,7 @@ void Core::update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransf
 	glfwTerminate();
 }
 
-void Core::render()
+void Core::render(GLfloat deltaTime)
 {
 	if(InputHandler::pickingMode)
 	{
@@ -98,6 +98,8 @@ void Core::render()
 		graphRoot->render(Transform::origin());
 		camera->reloadCamera();
 
+		emitter->render(deltaTime);
+
 		skybox->render();
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -110,7 +112,7 @@ void Core::render()
 
 
 
-Core::Core(Window* window, Camera* camera, ModelNode* graphRoot, Shader* drawingShader, Shader* pickingShader, unsigned int framebuffer, FullScreenQuad* fullScreenQuad, Skybox* skybox)
+Core::Core(Window* window, Camera* camera, ModelNode* graphRoot, Shader* drawingShader, Shader* pickingShader, unsigned int framebuffer, FullScreenQuad* fullScreenQuad, Skybox* skybox, ParticlesEmitter* emitter)
 {
 	this->window = window;
 	this->camera = camera;
@@ -120,6 +122,7 @@ Core::Core(Window* window, Camera* camera, ModelNode* graphRoot, Shader* drawing
 	this->framebuffer = framebuffer;
 	this->fullScreenQuad = fullScreenQuad;
 	this->skybox = skybox;
+	this->emitter = emitter;
 }
 
 Core::~Core()

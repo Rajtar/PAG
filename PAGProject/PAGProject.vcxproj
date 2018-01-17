@@ -164,6 +164,8 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="OrbitModificator.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticlesEmitter.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Postprocess.h" />
     <ClInclude Include="Skybox.h" />
@@ -194,6 +196,7 @@
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="OrbitModificator.cpp" />
     <ClCompile Include="PAGProject.cpp" />
+    <ClCompile Include="ParticlesEmitter.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Postprocess.cpp" />
     <ClCompile Include="Skybox.cpp" />
