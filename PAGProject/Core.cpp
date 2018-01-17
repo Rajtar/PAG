@@ -78,7 +78,7 @@ void Core::update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransf
 
 void Core::render()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
 	if(InputHandler::pickingMode)
@@ -91,27 +91,19 @@ void Core::render()
 	}
 	else
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 		glClearColor(0.1f, 0.1f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
 
 		graphRoot->render(Transform::origin());
+		camera->reloadCamera();
 
-		/*drawingShader->use();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
 
-		GLuint transformLoc = glGetUniformLocation(drawingShader->id, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(Transform::origin().transformation));
-
-		glBindVertexArray(cubeVAO);
-		glDrawArrays(GL_TRIANGLES, 0, 36);*/
-
-
-		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		//glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		//glClear(GL_COLOR_BUFFER_BIT);
-
-		//fullScreenQuad->drawQuad();
+		fullScreenQuad->drawQuad();
 	}
 }
 
