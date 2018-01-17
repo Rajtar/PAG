@@ -78,9 +78,6 @@ void Core::update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransf
 
 void Core::render()
 {
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
 	if(InputHandler::pickingMode)
 	{
 		InputHandler::pickingMode = false;
@@ -92,12 +89,16 @@ void Core::render()
 	else
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
-
+		
+		drawingShader->use();
+		camera->reloadCamera();
 		graphRoot->render(Transform::origin());
 		camera->reloadCamera();
+
+		skybox->render();
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -109,7 +110,7 @@ void Core::render()
 
 
 
-Core::Core(Window* window, Camera* camera, ModelNode* graphRoot, Shader* drawingShader, Shader* pickingShader, unsigned int framebuffer, FullScreenQuad* fullScreenQuad)
+Core::Core(Window* window, Camera* camera, ModelNode* graphRoot, Shader* drawingShader, Shader* pickingShader, unsigned int framebuffer, FullScreenQuad* fullScreenQuad, Skybox* skybox)
 {
 	this->window = window;
 	this->camera = camera;
@@ -118,6 +119,7 @@ Core::Core(Window* window, Camera* camera, ModelNode* graphRoot, Shader* drawing
 	this->pickingShader = pickingShader;
 	this->framebuffer = framebuffer;
 	this->fullScreenQuad = fullScreenQuad;
+	this->skybox = skybox;
 }
 
 Core::~Core()

@@ -25,6 +25,7 @@
 #include "PointLight.h"
 #include "SpotLight.h"
 #include "Postprocess.h"
+#include "Skybox.h"
 
 
 int main()
@@ -85,6 +86,7 @@ int main()
 		Shader drawingShader("Shaders/final.vs", "Shaders/final.fs");
 		Shader pickingShader("Shaders/picking.vs", "Shaders/picking.fs");
 		Shader screenShader("Shaders/screen.vs", "Shaders/screen.fs");
+		Shader skyboxShader("Shaders/skybox.vs", "Shaders/skybox.fs");
 
 
 		ModelNode sceneRoot(&drawingShader, &pickingShader);
@@ -201,7 +203,19 @@ int main()
 		Postprocess postprocess;
 		FullScreenQuad quad(&screenShader, postprocess.textureColorBuffer);
 
-		Core core(window, &camera, &sceneRoot, &drawingShader, &pickingShader, postprocess.framebuffer, &quad);
+		std::vector<std::string> faces
+		{
+			"Textures/skybox/right.jpg",
+			"Textures/skybox/left.jpg",
+			"Textures/skybox/top.jpg",
+			"Textures/skybox/bottom.jpg",
+			"Textures/skybox/back.jpg",
+			"Textures/skybox/front.jpg"
+		};
+
+		Skybox skybox(faces, &skyboxShader);
+
+		Core core(window, &camera, &sceneRoot, &drawingShader, &pickingShader, postprocess.framebuffer, &quad, &skybox);
 
 
 
@@ -226,7 +240,6 @@ int main()
 
 
 		/*****************/
-
 
 		core.update(&loader.loadedNodes, transformInfo, &pointLight);
 		TwTerminate();

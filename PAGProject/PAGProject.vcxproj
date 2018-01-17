@@ -166,6 +166,7 @@
     <ClInclude Include="OrbitModificator.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Postprocess.h" />
+    <ClInclude Include="Skybox.h" />
     <ClInclude Include="SpinModificator.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SpotLight.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="PAGProject.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Postprocess.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="SpinModificator.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SpotLight.cpp" />

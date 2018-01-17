@@ -11,6 +11,7 @@
 #include <map>
 #include "PointLight.h"
 #include "FullScreenQuad.h"
+#include "Skybox.h"
 
 
 class TransformInfo;
@@ -21,7 +22,7 @@ public:
 	void update(std::map<int, ModelNode*>* nodes, TransformInfo* bindingTransform, PointLight* orbitingLight);
 	void render();
 
-	Core(Window* window, Camera* camera, ModelNode* graphRoot, Shader* drawingShader, Shader* pickingShader, unsigned int framebuffer, FullScreenQuad* fullScreenQuad);
+	Core(Window* window, Camera* camera, ModelNode* graphRoot, Shader* drawingShader, Shader* pickingShader, unsigned int framebuffer, FullScreenQuad* fullScreenQuad, Skybox* skybox);
 	~Core();
 
 private:
@@ -37,6 +38,8 @@ private:
 
 	unsigned int framebuffer;
 	FullScreenQuad* fullScreenQuad;
+
+	Skybox* skybox;
 
 	int processPicking();
 };
