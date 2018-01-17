@@ -24,8 +24,6 @@ public:
 	Core(Window* window, Camera* camera, ModelNode* graphRoot, Shader* drawingShader, Shader* pickingShader, unsigned int framebuffer, FullScreenQuad* fullScreenQuad);
 	~Core();
 
-	unsigned int cubeVAO;
-
 private:
 	Window* window;
 	Camera* camera;

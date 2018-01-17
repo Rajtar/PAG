@@ -5,6 +5,10 @@ in vec2 TexCoords;
 
 uniform sampler2D screenTexture;
 
+uniform bool doToonShading;
+uniform float toneExposure;
+uniform float gamma;
+
 const float offset = 1.0 / 300.0;  
 
 
@@ -17,6 +21,19 @@ float toonify(in float intensity) {
         return 0.3;
     else
         return 0.1;
+}
+
+vec3 toneMapping(vec3 color)
+{
+    color *=toneExposure/(1. + color / toneExposure);
+    color = pow(color, vec3(1. / 2.2));
+    return color;
+}
+
+vec3 gammaCorrection(vec3 color)
+{
+    color = pow(color.rgb, vec3(1/gamma));
+    return color;
 }
 
 void main()
@@ -50,7 +67,8 @@ void main()
         1.0, 0.0, -1.0 
     );
     
-
+    if(doToonShading)
+    {
         vec3 sampleTex[9];
         float I[9];
         for(int i =0; i <9; ++i)
@@ -69,4 +87,12 @@ void main()
         vec4 color = texture(screenTexture, TexCoords);
         float factor = toonify(max(color.r, max(color.g, color.b)));
         FragColor = vec4(factor*(color.rgb+edge.rgb), color.a) ;
+    }
+    else
+    {
+        FragColor = texture(screenTexture, TexCoords);
+    }
+
+    FragColor.rgb = toneMapping(FragColor.rgb);
+    FragColor.rgb = gammaCorrection(FragColor.rgb);
 }

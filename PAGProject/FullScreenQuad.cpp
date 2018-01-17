@@ -32,8 +32,28 @@ FullScreenQuad::FullScreenQuad(Shader* screenShader, unsigned int textureColorBu
 void FullScreenQuad::drawQuad()
 {
 	screenShader->use();
+
+	screenShader->setBool("doToonShading", doToonShading);
+	screenShader->setFloat("toneExposure", toneExposure);
+	screenShader->setFloat("gamma", gammaCorection);
+
 	glBindVertexArray(quadVAO);
 	glDisable(GL_DEPTH_TEST);
 	glBindTexture(GL_TEXTURE_2D, textureColorBuffer);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
+bool& FullScreenQuad::getRefDoToonShading()
+{
+	return doToonShading;
+}
+
+float& FullScreenQuad::getRefToneExposure()
+{
+	return toneExposure;
+}
+
+float& FullScreenQuad::getRefGammaCorection()
+{
+	return gammaCorection;
 }

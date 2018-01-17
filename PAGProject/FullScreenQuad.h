@@ -14,9 +14,17 @@ public:
 
 	void drawQuad();
 
+	bool& getRefDoToonShading();
+	float& getRefToneExposure();
+	float& getRefGammaCorection();
+
 private:
 
 	Shader* screenShader;
 	unsigned int textureColorBuffer;
+
+	bool doToonShading = false;
+	float toneExposure = 1.0f;
+	float gammaCorection = 0.5f;
 };
 
