@@ -36,16 +36,13 @@ void ParticlesEmitter::render(Transform parentWorld, float delta)
 	GLubyte* particles_color_data = new GLubyte[maxParticles * 4];
 
 
-	const int newParticles = 100;
-
-	for (int i = 0; i<newParticles; i++) {
+	for (int i = 0; i<particlesForPass; i++) {
 		int particleIndex = findUnusedParticle();
 
-		particles[particleIndex].ttl = 1.0f; // This particle will live 5 seconds.
+		particles[particleIndex].ttl = ttlToSet; // This particle will live 5 seconds.
 		particles[particleIndex].pos = glm::vec3(0, 0, -20.0f);
 
-		float spread = 2.0f;
-		glm::vec3 maindir = glm::vec3(0.0f, 10.0f, 0.0f);
+		
 		// Very bad way to generate a random direction; 
 		// See for instance http://stackoverflow.com/questions/5408276/python-uniform-spherical-distribution instead,
 		// combined with some user-controlled parameters (main direction, spread, etc)
@@ -55,14 +52,14 @@ void ParticlesEmitter::render(Transform parentWorld, float delta)
 			(rand() % 2000 - 1000.0f) / 1000.0f
 		);
 
-		particles[particleIndex].speed = maindir + randomdir*spread;
+		particles[particleIndex].speed = mainDirection + randomdir*spread;
 
 		particles[particleIndex].r = rand() % 256;
 		particles[particleIndex].g = rand() % 256;
 		particles[particleIndex].b = rand() % 256;
 		particles[particleIndex].a = (rand() % 256) / 3;
 
-		particles[particleIndex].size = (rand() % 1000) / 2000.0f + 0.1f;
+		particles[particleIndex].size = (rand() % 1000) / sizeRate + 0.1f;
 
 	}
 
@@ -145,7 +142,7 @@ void ParticlesEmitter::render(Transform parentWorld, float delta)
 
 	glUniformMatrix4fv(glGetUniformLocation(drawingShader->id, "VP"), 1, GL_FALSE, &VP[0][0]);
 
-
+	drawingShader->setFloat("alphaChannel", alphaChannel);
 
 
 	glEnableVertexAttribArray(0);
@@ -274,5 +271,35 @@ int ParticlesEmitter::findUnusedParticle()
 void ParticlesEmitter::sortParticles()
 {
 	std::sort(&particles[0], &particles[maxParticles]);
+}
+
+int& ParticlesEmitter::getRefParticlesForPass()
+{
+	return particlesForPass;
+}
+
+float& ParticlesEmitter::getRefTtlToSet()
+{
+	return ttlToSet;
+}
+
+float& ParticlesEmitter::getRefSpread()
+{
+	return spread;
+}
+
+float& ParticlesEmitter::getRefSizeRate()
+{
+	return sizeRate;
+}
+
+float& ParticlesEmitter::getRefAlphaChannel()
+{
+	return alphaChannel;
+}
+
+glm::vec3& ParticlesEmitter::getRefMainDirection()
+{
+	return mainDirection;
 }
 

@@ -15,8 +15,14 @@ public:
 	virtual void render(Transform parentWorld, float delta);
 	virtual void renderForPicking(Transform parentWorld);
 
-private:
+	int& getRefParticlesForPass();
+	float& getRefTtlToSet();
+	float& getRefSpread();
+	float& getRefSizeRate();
+	float& getRefAlphaChannel();
+	glm::vec3& getRefMainDirection();
 
+private:
 	const int maxParticles = 10000;
 	Particle particles[10000];
 
@@ -27,6 +33,15 @@ private:
 	int lastUsedParticle = 0;
 
 	unsigned int texture;
+
+	/*****GUI BINDS*****/
+	int particlesForPass = 100;
+	float ttlToSet = 1.0f;
+	float spread = 2.0f;
+	float sizeRate = 2000.0f;
+	float alphaChannel = 0.15f;
+	glm::vec3 mainDirection = glm::vec3(0.0f, 10.0f, 0.0f);
+	/*******************/
 
 	void initialize();
 	void loadTexture();

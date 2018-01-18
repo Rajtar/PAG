@@ -273,14 +273,23 @@ int main()
 		TwAddVarRW(barLighting, "Position", TW_TYPE_DIR3F, &spotLight.getPosition(), "Group=Spot");
 		/*****************/
 		
+		/*****************/
 		TwBar *barPostprocessing = TwNewBar("Postprocessing");
 		TwDefine(" Postprocessing position='1060 15' ");
 		TwAddVarRW(barPostprocessing, "Toonify", TW_TYPE_BOOLCPP, &quad.getRefDoToonShading(), "");
 		TwAddVarRW(barPostprocessing, "Pixelate", TW_TYPE_BOOLCPP, &quad.getRefDoPixelationShading(), "");
 		TwAddVarRW(barPostprocessing, "Tone exposure", TW_TYPE_FLOAT, &quad.getRefToneExposure(), "step=0.1");
 		TwAddVarRW(barPostprocessing, "Gamma correction", TW_TYPE_FLOAT, &quad.getRefGammaCorection(), "step=0.1");
+		/*****************/
 
-
+		/*****************/
+		TwBar *barParticle = TwNewBar("Particle System");
+		TwAddVarRW(barParticle, "Particles", TW_TYPE_INT32, &emitter.getRefParticlesForPass(), "");
+		TwAddVarRW(barParticle, "Life length", TW_TYPE_FLOAT, &emitter.getRefTtlToSet(), "step=0.1");
+		TwAddVarRW(barParticle, "Spread", TW_TYPE_FLOAT, &emitter.getRefSpread(), "step=0.1");
+		TwAddVarRW(barParticle, "Size", TW_TYPE_FLOAT, &emitter.getRefSizeRate(), "step=10");
+		TwAddVarRW(barParticle, "Transparency", TW_TYPE_FLOAT, &emitter.getRefAlphaChannel(), "step=0.01");
+		TwAddVarRW(barParticle, "Direction", TW_TYPE_DIR3F, &emitter.getRefMainDirection(), "");
 		/*****************/
 
 		core.update(&loader.loadedNodes, transformInfo, &pointLight);

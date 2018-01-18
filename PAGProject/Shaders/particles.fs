@@ -9,8 +9,10 @@ out vec4 color;
 
 uniform sampler2D myTextureSampler;
 
+uniform float alphaChannel;
+
 void main(){
 	// Output color = color of the texture at the specified UV
-	color = texture2D( myTextureSampler, UV ) * vec4(1.0, 1.0, 1.0, 0.15);// * particlecolor;
+	color = texture2D( myTextureSampler, UV ) * vec4(1.0, 1.0, 1.0, alphaChannel);// * particlecolor;
 
 }
