@@ -113,7 +113,6 @@ int main()
 		ModelNode teapot(&drawingShader, &pickingShader);
 		ModelNode teapot2(&drawingShader, &pickingShader);
 
-
 		ModelLoader loader;
 
 		loader.loadModelOmmitingRoot("Models/CubeRed/CubeRed.obj", &redCube, &drawingShader, &pickingShader);
@@ -210,6 +209,11 @@ int main()
 		sceneRoot.appendChild(&planeModel);
 
 		ParticlesEmitter emitter(&particlesShader);
+		
+		glm::mat4 trans;
+		trans = glm::translate(trans, glm::vec3(5.4f, 1.4f, 25.2f));
+
+		emitter.local.transformation = trans;
 
 		sceneRoot.appendChild(&emitter);
 		
@@ -242,6 +246,7 @@ int main()
 		t = glm::scale(t, glm::vec3(0.07f, 0.07f, 0.07f));
 		t = glm::translate(t, glm::vec3(0.0f, 11.0f, 0.0f));
 		t = glm::translate(t, glm::vec3(80.0f, 0.0f, 50.0f));
+		t = glm::rotate(t, 80.0f ,glm::vec3(0.0f, 1.0f, 0.0f));
 		teapot.local.transformation = t;
 		sceneRoot.appendChild(&teapot);
 

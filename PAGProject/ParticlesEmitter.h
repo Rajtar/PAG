@@ -39,7 +39,7 @@ private:
 	float ttlToSet = 1.0f;
 	float spread = 2.0f;
 	float sizeRate = 2000.0f;
-	float alphaChannel = 0.15f;
+	float alphaChannel = 0.03f;
 	glm::vec3 mainDirection = glm::vec3(0.0f, 10.0f, 0.0f);
 	/*******************/
 
