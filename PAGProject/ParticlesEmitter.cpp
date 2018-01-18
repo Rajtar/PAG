@@ -35,7 +35,7 @@ void ParticlesEmitter::render(Transform parentWorld, float delta)
 	GLfloat* particles_position_size_data = new GLfloat[maxParticles * 4];
 	GLubyte* particles_color_data = new GLubyte[maxParticles * 4];
 
-
+	//initialize new particles
 	for (int i = 0; i<particlesForPass; i++) {
 		int particleIndex = findUnusedParticle();
 
@@ -64,39 +64,39 @@ void ParticlesEmitter::render(Transform parentWorld, float delta)
 	}
 
 	int particlesCount = 0;
+	//simulate particles
 	for (int i = 0; i<maxParticles; i++)
 	{
 
-		Particle& p = particles[i]; // shortcut
+		Particle& particle = particles[i];
 
-		if (p.ttl > 0.0f) {
+		if (particle.ttl > 0.0f) {
 
-			// Decrease life
-			p.ttl -= delta;
-			if (p.ttl > 0.0f) {
-
+			particle.ttl -= delta;
+			if (particle.ttl > 0.0f)
+			{
 				// Simulate simple physics : gravity only, no collisions
-				//p.speed += glm::vec3(0.0f, -9.81f, 0.0f) * (float)delta * 0.5f;
-				p.pos += p.speed * (float)delta;
-				p.cameraDistance = glm::length(p.pos - InputHandler::cameraPos);
+				//particle.speed += glm::vec3(0.0f, -9.81f, 0.0f) * (float)delta * 0.5f;
+				particle.pos += particle.speed * (float)delta;
+				particle.cameraDistance = glm::length(particle.pos - InputHandler::cameraPos);
 				//ParticlesContainer[i].pos += glm::vec3(0.0f,10.0f, 0.0f) * (float)delta;
 
 				// Fill the GPU buffer
-				particles_position_size_data[4 * particlesCount + 0] = p.pos.x;
-				particles_position_size_data[4 * particlesCount + 1] = p.pos.y;
-				particles_position_size_data[4 * particlesCount + 2] = p.pos.z;
+				particles_position_size_data[4 * particlesCount + 0] = particle.pos.x;
+				particles_position_size_data[4 * particlesCount + 1] = particle.pos.y;
+				particles_position_size_data[4 * particlesCount + 2] = particle.pos.z;
 												 
-				particles_position_size_data[4 * particlesCount + 3] = p.size;
+				particles_position_size_data[4 * particlesCount + 3] = particle.size;
 
-				particles_color_data[4 * particlesCount + 0] = p.r;
-				particles_color_data[4 * particlesCount + 1] = p.g;
-				particles_color_data[4 * particlesCount + 2] = p.b;
-				particles_color_data[4 * particlesCount + 3] = p.a;
+				particles_color_data[4 * particlesCount + 0] = particle.r;
+				particles_color_data[4 * particlesCount + 1] = particle.g;
+				particles_color_data[4 * particlesCount + 2] = particle.b;
+				particles_color_data[4 * particlesCount + 3] = particle.a;
 
 			}
 			else {
 				// Particles that just died will be put at the end of the buffer in SortParticles();
-				p.cameraDistance = -1.0f;
+				particle.cameraDistance = -1.0f;
 			}
 
 			particlesCount++;
