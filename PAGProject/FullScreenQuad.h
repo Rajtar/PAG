@@ -26,7 +26,7 @@ private:
 
 	bool doToonShading = false;
 	bool doPixelationShading = false;
-	float toneExposure = 1.5f;
-	float gammaCorection = 0.5f;
+	float toneExposure = 1.6f;
+	float gammaCorection = 1.2f;
 };
 

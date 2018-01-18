@@ -284,6 +284,7 @@ int main()
 
 		/*****************/
 		TwBar *barParticle = TwNewBar("Particle System");
+		TwDefine(" 'Particle System' position='1060 350' ");
 		TwAddVarRW(barParticle, "Particles", TW_TYPE_INT32, &emitter.getRefParticlesForPass(), "");
 		TwAddVarRW(barParticle, "Life length", TW_TYPE_FLOAT, &emitter.getRefTtlToSet(), "step=0.1");
 		TwAddVarRW(barParticle, "Spread", TW_TYPE_FLOAT, &emitter.getRefSpread(), "step=0.1");

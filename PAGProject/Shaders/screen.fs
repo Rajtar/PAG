@@ -26,14 +26,14 @@ float toonify(in float intensity) {
 
 vec3 toneMapping(vec3 color)
 {
-    color *=toneExposure/(1. + color / toneExposure);
-    color = pow(color, vec3(1. / 2.2));
+    color *= toneExposure/(1. + color / toneExposure);
+    //color = pow(color, vec3(1. / 2.2));
     return color;
 }
 
 vec3 gammaCorrection(vec3 color)
 {
-    color = pow(color.rgb, vec3(1/gamma));
+    color = pow(color, vec3(1/gamma));
     return color;
 }
 
