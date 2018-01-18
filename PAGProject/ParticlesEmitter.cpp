@@ -1,12 +1,14 @@
 #include "ParticlesEmitter.h"
 #include "InputHandler.h"
+#include <stb_image.h>
+#include <iostream>
 
 
 ParticlesEmitter::ParticlesEmitter(Shader* shader)
 {
 	this->shader = shader;
 
-
+	loadTexture();
 	initialize();
 }
 
@@ -19,13 +21,16 @@ void ParticlesEmitter::render(float delta)
 
 
 
-	int newparticles = (int)(delta*10000.0);
-	if (newparticles > (int)(0.016f*10000.0))
-		newparticles = (int)(0.016f*10000.0);
+	int newParticles = (int)(delta*10000.0);
+	if (newParticles > (int)(0.016f*10000.0))
+		newParticles = (int)(0.016f*10000.0);
 
-	for (int i = 0; i<newparticles; i++) {
+	newParticles = 100;
+
+	for (int i = 0; i<newParticles; i++) {
 		int particleIndex = findUnusedParticle();
-		particles[particleIndex].ttl = 5.0f; // This particle will live 5 seconds.
+
+		particles[particleIndex].ttl = 0.5f; // This particle will live 5 seconds.
 		particles[particleIndex].pos = glm::vec3(0, 0, -20.0f);
 
 		float spread = 1.5f;
@@ -59,7 +64,7 @@ void ParticlesEmitter::render(float delta)
 			if (p.ttl > 0.0f) {
 
 				// Simulate simple physics : gravity only, no collisions
-				p.speed += glm::vec3(0.0f, -9.81f, 0.0f) * (float)delta * 0.5f;
+				//p.speed += glm::vec3(0.0f, -9.81f, 0.0f) * (float)delta * 0.5f;
 				p.pos += p.speed * (float)delta;
 				p.cameraDistance = glm::length(p.pos - InputHandler::cameraPos);
 				//ParticlesContainer[i].pos += glm::vec3(0.0f,10.0f, 0.0f) * (float)delta;
@@ -89,6 +94,10 @@ void ParticlesEmitter::render(float delta)
 
 	sortParticles();
 
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	glBindBuffer(GL_ARRAY_BUFFER, particles_position_buffer);
 	glBufferData(GL_ARRAY_BUFFER, maxParticles * 4 * sizeof(GLfloat), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf. See above link for details.
 	glBufferSubData(GL_ARRAY_BUFFER, 0, particlesCount * sizeof(GLfloat) * 4, particles_position_size_data);
@@ -96,9 +105,6 @@ void ParticlesEmitter::render(float delta)
 	glBindBuffer(GL_ARRAY_BUFFER, particles_color_buffer);
 	glBufferData(GL_ARRAY_BUFFER, maxParticles * 4 * sizeof(GLubyte), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf. See above link for details.
 	glBufferSubData(GL_ARRAY_BUFFER, 0, particlesCount * sizeof(GLubyte) * 4, particles_color_data);
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	shader->use();
 
@@ -116,9 +122,9 @@ void ParticlesEmitter::render(float delta)
 	/***************************************************/
 
 
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, texture);
 
-	glUniform1i(glGetUniformLocation(shader->id, "myTextureSampler"), 0);
+	//glUniform1i(glGetUniformLocation(shader->id, "myTextureSampler"), 0);
 
 	glUniform3f(glGetUniformLocation(shader->id, "CameraRight_worldspace"), view[0][0], view[1][0], view[2][0]);
 	glUniform3f(glGetUniformLocation(shader->id, "CameraUp_worldspace"), view[0][1], view[1][1], view[2][1]);
@@ -197,6 +203,41 @@ void ParticlesEmitter::initialize()
 	glBindBuffer(GL_ARRAY_BUFFER, particles_color_buffer);
 	// Initialize with empty (NULL) buffer : it will be updated later, each frame.
 	glBufferData(GL_ARRAY_BUFFER, maxParticles * 4 * sizeof(GLubyte), NULL, GL_STREAM_DRAW);
+}
+
+void ParticlesEmitter::loadTexture()
+{
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE, texture);
+
+	int width, height, nrComponents;
+	unsigned char *data = stbi_load("Textures/smoke.png", &width, &height, &nrComponents, 0);
+	if (data)
+	{
+		GLenum format;
+		if (nrComponents == 1)
+			format = GL_RED;
+		else if (nrComponents == 3)
+			format = GL_RGB;
+		else if (nrComponents == 4)
+			format = GL_RGBA;
+
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		stbi_image_free(data);
+	}
+	else
+	{
+		std::cout << "Texture failed to load at particle emitter"<< std::endl;
+		stbi_image_free(data);
+	}
 
 }
 
@@ -210,6 +251,7 @@ int ParticlesEmitter::findUnusedParticle()
 		}
 	}
 
+	lastUsedParticle = 0;
 	return 0;
 }
 

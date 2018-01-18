@@ -271,7 +271,8 @@ int main()
 		
 		TwBar *barPostprocessing = TwNewBar("Postprocessing");
 		TwDefine(" Postprocessing position='1060 15' ");
-		TwAddVarRW(barPostprocessing, "Toon shading", TW_TYPE_BOOLCPP, &quad.getRefDoToonShading(), "");
+		TwAddVarRW(barPostprocessing, "Toonify", TW_TYPE_BOOLCPP, &quad.getRefDoToonShading(), "");
+		TwAddVarRW(barPostprocessing, "Pixelate", TW_TYPE_BOOLCPP, &quad.getRefDoPixelationShading(), "");
 		TwAddVarRW(barPostprocessing, "Tone exposure", TW_TYPE_FLOAT, &quad.getRefToneExposure(), "step=0.1");
 		TwAddVarRW(barPostprocessing, "Gamma correction", TW_TYPE_FLOAT, &quad.getRefGammaCorection(), "step=0.1");
 

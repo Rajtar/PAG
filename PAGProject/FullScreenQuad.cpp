@@ -34,6 +34,7 @@ void FullScreenQuad::drawQuad()
 	screenShader->use();
 
 	screenShader->setBool("doToonShading", doToonShading);
+	screenShader->setBool("doPixelationShading", doPixelationShading);
 	screenShader->setFloat("toneExposure", toneExposure);
 	screenShader->setFloat("gamma", gammaCorection);
 
@@ -46,6 +47,11 @@ void FullScreenQuad::drawQuad()
 bool& FullScreenQuad::getRefDoToonShading()
 {
 	return doToonShading;
+}
+
+bool& FullScreenQuad::getRefDoPixelationShading()
+{
+	return  doPixelationShading;
 }
 
 float& FullScreenQuad::getRefToneExposure()

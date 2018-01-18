@@ -15,6 +15,7 @@ public:
 	void drawQuad();
 
 	bool& getRefDoToonShading();
+	bool& getRefDoPixelationShading();
 	float& getRefToneExposure();
 	float& getRefGammaCorection();
 
@@ -24,6 +25,7 @@ private:
 	unsigned int textureColorBuffer;
 
 	bool doToonShading = false;
+	bool doPixelationShading = false;
 	float toneExposure = 1.5f;
 	float gammaCorection = 0.5f;
 };

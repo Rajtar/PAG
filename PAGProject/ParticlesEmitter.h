@@ -26,7 +26,10 @@ private:
 
 	int lastUsedParticle = 0;
 
+	unsigned int texture;
+
 	void initialize();
+	void loadTexture();
 
 	int findUnusedParticle();
 	void sortParticles();
