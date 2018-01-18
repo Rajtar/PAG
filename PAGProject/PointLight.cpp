@@ -3,7 +3,7 @@
 
 
 
-void PointLight::render(Transform parentWorld)
+void PointLight::render(Transform parentWorld, float delta)
 {
 	drawingShader->use();
 
@@ -13,7 +13,7 @@ void PointLight::render(Transform parentWorld)
 	drawingShader->setVec3("pointLight.posWorld", position);
 	drawingShader->setVec3("pointLight.att", attenuation);
 
-	GraphNode::render(local);
+	GraphNode::render(local, 0);
 }
 
 void PointLight::renderForPicking(Transform parentWorld)

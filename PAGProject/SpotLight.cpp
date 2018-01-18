@@ -8,7 +8,7 @@ SpotLight::SpotLight(Shader* drawingShader, Shader* pickingShader) : GraphNode(d
 	attenuation = glm::vec3(1.0f, 0.02f, 0.0001f);
 }
 
-void SpotLight::render(Transform parentWorld)
+void SpotLight::render(Transform parentWorld, float delta)
 {
 	drawingShader->use();
 
@@ -22,7 +22,7 @@ void SpotLight::render(Transform parentWorld)
 	drawingShader->setVec3("spotLight.direction", direction);
 	drawingShader->setFloat("spotLight.cutoff", cutoff);
 
-	GraphNode::render(local);
+	GraphNode::render(local, 0);
 }
 
 void SpotLight::renderForPicking(Transform parentWorld)

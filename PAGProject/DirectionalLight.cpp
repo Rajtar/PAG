@@ -1,7 +1,7 @@
 #include "DirectionalLight.h"
 
 
-void DirectionalLight::render(Transform parentWorld)
+void DirectionalLight::render(Transform parentWorld, float delta)
 {
 	drawingShader->use();
 
@@ -10,7 +10,7 @@ void DirectionalLight::render(Transform parentWorld)
 	drawingShader->setVec3("dirLight.specular", getMaterial().specular);
 	drawingShader->setVec3("dirLight.direction", direction);
 
-	GraphNode::render(local);
+	GraphNode::render(local, 0);
 }
 
 void DirectionalLight::renderForPicking(Transform parentWorld)

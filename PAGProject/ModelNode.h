@@ -19,7 +19,7 @@ public:
 	
 	virtual void renderForPicking(Transform parentWorld);
 	
-	virtual void render(Transform parentWorld);
+	virtual void render(Transform parentWorld, float delta);
 	ModelNode(Shader* drawingShader, Shader* pickingShader) : GraphNode(drawingShader), pickingShader(pickingShader) {};
 
 	

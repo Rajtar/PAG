@@ -209,6 +209,11 @@ int main()
 		sceneRoot.appendChild(&model2);
 		sceneRoot.appendChild(&planeModel);
 
+		ParticlesEmitter emitter(&particlesShader);
+
+		sceneRoot.appendChild(&emitter);
+		
+
 		//redCube.appendChild(&greenCube);
 		//greenCube.appendChild(&blueCube);
 		//sceneRoot.appendChild(&redCube);
@@ -250,7 +255,6 @@ int main()
 		teapot2.local.transformation = t2;
 		sceneRoot.appendChild(&teapot2);
 
-		ParticlesEmitter emitter(&particlesShader);
 
 		Core core(window, &camera, &sceneRoot, &drawingShader, &pickingShader, postprocess.framebuffer, &quad, &skybox, &emitter);
 

@@ -4,28 +4,39 @@
 #include <iostream>
 
 
-ParticlesEmitter::ParticlesEmitter(Shader* shader)
+ParticlesEmitter::ParticlesEmitter(Shader* shader) : GraphNode(shader)
 {
-	this->shader = shader;
-
 	loadTexture();
 	initialize();
 }
 
-void ParticlesEmitter::render(float delta)
+void ParticlesEmitter::renderForPicking(Transform parentWorld)
 {
+	
+}
+
+void ParticlesEmitter::render(Transform parentWorld, float delta)
+{
+	glDisable(GL_DEPTH_TEST);
+
+	drawingShader->use();
+
+	if (local.modificator) local.transformation = local.modificator->modifyTransformation(local.transformation);
+
+	processTransformInfoChanges();
+
+	Transform world = local.combine(parentWorld);
+
+	GLuint transformLoc = glGetUniformLocation(drawingShader->id, "transform");
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(world.transformation));
+
 	int a = 0;
 
 	GLfloat* particles_position_size_data = new GLfloat[maxParticles * 4];
 	GLubyte* particles_color_data = new GLubyte[maxParticles * 4];
 
 
-
-	int newParticles = (int)(delta*10000.0);
-	if (newParticles > (int)(0.016f*10000.0))
-		newParticles = (int)(0.016f*10000.0);
-
-	newParticles = 100;
+	const int newParticles = 100;
 
 	for (int i = 0; i<newParticles; i++) {
 		int particleIndex = findUnusedParticle();
@@ -109,7 +120,7 @@ void ParticlesEmitter::render(float delta)
 	glBufferData(GL_ARRAY_BUFFER, maxParticles * 4 * sizeof(GLubyte), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf. See above link for details.
 	glBufferSubData(GL_ARRAY_BUFFER, 0, particlesCount * sizeof(GLubyte) * 4, particles_color_data);
 
-	shader->use();
+	drawingShader->use();
 
 	/***************************************************/
 	glm::vec3 cameraPos = InputHandler::cameraPos;
@@ -129,10 +140,10 @@ void ParticlesEmitter::render(float delta)
 
 	//glUniform1i(glGetUniformLocation(shader->id, "myTextureSampler"), 0);
 
-	glUniform3f(glGetUniformLocation(shader->id, "CameraRight_worldspace"), view[0][0], view[1][0], view[2][0]);
-	glUniform3f(glGetUniformLocation(shader->id, "CameraUp_worldspace"), view[0][1], view[1][1], view[2][1]);
+	glUniform3f(glGetUniformLocation(drawingShader->id, "CameraRight_worldspace"), view[0][0], view[1][0], view[2][0]);
+	glUniform3f(glGetUniformLocation(drawingShader->id, "CameraUp_worldspace"), view[0][1], view[1][1], view[2][1]);
 
-	glUniformMatrix4fv(glGetUniformLocation(shader->id, "VP"), 1, GL_FALSE, &VP[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(drawingShader->id, "VP"), 1, GL_FALSE, &VP[0][0]);
 
 
 
@@ -180,6 +191,8 @@ void ParticlesEmitter::render(float delta)
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
+
+	glEnable(GL_DEPTH_TEST);
 }
 
 void ParticlesEmitter::initialize()

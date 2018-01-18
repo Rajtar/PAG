@@ -18,7 +18,7 @@ public:
 
 
 	void appendChild(GraphNode* child);
-	virtual void render(Transform parentWorld) = 0{};
+	virtual void render(Transform parentWorld, float delta) = 0{};
 	virtual void renderForPicking(Transform parentWorld) = 0 {};
 
 	void setMaterial(Material mat);

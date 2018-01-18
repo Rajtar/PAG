@@ -1,7 +1,7 @@
 #include "ModelNode.h"
 #include <iostream>
 
-void ModelNode::render(Transform parentWorld)
+void ModelNode::render(Transform parentWorld, float delta)
 {
 	drawingShader->use();
 
@@ -44,7 +44,7 @@ void ModelNode::render(Transform parentWorld)
 
 	for (auto child: children)
 	{
-		child->render(world);
+		child->render(world, delta);
 	}
 }
 

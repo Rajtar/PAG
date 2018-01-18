@@ -8,7 +8,7 @@ public:
 
 	DirectionalLight(Shader* drawingShader, Shader* pickingShader);
 
-	virtual void render(Transform parentWorld);
+	virtual void render(Transform parentWorld, float delta);
 	virtual void renderForPicking(Transform parentWorld);
 
 	glm::vec3& getDirection();

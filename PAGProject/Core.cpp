@@ -93,18 +93,13 @@ void Core::render(GLfloat deltaTime)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
 		
-		drawingShader->use();
-		camera->reloadCamera();
-		graphRoot->render(Transform::origin());
-		camera->reloadCamera();
-
-
-
 		skybox->render();
 
-		glDisable(GL_DEPTH_TEST);
-		emitter->render(deltaTime);
-		glEnable(GL_DEPTH_TEST);
+		//render after skybox because of particles depth issue
+		drawingShader->use();
+		camera->reloadCamera();
+		graphRoot->render(Transform::origin(), deltaTime);
+		camera->reloadCamera();
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);

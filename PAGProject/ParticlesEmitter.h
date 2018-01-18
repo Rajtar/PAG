@@ -5,20 +5,20 @@
 #include <vector>
 #include "Particle.h"
 #include "Shader.h"
+#include "GraphNode.h"
 
-class ParticlesEmitter
+class ParticlesEmitter : public GraphNode
 {
 public:
 	ParticlesEmitter(Shader* shader);
 
-	void render(float delta);
+	virtual void render(Transform parentWorld, float delta);
+	virtual void renderForPicking(Transform parentWorld);
 
 private:
 
 	const int maxParticles = 10000;
 	Particle particles[10000];
-
-	Shader* shader;
 
 	GLuint particles_position_buffer;
 	GLuint particles_color_buffer;
