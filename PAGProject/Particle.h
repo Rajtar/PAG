@@ -3,9 +3,9 @@
 
 struct Particle {
 	glm::vec3 pos, speed;
-	glm::vec4 color;
+	unsigned char r, g, b, a; //color
 	float size, angle, weight;
-	float ttl = -1.0f; // Time to live
+	float ttl = -1.0f; //time to live
 	float cameraDistance;
 
 	bool operator<(const Particle& that) const {

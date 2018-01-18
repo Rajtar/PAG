@@ -209,9 +209,9 @@ int main()
 		sceneRoot.appendChild(&model2);
 		sceneRoot.appendChild(&planeModel);
 
-		redCube.appendChild(&greenCube);
-		greenCube.appendChild(&blueCube);
-		sceneRoot.appendChild(&redCube);
+		//redCube.appendChild(&greenCube);
+		//greenCube.appendChild(&blueCube);
+		//sceneRoot.appendChild(&redCube);
 
 		Camera camera(window, drawingShader.id);		
 

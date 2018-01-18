@@ -98,9 +98,13 @@ void Core::render(GLfloat deltaTime)
 		graphRoot->render(Transform::origin());
 		camera->reloadCamera();
 
-		emitter->render(deltaTime);
+
 
 		skybox->render();
+
+		glDisable(GL_DEPTH_TEST);
+		emitter->render(deltaTime);
+		glEnable(GL_DEPTH_TEST);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);

@@ -30,10 +30,10 @@ void ParticlesEmitter::render(float delta)
 	for (int i = 0; i<newParticles; i++) {
 		int particleIndex = findUnusedParticle();
 
-		particles[particleIndex].ttl = 0.5f; // This particle will live 5 seconds.
+		particles[particleIndex].ttl = 1.0f; // This particle will live 5 seconds.
 		particles[particleIndex].pos = glm::vec3(0, 0, -20.0f);
 
-		float spread = 1.5f;
+		float spread = 2.0f;
 		glm::vec3 maindir = glm::vec3(0.0f, 10.0f, 0.0f);
 		// Very bad way to generate a random direction; 
 		// See for instance http://stackoverflow.com/questions/5408276/python-uniform-spherical-distribution instead,
@@ -46,7 +46,11 @@ void ParticlesEmitter::render(float delta)
 
 		particles[particleIndex].speed = maindir + randomdir*spread;
 
-		particles[particleIndex].color = glm::vec4(rand() % 256, rand() % 256, rand() % 256, (rand() % 256) / 3);
+		particles[particleIndex].r = rand() % 256;
+		particles[particleIndex].g = rand() % 256;
+		particles[particleIndex].b = rand() % 256;
+		particles[particleIndex].a = (rand() % 256) / 3;
+
 		particles[particleIndex].size = (rand() % 1000) / 2000.0f + 0.1f;
 
 	}
@@ -76,10 +80,10 @@ void ParticlesEmitter::render(float delta)
 												 
 				particles_position_size_data[4 * particlesCount + 3] = p.size;
 
-				particles_color_data[4 * particlesCount + 0] = p.color.x;
-				particles_color_data[4 * particlesCount + 1] = p.color.y;
-				particles_color_data[4 * particlesCount + 2] = p.color.z;
-				particles_color_data[4 * particlesCount + 3] = p.color.w;
+				particles_color_data[4 * particlesCount + 0] = p.r;
+				particles_color_data[4 * particlesCount + 1] = p.g;
+				particles_color_data[4 * particlesCount + 2] = p.b;
+				particles_color_data[4 * particlesCount + 3] = p.a;
 
 			}
 			else {
@@ -94,7 +98,6 @@ void ParticlesEmitter::render(float delta)
 
 	sortParticles();
 
-	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
