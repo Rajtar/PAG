@@ -1,4 +1,4 @@
-# Simple graphical engine made for PAG course
+# Basic OpenGL Graphical Engine
 
 ## Technologies used:
 * OpenGL
